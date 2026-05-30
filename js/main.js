@@ -1,4 +1,67 @@
-// ===== DATA (UNCHANGED) =====
+// ===== PRELOADER — CINEMATIC BOOT SEQUENCE =====
+(function() {
+  // Binary rain columns
+  const binContainer = document.getElementById('plBinary');
+  const cols = Math.floor(window.innerWidth / 20);
+  for (let i = 0; i < Math.min(cols, 60); i++) {
+    const col = document.createElement('div');
+    col.className = 'pl-bin-col';
+    col.style.left = (i * (100 / Math.min(cols, 60))) + '%';
+    col.style.animationDuration = (Math.random() * 8 + 6) + 's';
+    col.style.animationDelay = (Math.random() * 6) + 's';
+    col.style.opacity = (Math.random() * 0.03 + 0.01).toString();
+    let str = '';
+    for (let j = 0; j < 40; j++) str += (Math.random() > 0.5 ? '1' : '0') + '\n';
+    col.textContent = str;
+    binContainer.appendChild(col);
+  }
+
+  // Boot log lines
+  const lines = [
+    {html: '<span class="tc-p">arideep@chaos-kernel</span><span class="tc-dim">:</span><span class="tc-info">~</span><span class="tc-dim">$ </span><span class="tc-c">sudo ./boot_identity.sh</span>', delay: 300},
+    {html: '<span class="tc-dim">[  0.001]</span> <span class="tc-c">Loading personality matrix...</span>', delay: 600},
+    {html: '<span class="tc-dim">[  0.084]</span> <span class="tc-c">emotional_stability.dll</span> <span class="tc-fail">NOT FOUND</span>', delay: 850},
+    {html: '<span class="tc-dim">[  0.085]</span> <span class="tc-warn">WARN: Proceeding without emotional stability</span>', delay: 1050},
+    {html: '<span class="tc-dim">[  0.200]</span> <span class="tc-c">caffeine_driver.ko</span> <span class="tc-ok">loaded ✓</span>', delay: 1250},
+    {html: '<span class="tc-dim">[  0.312]</span> <span class="tc-c">ai_systems_daemon</span> <span class="tc-ok">started ✓</span>', delay: 1450},
+    {html: '<span class="tc-dim">[  0.490]</span> <span class="tc-c">chaos_engine v3.7</span> <span class="tc-ok">running ✓</span>', delay: 1620},
+    {html: '<span class="tc-dim">[  0.711]</span> <span class="tc-pk">pookie_core_init: 91% chaos detected — nominal</span>', delay: 1800},
+    {html: '<span class="tc-dim">[  1.000]</span> <span class="tc-ok">✓ Identity kernel ready — Welcome, Arideep.</span>', delay: 2000},
+  ];
+
+  const terminal = document.getElementById('plTerminal');
+  const fill = document.getElementById('plFill');
+  const pct = document.getElementById('plPct');
+  const status = document.getElementById('plStatus');
+
+  const statusLabels = ['Initializing','Loading modules','Mounting drives','Starting daemons','Finalizing chaos','Ready'];
+
+  lines.forEach((line, i) => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'pl-term-line';
+      div.innerHTML = line.html;
+      terminal.appendChild(div);
+      requestAnimationFrame(() => div.classList.add('show'));
+      // scroll terminal to bottom
+      terminal.scrollTop = terminal.scrollHeight;
+      // update progress
+      const progress = Math.round(((i + 1) / lines.length) * 100);
+      fill.style.width = progress + '%';
+      pct.textContent = progress + '%';
+      status.textContent = statusLabels[Math.min(Math.floor(i / 1.5), statusLabels.length - 1)];
+    }, line.delay);
+  });
+
+  // Hide after sequence
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hidden');
+    }, 2400);
+  });
+})();
+
+// ===== DATA =====
 const skillsData=[
   {title:'Languages',icon:'fa-solid fa-code',iconClass:'sc-lang',tags:['Python','SQL','C++','JavaScript','LaTeX']},
   {title:'AI / ML',icon:'fa-solid fa-brain',iconClass:'sc-ai',tags:['TensorFlow','PyTorch','Scikit-learn','Keras','NLTK','Hugging Face','OpenCV','CNNs','LSTMs','NLP','Deep Learning']},
@@ -37,55 +100,11 @@ const projectsData=[
   {name:'Blood Bank Management',cat:'System',status:'saving lives with code',desc:'Saving lives through better blood bank management.',tags:['Python','SQL'],github:'https://github.com/ArideepCodes/blood-bank-management-system',live:null},
   {name:'FocusFlow',cat:'Productivity',status:'focus is a myth but we try',desc:'Focus enhancement app. A myth, but we\'re trying.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/FocusFlow',live:'https://arideepcodes.github.io/FocusFlow/'},
   {name:'Custom CNC Engraving System',cat:'Hardware',status:'machines that make art',desc:'Hardware meets software. CNC engraving with full control systems.',tags:['Arduino','C++','Hardware'],github:null,live:null},
-  {
-  name:'RedFlag Detector',
-  cat:'Pookie-Core',
-  status:'professionally judging men',
-  desc:'Detecting emotionally dangerous men professionally. Because someone has to do the background check.',
-  tags:['HTML','CSS','JavaScript'],
-  github:'https://github.com/ArideepCodes/RedFlag-Detector',
-  live:'https://arideepcodes.github.io/RedFlag-Detector'
-},
-
-{
-  name:'CryCalendar',
-  cat:'Pookie-Core',
-  status:'scheduled emotional damage',
-  desc:'A calendar that understands your emotional schedule better than you do.',
-  tags:['HTML','CSS','JavaScript'],
-  github:'https://github.com/ArideepCodes/CryCalendar',
-  live:'https://arideepcodes.github.io/CryCalendar'
-},
-
-{
-  name:'CryFinance',
-  cat:'Pookie-Core',
-  status:'financial tears included',
-  desc:'Track your finances and your emotional breakdowns in one convenient place.',
-  tags:['HTML','CSS','JavaScript'],
-  github:'https://github.com/ArideepCodes/CryFinance',
-  live:'https://arideepcodes.github.io/CryFinance'
-},
-
-{
-  name:'Delulu Airlines',
-  cat:'Pookie-Core',
-  status:'departing for delululand',
-  desc:'Premium airline experience powered entirely by delusion and unrealistic expectations.',
-  tags:['HTML','CSS','JavaScript'],
-  github:'https://github.com/ArideepCodes/Delulu_Airlines',
-  live:'https://arideepcodes.github.io/Delulu_Airlines'
-},
-{
-  name:'More Projects Loading...',
-  cat:'Pookie-Core',
-  status:'sleep sacrificed successfully',
-  desc:'There are way too many projects to keep updating this portfolio manually. New experiments, AI tools, cursed interfaces, productivity apps, and emotionally questionable creations appear on my GitHub almost every week.',
-  tags:['Infinite Side Quests','GitHub Addict','Pookie Engineering','Deploy & Pray'],
-  github:'https://github.com/ArideepCodes',
-  live:'https://github.com/ArideepCodes'
-}
-
+  {name:'RedFlag Detector',cat:'Pookie-Core',status:'professionally judging men',desc:'Detecting emotionally dangerous men professionally. Because someone has to do the background check.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/RedFlag-Detector',live:'https://arideepcodes.github.io/RedFlag-Detector'},
+  {name:'CryCalendar',cat:'Pookie-Core',status:'scheduled emotional damage',desc:'A calendar that understands your emotional schedule better than you do.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/CryCalendar',live:'https://arideepcodes.github.io/CryCalendar'},
+  {name:'CryFinance',cat:'Pookie-Core',status:'financial tears included',desc:'Track your finances and your emotional breakdowns in one convenient place.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/CryFinance',live:'https://arideepcodes.github.io/CryFinance'},
+  {name:'Delulu Airlines',cat:'Pookie-Core',status:'departing for delululand',desc:'Premium airline experience powered entirely by delusion and unrealistic expectations.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Delulu_Airlines',live:'https://arideepcodes.github.io/Delulu_Airlines'},
+  {name:'More Projects Loading...',cat:'Pookie-Core',status:'sleep sacrificed successfully',desc:'There are way too many projects to keep updating this portfolio manually. New experiments, AI tools, cursed interfaces, productivity apps, and emotionally questionable creations appear on my GitHub almost every week.',tags:['Infinite Side Quests','GitHub Addict','Pookie Engineering','Deploy & Pray'],github:'https://github.com/ArideepCodes',live:'https://github.com/ArideepCodes'}
 ];
 const achievementsData=[
   {icon:'fa-solid fa-trophy',text:'JIS Samman for Innovation and Excellence in Technology'},
@@ -111,7 +130,7 @@ skillsData.forEach((cat,i)=>{
 const specGrid=document.getElementById('specGrid');
 specializations.forEach(s=>{specGrid.innerHTML+=`<div class="spec-card"><div class="sc-dot" style="background:${s.color};color:${s.color}"></div><div class="sc-text">${s.name}</div></div>`});
 
-// ===== RENDER PROJECTS — BENTO APP WINDOWS =====
+// ===== RENDER PROJECTS =====
 const categories=['All',...new Set(projectsData.map(p=>p.cat))];
 const filtersEl=document.getElementById('filters');
 const projectsGrid=document.getElementById('projectsGrid');
@@ -166,11 +185,6 @@ renderProjects();
 const achieveGrid=document.getElementById('achieveGrid');
 achievementsData.forEach((a,i)=>{achieveGrid.innerHTML+=`<div class="achieve-card reveal ${i>0?'reveal-delay-'+Math.min(i%5,4):''}"><div class="ac-icon"><i class="${a.icon}"></i></div><div class="ac-text">${a.text}</div></div>`});
 
-// ===== PRELOADER (UNCHANGED LOGIC) =====
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 2000);
-});
-
 // ===== CUSTOM CURSOR =====
 const outer=document.getElementById('cursorOuter'),inner=document.getElementById('cursorInner');
 let mx=0,my=0,ox=0,oy=0,ix=0,iy=0;
@@ -191,7 +205,7 @@ document.addEventListener('mousemove',e=>{
   }
 });
 
-// ===== JELLY CLICK ON BUTTONS =====
+// ===== JELLY CLICK =====
 document.querySelectorAll('.btn-primary,.btn-ghost,.app-btn,.nav-cta,.filter-btn').forEach(btn=>{
   btn.addEventListener('click',function(){this.classList.remove('jelly-click');void this.offsetWidth;this.classList.add('jelly-click')});
 });
@@ -212,18 +226,13 @@ const decoContainer=document.getElementById('floatingDecos');
 function spawnDeco(){
   const d=document.createElement('div');d.className='floating-deco';
   d.textContent=decoSymbols[Math.floor(Math.random()*decoSymbols.length)];
-  d.style.left=Math.random()*100+'%';
-  d.style.bottom='-20px';
+  d.style.left=Math.random()*100+'%';d.style.bottom='-20px';
   d.style.fontSize=(Math.random()*14+8)+'px';
-  const op=Math.random()*.12+.04;
-  d.style.setProperty('--do',op);
-  const dur=Math.random()*15+12;
-  d.style.animationDuration=dur+'s';
-  d.style.animationDelay=Math.random()*8+'s';
+  const op=Math.random()*.12+.04;d.style.setProperty('--do',op);
+  const dur=Math.random()*15+12;d.style.animationDuration=dur+'s';d.style.animationDelay=Math.random()*8+'s';
   const colors=['var(--pink)','var(--lav)','var(--blue)','var(--pink2)','var(--lav2)'];
   d.style.color=colors[Math.floor(Math.random()*colors.length)];
-  decoContainer.appendChild(d);
-  setTimeout(()=>d.remove(),(dur+8)*1000);
+  decoContainer.appendChild(d);setTimeout(()=>d.remove(),(dur+8)*1000);
 }
 for(let i=0;i<12;i++)setTimeout(spawnDeco,i*1200);
 setInterval(spawnDeco,2500);
@@ -251,7 +260,7 @@ document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
 const statsObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target,target=parseInt(el.dataset.target);let c=0;const inc=target/40;const t=setInterval(()=>{c+=inc;if(c>=target){el.textContent=target+'+';clearInterval(t)}else el.textContent=Math.floor(c)+'+'},40);statsObserver.unobserve(el)}})},{threshold:.5});
 document.querySelectorAll('.stat-num').forEach(el=>statsObserver.observe(el));
 
-// ===== GSAP: OS WINDOWS =====
+// ===== GSAP =====
 if(!isMobile){
   document.querySelectorAll('.os-window').forEach((w,i)=>{
     gsap.to(w,{y:`random(-12,12)`,x:`random(-8,8)`,duration:`random(3,5)`,repeat:-1,yoyo:true,ease:'sine.inOut',delay:i*.4});
@@ -264,20 +273,20 @@ if(!isMobile){
   gsap.to('.glow-orb-2',{x:-50,y:-40,duration:10,repeat:-1,yoyo:true,ease:'sine.inOut'});
 }
 
-// ===== GSAP: HERO ENTRANCE =====
-gsap.from('.hero-badge',{opacity:0,y:20,duration:.7,delay:2.2,ease:'power3.out'});
-gsap.from('.hero-name',{opacity:0,y:50,scale:.95,duration:.9,delay:2.35,ease:'power3.out'});
-gsap.from('.hero-headline',{opacity:0,y:20,duration:.7,delay:2.6,ease:'power3.out'});
-gsap.from('.hero-sub',{opacity:0,y:20,duration:.7,delay:2.75,ease:'power3.out'});
-gsap.from('.typed-wrap',{opacity:0,y:20,duration:.7,delay:2.9,ease:'power3.out'});
-gsap.from('.status-pill',{opacity:0,y:15,scale:.9,duration:.5,stagger:.08,delay:3.0,ease:'back.out(1.7)'});
-gsap.from('.hero-btns',{opacity:0,y:20,duration:.7,delay:3.3,ease:'power3.out'});
-gsap.from('.hero-socials a',{opacity:0,y:15,scale:.8,duration:.5,stagger:.06,delay:3.5,ease:'back.out(1.7)'});
+// ===== GSAP HERO ENTRANCE =====
+gsap.from('.hero-badge',{opacity:0,y:20,duration:.7,delay:2.5,ease:'power3.out'});
+gsap.from('.hero-name',{opacity:0,y:50,scale:.95,duration:.9,delay:2.65,ease:'power3.out'});
+gsap.from('.hero-headline',{opacity:0,y:20,duration:.7,delay:2.9,ease:'power3.out'});
+gsap.from('.hero-sub',{opacity:0,y:20,duration:.7,delay:3.05,ease:'power3.out'});
+gsap.from('.typed-wrap',{opacity:0,y:20,duration:.7,delay:3.2,ease:'power3.out'});
+gsap.from('.status-pill',{opacity:0,y:15,scale:.9,duration:.5,stagger:.08,delay:3.3,ease:'back.out(1.7)'});
+gsap.from('.hero-btns',{opacity:0,y:20,duration:.7,delay:3.6,ease:'power3.out'});
+gsap.from('.hero-socials a',{opacity:0,y:15,scale:.8,duration:.5,stagger:.06,delay:3.8,ease:'back.out(1.7)'});
 if(!isMobile){
-  gsap.from('.os-window',{opacity:0,x:50,scale:.9,duration:.6,stagger:.15,delay:2.8,ease:'back.out(1.4)'});
+  gsap.from('.os-window',{opacity:0,x:50,scale:.9,duration:.6,stagger:.15,delay:3.1,ease:'back.out(1.4)'});
 }
 
-// ===== HERO PARALLAX ON MOUSE MOVE =====
+// ===== HERO PARALLAX =====
 if(!isMobile){
   const heroEl=document.getElementById('hero');
   heroEl.addEventListener('mousemove',e=>{
@@ -294,7 +303,7 @@ if(!isMobile){
   });
 }
 
-// ===== ACTIVE NAV LINK HIGHLIGHT =====
+// ===== ACTIVE NAV LINK =====
 const sections=document.querySelectorAll('section[id]');
 window.addEventListener('scroll',()=>{
   let current='';
