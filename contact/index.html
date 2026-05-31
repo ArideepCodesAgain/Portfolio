@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — A.K</title>
+    <meta name="description" content="Get in touch with Arideep — AI systems, cybersecurity, automation, open source, and everything in between.">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <meta property="og:title" content="Contact — A.K">
+    <meta property="og:description" content="Get in touch with Arideep — AI systems, cybersecurity, automation, open source, and everything in between.">
+    <meta property="og:image" content="https://arideep.xyz/og-image.jpg">
+    <meta property="og:url" content="https://arideep.xyz/contact">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://arideep.xyz/og-image.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #05050c;
+            color: rgba(255,255,255,0.7);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #05050c; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,45,117,0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,45,117,0.5); }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ff2d75, #ff6b9d, #b44dff, #d08fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #ff2d75;
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: linear-gradient(90deg, #ff2d75, transparent);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ── Background Effects ── */
+        .floating-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .noise {
+            position: fixed;
+            inset: 0;
+            opacity: 0.02;
+            pointer-events: none;
+            z-index: 9998;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            background: rgba(10, 10, 24, 0.6);
+            border: 1px solid rgba(180, 77, 255, 0.1);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        .navbar:hover {
+            border-color: rgba(255, 45, 117, 0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 30px rgba(255,45,117,0.05), inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+        }
+        .nav-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-link:hover {
+            color: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.05);
+        }
+        .nav-link.active {
+            color: #ff2d75;
+            background: rgba(255,45,117,0.1);
+        }
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .mobile-toggle svg { display: block; }
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: rgba(10, 10, 24, 0.9);
+            border: 1px solid rgba(180, 77, 255, 0.15);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 200px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+        }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+        }
+        .hero-content { max-width: 800px; }
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1rem, 1.5vw, 1.125rem);
+            font-weight: 300;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.75;
+            max-width: 640px;
+        }
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2.5rem;
+        }
+        .hero-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            background: rgba(255, 45, 117, 0.06);
+            border: 1px solid rgba(255, 45, 117, 0.15);
+            color: #ff6b9d;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .hero-badge:hover {
+            background: rgba(255, 45, 117, 0.12);
+            border-color: rgba(255, 45, 117, 0.3);
+            box-shadow: 0 0 20px rgba(255, 45, 117, 0.1);
+        }
+
+        /* ── Contact Grid ── */
+        .contact-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 0 6rem;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-top: 3rem;
+        }
+        .contact-card {
+            position: relative;
+            padding: 2rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(180, 77, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff2d75, #b44dff, transparent);
+            opacity: 0.6;
+            transition: opacity 0.5s ease;
+        }
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(180deg, rgba(255, 45, 117, 0.03), transparent);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 45, 117, 0.2);
+            box-shadow: 0 25px 60px -15px rgba(255, 45, 117, 0.15), 0 0 50px -15px rgba(180, 77, 255, 0.1);
+        }
+        .contact-card:hover::before { opacity: 1; }
+        .contact-card:hover::after { opacity: 1; }
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 45, 117, 0.07);
+            border: 1px solid rgba(255, 45, 117, 0.12);
+            margin-bottom: 1.25rem;
+            transition: all 0.4s ease;
+        }
+        .card-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: #ff2d75;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: stroke 0.3s ease;
+        }
+        .contact-card:hover .card-icon {
+            background: rgba(255, 45, 117, 0.12);
+            border-color: rgba(255, 45, 117, 0.25);
+            box-shadow: 0 0 20px rgba(255, 45, 117, 0.1);
+        }
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+        .card-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.65;
+            margin-bottom: 1.25rem;
+        }
+        .card-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #ff6b9d;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .card-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: transform 0.3s ease;
+        }
+        .contact-card:hover .card-btn { color: #ff2d75; gap: 0.75rem; }
+        .contact-card:hover .card-btn svg { transform: translateX(2px); }
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── Terminal ── */
+        .terminal-section {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 0 6rem;
+        }
+        .terminal {
+            max-width: 700px;
+            margin: 3rem auto 0;
+            border-radius: 1rem;
+            background: rgba(10, 10, 24, 0.8);
+            border: 1px solid rgba(180, 77, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 25px 60px -15px rgba(0,0,0,0.5), 0 0 40px -10px rgba(180, 77, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.25rem;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .terminal-dot:nth-child(1) { background: #ff5f57; }
+        .terminal-dot:nth-child(2) { background: #febc2e; }
+        .terminal-dot:nth-child(3) { background: #28c840; }
+        .terminal-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6875rem;
+            color: rgba(255,255,255,0.3);
+            margin-left: 0.75rem;
+        }
+        .terminal-body {
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+            line-height: 2;
+        }
+        .terminal-line {
+            opacity: 0;
+            transform: translateX(-8px);
+            color: rgba(255,255,255,0.5);
+        }
+        .terminal-line .prompt {
+            color: #ff2d75;
+            margin-right: 0.25rem;
+        }
+        .terminal-line .accent { color: #b44dff; }
+        .terminal-line .success { color: #28c840; }
+        .terminal-line .warning { color: #febc2e; }
+        .terminal-line .pink { color: #ff6b9d; }
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: #ff2d75;
+            margin-left: 4px;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ── CTA ── */
+        .cta-section {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 0 8rem;
+        }
+        .cta-card {
+            position: relative;
+            padding: 4rem 3rem;
+            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(180, 77, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-align: center;
+            overflow: hidden;
+            box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);
+        }
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 1.5rem;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 45, 117, 0.25), rgba(180, 77, 255, 0.25), rgba(208, 143, 255, 0.1));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .cta-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(255, 45, 117, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .cta-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.7;
+            max-width: 520px;
+            margin: 0 auto 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-primary {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.875rem 2rem;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #ff2d75, #b44dff);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 20px rgba(255, 45, 117, 0.3), 0 0 40px rgba(255, 45, 117, 0.1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 45, 117, 0.4), 0 0 60px rgba(255, 45, 117, 0.15);
+        }
+        .btn-primary svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+        @media (max-width: 768px) {
+            .cta-card { padding: 3rem 1.5rem; }
+        }
+
+        /* ── GSAP Reveal Base ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Effects -->
+    <div class="floating-shape" style="width:600px;height:600px;background:radial-gradient(circle,rgba(255,45,117,0.12),transparent 70%);top:-10%;left:-10%;"></div>
+    <div class="floating-shape" style="width:500px;height:500px;background:radial-gradient(circle,rgba(180,77,255,0.1),transparent 70%);top:30%;right:-15%;"></div>
+    <div class="floating-shape" style="width:400px;height:400px;background:radial-gradient(circle,rgba(255,107,157,0.08),transparent 70%);bottom:-5%;left:20%;"></div>
+    <div class="floating-shape" style="width:350px;height:350px;background:radial-gradient(circle,rgba(208,143,255,0.06),transparent 70%);top:60%;left:-10%;"></div>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+
+    <!-- Particles -->
+    <div class="particle" style="left:10%;background:rgba(255,45,117,0.4);animation:float-up 12s linear infinite;animation-delay:0s;"></div>
+    <div class="particle" style="left:25%;background:rgba(180,77,255,0.35);animation:float-up 15s linear infinite;animation-delay:2s;"></div>
+    <div class="particle" style="left:40%;background:rgba(255,107,157,0.3);animation:float-up 18s linear infinite;animation-delay:4s;"></div>
+    <div class="particle" style="left:55%;background:rgba(255,45,117,0.35);animation:float-up 14s linear infinite;animation-delay:1s;"></div>
+    <div class="particle" style="left:70%;background:rgba(208,143,255,0.3);animation:float-up 16s linear infinite;animation-delay:3s;"></div>
+    <div class="particle" style="left:85%;background:rgba(255,45,117,0.3);animation:float-up 13s linear infinite;animation-delay:5s;"></div>
+    <div class="particle" style="left:15%;background:rgba(180,77,255,0.25);animation:float-up 17s linear infinite;animation-delay:7s;"></div>
+    <div class="particle" style="left:60%;background:rgba(255,107,157,0.35);animation:float-up 11s linear infinite;animation-delay:6s;"></div>
+    <div class="particle" style="left:90%;background:rgba(255,45,117,0.25);animation:float-up 19s linear infinite;animation-delay:8s;"></div>
+    <div class="particle" style="left:35%;background:rgba(208,143,255,0.3);animation:float-up 14s linear infinite;animation-delay:9s;"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="https://arideep.xyz" class="nav-logo">A.K</a>
+        <ul class="nav-links">
+            <li><a href="https://arideep.xyz" class="nav-link">Home</a></li>
+            <li><a href="/contact/" class="nav-link active">Contact</a></li>
+        </ul>
+        <button class="mobile-toggle" aria-label="Toggle menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+    </nav>
+    <div class="mobile-menu">
+        <a href="https://arideep.xyz" class="nav-link">Home</a>
+        <a href="/contact/" class="nav-link active">Contact</a>
+    </div>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="reveal">
+                        <span class="section-label">Contact</span>
+                    </div>
+                    <h1 class="hero-title reveal">
+                        Let's Build Something<br>
+                        <span class="gradient-text">Worth Overengineering.</span>
+                    </h1>
+                    <p class="hero-subtitle reveal">
+                        Whether it's AI systems, automation, cybersecurity, cloud infrastructure, startups, hardware projects, research, or a completely unhinged side project — I'm always interested in connecting with people building interesting things.
+                    </p>
+                    <div class="hero-badges reveal">
+                        <span class="hero-badge">AI Systems</span>
+                        <span class="hero-badge">Cybersecurity</span>
+                        <span class="hero-badge">Automation</span>
+                        <span class="hero-badge">Open Source</span>
+                        <span class="hero-badge">Research</span>
+                        <span class="hero-badge">Collaboration</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Grid -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="reveal">
+                    <span class="section-label">Reach Out</span>
+                    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.75rem,3vw,2.25rem);font-weight:700;color:#fff;letter-spacing:-0.02em;margin-bottom:0.5rem;">Where to find me</h2>
+                    <p style="font-family:'Inter',sans-serif;font-size:0.9375rem;color:rgba(255,255,255,0.4);max-width:480px;">Pick a channel. Any channel. I'm probably lurking on all of them.</p>
+                </div>
+                <div class="contact-grid">
+
+                    <!-- GitHub -->
+                    <a href="https://github.com/ArideepCodes" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                        </div>
+                        <h3 class="card-title">GitHub</h3>
+                        <p class="card-desc">Open source projects, contributions, and the code behind everything I build.</p>
+                        <span class="card-btn">View Profile <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/arideep-kanshabanik/" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        </div>
+                        <h3 class="card-title">LinkedIn</h3>
+                        <p class="card-desc">Professional timeline, endorsements, and the polished version of my career.</p>
+                        <span class="card-btn">Connect <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/greenflaghunyaar" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                        </div>
+                        <h3 class="card-title">Instagram</h3>
+                        <p class="card-desc">Behind-the-scenes, build logs, and occasional memes about debugging at 3 AM.</p>
+                        <span class="card-btn">Follow <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    </a>
+
+                    <!-- Telegram -->
+                    <a href="https://t.me/Greenflaghunyaar" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </div>
+                        <h3 class="card-title">Telegram</h3>
+                        <p class="card-desc">Fastest way to reach me. No algorithm, no formality — just messages.</p>
+                        <span class="card-btn">Message <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    </a>
+
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/arideep.kanshabanik.1" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </div>
+                        <h3 class="card-title">Facebook</h3>
+                        <p class="card-desc">The classic. Still here, still works, still gets the job done.</p>
+                        <span class="card-btn">Add Friend <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    </a>
+
+                    <!-- Email -->
+                    <a href="mailto:arideepkanshabanik@gmail.com" class="contact-card reveal">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        </div>
+                        <h3 class="card-title">Email</h3>
+                        <p class="card-desc">For formal inquiries, collaborations, or when you need a paper trail.</p>
+                        <span class="card-btn">Send Email <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Terminal -->
+        <section class="terminal-section">
+            <div class="container">
+                <div class="terminal reveal">
+                    <div class="terminal-header">
+                        <div class="terminal-dot"></div>
+                        <div class="terminal-dot"></div>
+                        <div class="terminal-dot"></div>
+                        <span class="terminal-title">secure_connection.sh</span>
+                    </div>
+                    <div class="terminal-body" id="terminal-body">
+                        <div class="terminal-line"><span class="prompt">&gt;</span> establishing encrypted channel...</div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> loading collaboration protocol...</div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> verifying <span class="accent">human</span>...</div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> AI projects: <span class="success">accepted</span></div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> automation systems: <span class="success">accepted</span></div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> startups: <span class="success">accepted</span></div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> cybersecurity discussions: <span class="success">accepted</span></div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> side quests: <span class="success">accepted</span></div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> emotional stability: <span class="warning">not found</span></div>
+                        <div class="terminal-line"><span class="prompt">&gt;</span> status: <span class="pink">online</span><span class="terminal-cursor"></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-card reveal">
+                    <h2 class="cta-heading">Ready to build something <span class="gradient-text">unforgettable</span>?</h2>
+                    <p class="cta-text">Let's turn ideas into products, products into systems, and systems into something people actually remember.</p>
+                    <a href="mailto:arideepkanshabanik@gmail.com" class="btn-primary">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        Send Email
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero reveals
+        gsap.utils.toArray('.hero .reveal').forEach((el, i) => {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3 + i * 0.15,
+                ease: 'power3.out'
+            });
+        });
+
+        // Scroll reveals
+        gsap.utils.toArray('.contact-section .reveal, .terminal-section .reveal, .cta-section .reveal').forEach(el => {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Contact cards stagger
+        gsap.utils.toArray('.contact-card.reveal').forEach((card, i) => {
+            gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                delay: i * 0.08,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 88%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Terminal lines stagger
+        const terminalLines = document.querySelectorAll('.terminal-line');
+        ScrollTrigger.create({
+            trigger: '.terminal',
+            start: 'top 80%',
+            onEnter: () => {
+                gsap.to(terminalLines, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.4,
+                    stagger: 0.12,
+                    ease: 'power2.out'
+                });
+            },
+            once: true
+        });
+
+        // Mobile menu toggle
+        const toggle = document.querySelector('.mobile-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        let menuOpen = false;
+        toggle.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('open', menuOpen);
+            toggle.innerHTML = menuOpen
+                ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+                : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+        });
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuOpen = false;
+                mobileMenu.classList.remove('open');
+                toggle.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+            });
+        });
+
+        // Navbar background on scroll
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(10, 10, 24, 0.85)';
+                navbar.style.boxShadow = '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 24, 0.6)';
+                navbar.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)';
+            }
+        });
+    </script>
+</body>
+</html>
