@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAUTHORIZED ACCESS — arideep.xyz</title>
+    <meta name="description" content="You found nothing. Absolutely nothing.">
+    <link rel="icon" type="image/png" href="https://arideep.xyz/favicon.png">
+    <meta property="og:image" content="https://arideep.xyz/og-image.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: '#050505',
+                        brand: { 400: '#c084fc', 500: '#a855f7', 600: '#9333ea' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media (hover: hover) and (pointer: fine) {
+            * { cursor: none; }
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        #cursor-dot {
+            width: 8px; height: 8px;
+            background: #a855f7;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s;
+        }
+        #cursor-ring {
+            width: 40px; height: 40px;
+            border: 1.5px solid rgba(168, 85, 247, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        #cursor-ring.hover {
+            width: 60px; height: 60px;
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #ec4899, #a855f7, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: gradient-shift 3s ease infinite;
+        }
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 200% center; }
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        .glow-purple { box-shadow: 0 0 40px -10px rgba(168, 85, 247, 0.5); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #a855f7;
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+        .terminal-line {
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .terminal-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes float-msg {
+            0%, 100% { opacity: 0; transform: translateY(8px); }
+            20% { opacity: 0.1; }
+            80% { opacity: 0.1; }
+            100% { opacity: 0; transform: translateY(-8px); }
+        }
+        .floating-msg {
+            position: fixed;
+            font-size: 13px;
+            color: #a855f7;
+            pointer-events: none;
+            white-space: nowrap;
+            animation: float-msg 8s ease-in-out infinite;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        @keyframes glow-breathe {
+            0%, 100% { box-shadow: 0 0 40px -10px rgba(168, 85, 247, 0.3), 0 0 80px -20px rgba(236, 72, 153, 0.2); }
+            50% { box-shadow: 0 0 60px -10px rgba(168, 85, 247, 0.5), 0 0 120px -20px rgba(236, 72, 153, 0.3); }
+        }
+        .glow-breathe { animation: glow-breathe 4s ease-in-out infinite; }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateX(-50%) translateY(100px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes slide-down {
+            from { opacity: 1; transform: translateX(-50%) translateY(0); }
+            to { opacity: 0; transform: translateX(-50%) translateY(100px); }
+        }
+        .achievement-enter { animation: slide-up 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .achievement-exit { animation: slide-down 0.4s ease forwards; }
+
+        .status-404 { color: #f87171; }
+        .status-searching { color: #fbbf24; }
+        .status-soon { color: #a855f7; }
+        .status-corrupted { color: #f87171; }
+        .status-notfound { color: #6b7280; }
+        .status-seen { color: #6b7280; }
+
+        @keyframes flash-red {
+            0% { color: #f87171; text-shadow: 0 0 10px rgba(248, 113, 113, 0.5); }
+            50% { color: #ef4444; text-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+            100% { color: #f87171; text-shadow: 0 0 10px rgba(248, 113, 113, 0.5); }
+        }
+        .access-denied { animation: flash-red 0.5s ease 2; }
+
+        .scan-lines::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+            pointer-events: none;
+            border-radius: 1rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake { animation: shake 0.3s ease; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <canvas id="particles" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Floating Easter Egg Messages -->
+    <span class="floating-msg" style="top:12%; left:4%; animation-delay:0s;">Nice try.</span>
+    <span class="floating-msg" style="top:22%; right:6%; animation-delay:1.4s;">Skill issue.</span>
+    <span class="floating-msg" style="top:38%; left:10%; animation-delay:2.8s;">404 secrets found.</span>
+    <span class="floating-msg" style="top:52%; right:4%; animation-delay:0.6s;">Access denied.</span>
+    <span class="floating-msg" style="top:65%; left:3%; animation-delay:3.5s;">Touch grass.</span>
+    <span class="floating-msg" style="top:75%; right:12%; animation-delay:2.0s;">Try Linux first.</span>
+    <span class="floating-msg" style="top:33%; left:82%; animation-delay:4.2s;">Bro thought this was the Pentagon.</span>
+    <span class="floating-msg" style="top:85%; left:18%; animation-delay:1.0s;">Nothing to see here.</span>
+    <span class="floating-msg" style="top:45%; left:48%; animation-delay:3.0s;">Even the database is unemployed.</span>
+    <span class="floating-msg" style="top:90%; right:22%; animation-delay:5.0s;">Achievement unlocked: Curiosity.</span>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-5" style="mix-blend-mode: difference;">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="https://arideep.xyz" class="text-white font-semibold text-lg tracking-tight hoverable">
+                arideep<span class="text-brand-500">.xyz</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="https://arideep.xyz" class="text-sm font-medium text-neutral-400 hover:text-white transition-colors hoverable">Home</a>
+                <a href="https://arideep.xyz/#projects" class="text-sm font-medium text-neutral-400 hover:text-white transition-colors hoverable">Projects</a>
+                <a href="https://arideep.xyz/#contact" class="text-sm font-medium text-neutral-400 hover:text-white transition-colors hoverable">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center justify-center relative z-20 px-6">
+        <div class="text-center max-w-4xl mx-auto">
+            <div class="animate-fade-in-up" style="animation-delay:0.2s;">
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider glass" style="border-color:rgba(168,85,247,0.3);">
+                    <span class="w-2 h-2 rounded-full bg-red-500" style="animation:pulse-slow 2s cubic-bezier(0.4,0,0.6,1) infinite;"></span>
+                    Unauthorized Access
+                </span>
+            </div>
+            <h1 class="mt-8 text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[1.05] animate-fade-in-up" style="animation-delay:0.4s;">
+                Congratulations.<br>
+                <span class="gradient-text">You Found Absolutely Nothing.</span>
+            </h1>
+            <p class="mt-6 text-lg md:text-xl font-light text-neutral-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay:0.6s;">
+                You manually typed "/hack" into the URL.<br>
+                That's either impressive curiosity or a cry for help.<br>
+                Either way, welcome.
+            </p>
+        </div>
+    </section>
+
+    <!-- Fake Security Scan -->
+    <section class="relative z-20 px-6 pb-32">
+        <div class="max-w-3xl mx-auto reveal">
+            <div class="glass scan-lines relative overflow-hidden glow-purple">
+                <div class="flex items-center gap-2 px-5 py-3.5 border-b border-white/10">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <span class="text-xs text-neutral-500 font-medium ml-3">totally_not_sensitive_data.log</span>
+                </div>
+                <div class="p-6 md:p-8 font-mono text-sm md:text-base leading-relaxed min-h-[420px]" id="terminal-body">
+                    <div class="terminal-line" data-delay="0"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">intrusion detected...</span></div>
+                    <div class="terminal-line" data-delay="600"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">tracing attacker location...</span></div>
+                    <div class="terminal-line" data-delay="1200"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">location found...</span></div>
+                    <div class="terminal-line" data-delay="2000"><span class="text-brand-500">&gt;</span> <span class="text-neutral-400">probably sitting on a chair</span></div>
+                    <div class="terminal-line" data-delay="2800"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">scanning target...</span></div>
+                    <div class="terminal-line" data-delay="3400"><span class="text-brand-500">&gt;</span> <span class="text-neutral-400">portfolio website confirmed</span></div>
+                    <div class="terminal-line" data-delay="4200"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">checking financial assets...</span></div>
+                    <div class="terminal-line" data-delay="5000"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">wallet balance located</span></div>
+                    <div class="terminal-line" data-delay="5800"><span class="text-brand-500">&gt;</span> <span class="text-yellow-400 font-semibold">₹17.42</span></div>
+                    <div class="terminal-line" data-delay="6800"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">checking secret files...</span></div>
+                    <div class="terminal-line" data-delay="7600"><span class="text-brand-500">&gt;</span> <span class="text-neutral-400">no secrets found</span></div>
+                    <div class="terminal-line" data-delay="8400"><span class="text-brand-500">&gt;</span> <span class="text-neutral-300">checking life progress...</span></div>
+                    <div class="terminal-line" data-delay="9200"><span class="text-brand-500">&gt;</span> <span class="text-neutral-500">loading...</span></div>
+                    <div class="terminal-line" data-delay="10200"><span class="text-brand-500">&gt;</span> <span class="text-neutral-500">loading...</span></div>
+                    <div class="terminal-line" data-delay="11200"><span class="text-brand-500">&gt;</span> <span class="text-neutral-500">loading...</span></div>
+                    <div class="terminal-line" data-delay="12400"><span class="text-brand-500">&gt;</span> <span class="text-red-400">operation timed out</span></div>
+                    <div class="terminal-line" data-delay="13400"><span class="text-brand-500">&gt;</span> <span class="text-red-400">emotional damage detected</span></div>
+                    <div class="terminal-line" data-delay="14400"><span class="text-brand-500">&gt;</span> <span class="text-red-400 font-bold access-denied">access denied</span><span class="terminal-cursor" id="terminal-cursor" style="display:none;"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hacker Report Card -->
+    <section class="relative z-20 px-6 pb-32">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12 reveal">
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider glass" style="border-color:rgba(168,85,247,0.3);">
+                    <iconify-icon icon="lucide:shield-alert" width="14"></iconify-icon>
+                    Hacker Report Card
+                </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="glass p-6 reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <p class="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">Hacker Skill Level</p>
+                    <p class="text-3xl font-semibold gradient-text">Intern</p>
+                </div>
+                <div class="glass p-6 reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <p class="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">Secrets Found</p>
+                    <p class="text-3xl font-semibold gradient-text">0</p>
+                </div>
+                <div class="glass p-6 reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <p class="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">Sleep Schedule</p>
+                    <p class="text-3xl font-semibold gradient-text">Corrupted</p>
+                </div>
+                <div class="glass p-6 reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <p class="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">Confidence</p>
+                    <p class="text-3xl font-semibold gradient-text">99%</p>
+                </div>
+                <div class="glass p-6 reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <p class="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">Actual Knowledge</p>
+                    <p class="text-3xl font-semibold gradient-text">3%</p>
+                </div>
+                <div class="glass p-6 reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <p class="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">Grass Touched This Week</p>
+                    <p class="text-3xl font-semibold gradient-text">0</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Secret Files -->
+    <section class="relative z-20 px-6 pb-32">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12 reveal">
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider glass" style="border-color:rgba(168,85,247,0.3);">
+                    <iconify-icon icon="lucide:folder-lock" width="14"></iconify-icon>
+                    Top Secret Files
+                </span>
+            </div>
+            <div class="space-y-3">
+                <div class="glass p-5 flex items-center justify-between reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <iconify-icon icon="lucide:file-text" width="18" class="text-neutral-500"></iconify-icon>
+                        <span class="text-sm font-medium text-neutral-200">nuclear_launch_codes.txt</span>
+                    </div>
+                    <span class="status-404 text-xs font-mono font-medium">404</span>
+                </div>
+                <div class="glass p-5 flex items-center justify-between reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <iconify-icon icon="lucide:file-text" width="18" class="text-neutral-500"></iconify-icon>
+                        <span class="text-sm font-medium text-neutral-200">how_to_get_rich_fast.pdf</span>
+                    </div>
+                    <span class="status-searching text-xs font-mono font-medium">still searching</span>
+                </div>
+                <div class="glass p-5 flex items-center justify-between reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <iconify-icon icon="lucide:file-text" width="18" class="text-neutral-500"></iconify-icon>
+                        <span class="text-sm font-medium text-neutral-200">million_dollar_idea.docx</span>
+                    </div>
+                    <span class="status-soon text-xs font-mono font-medium">coming soon™</span>
+                </div>
+                <div class="glass p-5 flex items-center justify-between reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <iconify-icon icon="lucide:file-spreadsheet" width="18" class="text-neutral-500"></iconify-icon>
+                        <span class="text-sm font-medium text-neutral-200">life_plan.xlsx</span>
+                    </div>
+                    <span class="status-corrupted text-xs font-mono font-medium">corrupted beyond repair</span>
+                </div>
+                <div class="glass p-5 flex items-center justify-between reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <iconify-icon icon="lucide:file-archive" width="18" class="text-neutral-500"></iconify-icon>
+                        <span class="text-sm font-medium text-neutral-200">emotional_stability.zip</span>
+                    </div>
+                    <span class="status-notfound text-xs font-mono font-medium">file not found</span>
+                </div>
+                <div class="glass p-5 flex items-center justify-between reveal hoverable hover:border-brand-500/30 transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <iconify-icon icon="lucide:file-archive" width="18" class="text-neutral-500"></iconify-icon>
+                        <span class="text-sm font-medium text-neutral-200">motivation_backup.rar</span>
+                    </div>
+                    <span class="status-seen text-xs font-mono font-medium">last seen 2023</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ultimate Reveal -->
+    <section class="relative z-20 px-6 pb-32">
+        <div class="max-w-4xl mx-auto reveal">
+            <div class="glass p-10 md:p-16 text-center glow-breathe relative overflow-hidden">
+                <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at center, rgba(168,85,247,0.3) 0%, transparent 70%);"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-semibold tracking-tight mb-6">
+                        You Successfully Hacked <span class="gradient-text">Nothing.</span>
+                    </h2>
+                    <p class="text-neutral-400 font-light mb-8 text-lg">The only things stored here are:</p>
+                    <ul class="text-left max-w-md mx-auto space-y-3">
+                        <li class="flex items-center gap-3 text-neutral-300 text-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0"></span>
+                            unfinished side projects
+                        </li>
+                        <li class="flex items-center gap-3 text-neutral-300 text-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0"></span>
+                            caffeine
+                        </li>
+                        <li class="flex items-center gap-3 text-neutral-300 text-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0"></span>
+                            debugging trauma
+                        </li>
+                        <li class="flex items-center gap-3 text-neutral-300 text-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0"></span>
+                            random GitHub commits at 3 AM
+                        </li>
+                        <li class="flex items-center gap-3 text-neutral-300 text-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0"></span>
+                            impossible startup ideas
+                        </li>
+                        <li class="flex items-center gap-3 text-neutral-300 text-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0"></span>
+                            browser tabs that should have been closed months ago
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="relative z-20 px-6 pb-32">
+        <div class="max-w-2xl mx-auto text-center reveal">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://arideep.xyz" class="hoverable inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-medium bg-gradient-to-r from-pink-500 to-purple-500 text-white glow-purple hover:scale-105 transition-transform duration-300">
+                    <iconify-icon icon="lucide:arrow-left" width="16"></iconify-icon>
+                    Return To Reality
+                </a>
+                <a href="https://arideep.xyz/#projects" class="hoverable inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-medium text-neutral-300 glass hover:text-white hover:border-brand-500/30 transition-all duration-300">
+                    <iconify-icon icon="lucide:folder-open" width="16"></iconify-icon>
+                    View Actual Projects
+                </a>
+                <button id="try-again-btn" class="hoverable inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-medium text-neutral-500 glass hover:text-neutral-400 transition-all duration-300" style="border-color:rgba(255,255,255,0.05);">
+                    Try Again Later
+                </button>
+            </div>
+            <p id="try-again-msg" class="mt-4 text-sm h-5 transition-all duration-300"></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-20 px-6 py-8 border-t border-white/5">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-xs text-neutral-600">© 2025 arideep.xyz — You found the secret page. Was it worth it?</p>
+        </div>
+    </footer>
+
+    <!-- Achievement Popup -->
+    <div id="achievement" class="fixed bottom-8 left-1/2 z-[100] pointer-events-none" style="transform:translateX(-50%); display:none;">
+        <div id="achievement-inner" class="glass px-6 py-4 flex items-center gap-4 pointer-events-auto" style="border-color:rgba(168,85,247,0.3); box-shadow:0 0 40px -10px rgba(168,85,247,0.4);">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+                <iconify-icon icon="lucide:trophy" width="22" class="text-white"></iconify-icon>
+            </div>
+            <div class="text-left">
+                <p class="text-xs font-medium uppercase tracking-wider text-brand-400">Achievement Unlocked</p>
+                <p class="text-sm font-semibold text-white mt-0.5">"Professional URL Explorer"</p>
+                <p class="text-xs text-neutral-500 mt-1">+0 XP &nbsp;·&nbsp; +0 Secrets &nbsp;·&nbsp; +1 Mild Disappointment</p>
+            </div>
+            <button id="achievement-close" class="text-neutral-500 hover:text-white transition-colors ml-2 hoverable flex-shrink-0">
+                <iconify-icon icon="lucide:x" width="16"></iconify-icon>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ─── Custom Cursor ───
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+        const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        if (!isFinePointer) {
+            dot.style.display = 'none';
+            ring.style.display = 'none';
+        }
+
+        if (isFinePointer) {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.left = mouseX - 4 + 'px';
+                dot.style.top = mouseY - 4 + 'px';
+            });
+
+            (function animateRing() {
+                ringX += (mouseX - ringX) * 0.15;
+                ringY += (mouseY - ringY) * 0.15;
+                ring.style.left = ringX - 20 + 'px';
+                ring.style.top = ringY - 20 + 'px';
+                requestAnimationFrame(animateRing);
+            })();
+
+            document.querySelectorAll('.hoverable, a, button').forEach(el => {
+                el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+                el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+            });
+        }
+
+        // ─── Particles ───
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(168, 85, 247, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        (function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${0.1 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        })();
+
+        // ─── Terminal Animation ───
+        const terminalLines = document.querySelectorAll('.terminal-line');
+        const cursorEl = document.getElementById('terminal-cursor');
+        let terminalStarted = false;
+
+        function startTerminal() {
+            if (terminalStarted) return;
+            terminalStarted = true;
+            terminalLines.forEach((line, i) => {
+                setTimeout(() => {
+                    line.classList.add('visible');
+                    if (i === terminalLines.length - 1) cursorEl.style.display = 'inline-block';
+                }, parseInt(line.dataset.delay));
+            });
+        }
+
+        const terminalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startTerminal();
+                    terminalObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        terminalObserver.observe(document.getElementById('terminal-body'));
+
+        // ─── Scroll Reveal ───
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ─── Achievement Popup ───
+        const achievement = document.getElementById('achievement');
+        const achievementInner = document.getElementById('achievement-inner');
+        const achievementClose = document.getElementById('achievement-close');
+        let achievementShown = false;
+        let achievementTimeout = null;
+
+        function showAchievement() {
+            if (achievementShown) return;
+            achievementShown = true;
+            achievement.style.display = 'block';
+            achievementInner.classList.add('achievement-enter');
+            achievementTimeout = setTimeout(hideAchievement, 8000);
+        }
+
+        function hideAchievement() {
+            if (achievementTimeout) { clearTimeout(achievementTimeout); achievementTimeout = null; }
+            achievementInner.classList.remove('achievement-enter');
+            achievementInner.classList.add('achievement-exit');
+            setTimeout(() => {
+                achievement.style.display = 'none';
+                achievementInner.classList.remove('achievement-exit');
+            }, 400);
+        }
+
+        achievementClose.addEventListener('click', hideAchievement);
+
+        // Show achievement ~18s after terminal enters viewport
+        const achieveObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(showAchievement, 18000);
+                    achieveObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        achieveObserver.observe(document.getElementById('terminal-body'));
+
+        // ─── Try Again Button ───
+        const tryAgainBtn = document.getElementById('try-again-btn');
+        const tryAgainMsg = document.getElementById('try-again-msg');
+        const messages = [
+            "No.", "Still no.", "Nice try.", "Access denied.", "Maybe tomorrow.",
+            "Bro really thought.", "The answer remains no.", "Error 418: I'm a teapot.",
+            "Request declined politely.", "Your attempt has been logged. Just kidding."
+        ];
+        let msgIndex = 0;
+
+        tryAgainBtn.addEventListener('click', () => {
+            tryAgainBtn.classList.remove('shake');
+            void tryAgainBtn.offsetWidth; // force reflow
+            tryAgainBtn.classList.add('shake');
+            tryAgainMsg.textContent = messages[msgIndex % messages.length];
+            tryAgainMsg.style.color = '#a855f7';
+            msgIndex++;
+        });
+    </script>
+</body>
+</html>
