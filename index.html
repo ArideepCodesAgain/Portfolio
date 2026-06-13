@@ -194,25 +194,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .pl-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:sheen 1.8s ease-in-out infinite}
 @keyframes sheen{from{transform:translateX(-100%)}to{transform:translateX(200%)}}
 
-/* ===========================
-   CURSOR
-=========================== */
-.cursor-outer{
-  position:fixed;width:38px;height:38px;
-  border:1.5px solid rgba(124,58,237,.4);border-radius:50%;
-  pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
-  mix-blend-mode:difference;will-change:transform;
-  transition:width .5s var(--ease-expo),height .5s var(--ease-expo),border-color .4s ease,background .4s ease;
-}
-.cursor-inner{
-  position:fixed;width:5px;height:5px;background:var(--pink);border-radius:50%;
-  pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
-  box-shadow:0 0 8px var(--glow-pink);will-change:transform;
-}
-.cursor-outer.hover{width:56px;height:56px;border-color:var(--pink);background:rgba(255,45,117,.04)}
-.cursor-sparkle{position:fixed;border-radius:50%;pointer-events:none;z-index:9998;animation:sparkle .55s var(--ease-expo) forwards}
-@keyframes sparkle{0%{opacity:.85;transform:scale(1)}100%{opacity:0;transform:scale(0) translateY(-20px)}}
-@media(max-width:768px){.cursor-outer,.cursor-inner{display:none}}
 
 /* ===========================
    BACKGROUND
@@ -831,9 +812,7 @@ section{position:relative;z-index:1}
   </div>
 </div>
 
-<!-- CURSOR -->
-<div class="cursor-outer" id="cursorOuter"></div>
-<div class="cursor-inner" id="cursorInner"></div>
+
 
 <!-- BACKGROUND -->
 <div class="grid-bg"></div>
@@ -1402,54 +1381,7 @@ achievementsData.forEach((a, i) => {
   achieveGrid.innerHTML += `<div class="achieve-card reveal${i > 0 ? ' reveal-delay-' + Math.min(i % 5, 4) : ''}"><div class="ac-icon"><i class="${a.icon}"></i></div><div class="ac-text">${a.text}</div></div>`;
 });
 
-// ===========================
-// CUSTOM CURSOR
-// ===========================
-const outer = document.getElementById('cursorOuter');
-const inner = document.getElementById('cursorInner');
-let mx = 0, my = 0, ox = 0, oy = 0, ix = 0, iy = 0;
 
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
-function animateCursor() {
-  ox += (mx - ox) * 0.1;
-  oy += (my - oy) * 0.1;
-  ix += (mx - ix) * 0.28;
-  iy += (my - iy) * 0.28;
-  outer.style.left = ox + 'px'; outer.style.top = oy + 'px';
-  inner.style.left = ix + 'px'; inner.style.top = iy + 'px';
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
-
-document.querySelectorAll('a,button,.app-window,.skill-tag,.highlight-card,.os-window,.footer-quote,.spec-card,.achieve-card,.stat-item,.edu-card,.avatar-img-wrap').forEach(el => {
-  el.addEventListener('mouseenter', () => outer.classList.add('hover'));
-  el.addEventListener('mouseleave', () => outer.classList.remove('hover'));
-});
-
-// CURSOR SPARKLES
-const sparkleColors = ['255,45,117','124,58,237','6,182,212','16,185,129','245,158,11'];
-let lastSparkle = 0;
-document.addEventListener('mousemove', e => {
-  if (window.innerWidth <= 768) return;
-  const now = Date.now();
-  if (now - lastSparkle < 85) return;
-  if (Math.random() > 0.52) return;
-  lastSparkle = now;
-  const s = document.createElement('div');
-  s.className = 'cursor-sparkle';
-  s.style.left = (e.clientX + Math.random() * 12 - 6) + 'px';
-  s.style.top = (e.clientY + Math.random() * 12 - 6) + 'px';
-  s.style.background = `rgba(${sparkleColors[Math.floor(Math.random() * sparkleColors.length)]},${Math.random() * 0.38 + 0.22})`;
-  s.style.width = s.style.height = (Math.random() * 3 + 1.5) + 'px';
-  s.style.position = 'fixed';
-  s.style.borderRadius = '50%';
-  s.style.pointerEvents = 'none';
-  s.style.zIndex = '9998';
-  s.style.animation = 'sparkle .55s cubic-bezier(0.16,1,0.3,1) forwards';
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 600);
-});
 
 // JELLY CLICK
 document.querySelectorAll('.btn-primary,.btn-ghost,.app-btn,.nav-cta,.filter-btn').forEach(btn => {
