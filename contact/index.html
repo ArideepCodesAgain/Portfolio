@@ -375,21 +375,29 @@
     .action-btn i { font-size: 0.88rem; }
     .action-btn:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
 
-    .btn-portfolio {
-      grid-column: span 2;
-      background: linear-gradient(135deg, rgba(0,255,179,0.12), rgba(14,165,233,0.12));
-      border-color: rgba(0,255,179,0.25);
-      color: var(--mint);
-      font-weight: 600;
-      font-size: 0.88rem;
-      padding: 15px;
-    }
-    .btn-portfolio:hover {
-      background: linear-gradient(135deg, rgba(0,255,179,0.22), rgba(14,165,233,0.18));
-      box-shadow: 0 0 32px rgba(0,255,179,0.15), 0 0 64px rgba(14,165,233,0.1);
-      transform: translateY(-2px);
-    }
-    .btn-portfolio i { color: var(--mint); }
+   .btn-portfolio{
+    grid-column: span 2;
+    background: linear-gradient(
+        135deg,
+        #00ffb3,
+        #00d8ff
+    );
+    color:#071a17;
+    font-weight:700;
+    font-size:0.95rem;
+    padding:18px;
+    border:none;
+    box-shadow:
+        0 0 25px rgba(0,255,179,.4),
+        0 0 60px rgba(14,165,233,.3);
+}
+
+.btn-portfolio:hover{
+    transform:translateY(-4px) scale(1.02);
+    box-shadow:
+        0 0 40px rgba(0,255,179,.6),
+        0 0 80px rgba(14,165,233,.4);
+}
 
     .btn-email { border-color: rgba(14,165,233,0.25); }
     .btn-email:hover { border-color: rgba(14,165,233,0.5); box-shadow: 0 4px 20px rgba(14,165,233,0.15); }
@@ -466,8 +474,6 @@
 <!-- Mouse glow -->
 <div id="mouse-glow"></div>
 
-<!-- Toast -->
-<div id="toast"></div>
 
 <!-- Card -->
 <div class="card-wrap">
@@ -522,21 +528,17 @@
     <div class="divider"></div>
 
     <!-- Actions -->
-    <p class="section-label">Actions</p>
-    <div class="actions">
-      <a class="action-btn btn-portfolio" href="https://arideep.xyz" target="_blank" rel="noopener">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i> View Portfolio
-      </a>
-      <a class="action-btn btn-email" href="mailto:arideep@example.com" id="emailBtn">
-        <i class="fa-solid fa-envelope"></i> Send Email
-      </a>
-      <button class="action-btn btn-copy" id="copyBtn" onclick="copyContact()">
-        <i class="fa-solid fa-address-card"></i> Copy Card
-      </button>
-      <button class="action-btn btn-share" id="shareBtn" onclick="shareProfile()">
-        <i class="fa-solid fa-share-nodes"></i> Share
-      </button>
-    </div>
+  <p class="section-label">Portfolio</p>
+
+<div class="actions">
+  <a class="action-btn btn-portfolio"
+     href="https://arideep.xyz"
+     target="_blank"
+     rel="noopener">
+     <i class="fa-solid fa-rocket"></i>
+     Visit Portfolio
+  </a>
+</div>
 
   </div><!-- /card -->
 
@@ -591,30 +593,39 @@ function toast(msg, dur = 2600) {
 }
 
 /* ── Copy contact card ── */
-function copyContact() {
-  const text = [
-    '👤 Arideep Kanshabanik',
-    '💼 AI Builder • Computer Science Engineer',
-    '📍 Kolkata, India',
-    '',
-    '🔗 GitHub: https://github.com/ArideepCodes',
-    '💼 LinkedIn: https://www.linkedin.com/in/arideep-kanshabanik/',
-    '📸 Instagram: https://www.instagram.com/greenflaghunyaar',
-    '✈️ Telegram: https://t.me/Greenflaghunyaar',
-    '📘 Facebook: https://www.facebook.com/arideep.kanshabanik.1',
-    '🌐 Portfolio: https://arideep.xyz',
-  ].join('\n');
-  navigator.clipboard.writeText(text).then(() => toast('📋 Contact card copied!')).catch(() => toast('Copy failed — try manually'));
+async function copyContact() {
+  const text = `Arideep Kanshabanik
+
+GitHub: https://github.com/ArideepCodes
+LinkedIn: https://www.linkedin.com/in/arideep-kanshabanik/
+Instagram: https://www.instagram.com/greenflaghunyaar
+Telegram: https://t.me/Greenflaghunyaar
+Facebook: https://www.facebook.com/arideep.kanshabanik.1
+Portfolio: https://arideep.xyz`;
+
+  try {
+    await navigator.clipboard.writeText(text);
+    toast('📋 Contact card copied!');
+  } catch {
+    toast('❌ Clipboard permission denied');
+  }
 }
 
 /* ── Share profile ── */
 async function shareProfile() {
+  const url = 'https://arideep.xyz/contact/';
+
   if (navigator.share) {
     try {
-      await navigator.share({ title: 'Arideep Kanshabanik', text: 'Connect with Arideep Kanshabanik — AI Builder & CS Engineer', url: 'https://arideep.xyz/connect' });
-    } catch (_) {}
+      await navigator.share({
+        title: 'Arideep Kanshabanik',
+        text: 'Connect with Arideep Kanshabanik',
+        url: url
+      });
+    } catch (err) {}
   } else {
-    navigator.clipboard.writeText('https://arideep.xyz/connect').then(() => toast('🔗 Link copied to clipboard!'));
+    await navigator.clipboard.writeText(url);
+    toast('🔗 Contact page link copied!');
   }
 }
 
