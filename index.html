@@ -444,7 +444,7 @@ section{position:relative;z-index:1}
 .hero-socials{display:flex;gap:9px}
 .hero-socials a{
   width:36px;height:36px;display:flex;align-items:center;justify-content:center;
-  border:1px solid var(--border);border-radius:10px;color:var(--t4);font-size:14px;
+  border:1px solid var(--border);border-radius:10px;color:var(--t2);font-size:14px;
   background:var(--surface);
   transition:color .35s ease,border-color .35s ease,transform .4s var(--ease-back),box-shadow .35s ease,background .35s ease;will-change:transform;
 }
@@ -466,7 +466,12 @@ section{position:relative;z-index:1}
   border-radius:0 var(--radius-sm) var(--radius-sm) 0;
   margin:24px 0;line-height:1.7;background:rgba(124,58,237,.035);
 }
-.about-text .mono-foot{font-family:var(--font-m);font-size:11.5px;color:var(--t4);line-height:1.85}
+.about-text .mono-foot{
+  font-family:var(--font-m);
+  font-size:11.5px;
+  color:var(--t2);
+  line-height:1.85;
+}
 .about-highlights{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:500px){.about-highlights{grid-template-columns:1fr}}
 .highlight-card{
@@ -505,7 +510,13 @@ section{position:relative;z-index:1}
 .ec-school{font-size:11.5px;color:var(--t3);margin-bottom:10px}
 .ec-date{font-family:var(--font-m);font-size:10.5px;color:var(--cyan);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .ec-gpa{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;background:rgba(255,45,117,.06);border:1px solid rgba(255,45,117,.12);border-radius:7px;font-family:var(--font-m);font-size:11.5px;color:var(--pink2);font-weight:600}
-.ec-extra{font-family:var(--font-m);font-size:11px;color:var(--t4);margin-top:12px;font-style:italic}
+.ec-extra{
+  font-family:var(--font-m);
+  font-size:11px;
+  color:var(--t2);
+  margin-top:12px;
+  font-style:italic;
+}
 
 /* ===========================
    SKILLS
@@ -522,7 +533,7 @@ section{position:relative;z-index:1}
 .skill-tags{display:flex;flex-wrap:wrap;gap:7px}
 .skill-tag{
   padding:7px 15px;background:var(--surface);border:1px solid var(--border);border-radius:100px;
-  font-family:var(--font-m);font-size:11.5px;color:var(--t3);
+  font-family:var(--font-m);font-size:11.5px;color:var(--t2);
   transition:border-color .4s var(--ease-expo),color .4s ease,transform .4s var(--ease-back),box-shadow .4s ease,background .4s ease;
   position:relative;overflow:hidden;will-change:transform;
 }
@@ -547,7 +558,7 @@ section{position:relative;z-index:1}
 .project-filters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:34px}
 .filter-btn{
   padding:6px 16px;background:var(--surface);border:1px solid var(--border);border-radius:100px;
-  font-family:var(--font-m);font-size:10.5px;color:var(--t4);
+  font-family:var(--font-m);font-size:10.5px;color:var(--t2);
   transition:border-color .35s var(--ease-expo),color .35s ease,background .35s ease,transform .35s var(--ease-back);
   text-transform:uppercase;letter-spacing:1px;will-change:transform;
 }
@@ -694,23 +705,39 @@ section{position:relative;z-index:1}
 .ct-body .section-label{justify-content:center}
 .contact-text{font-size:14.5px;color:var(--t2);line-height:1.8;margin:18px 0 26px}
 .contact-email{
-  display:inline-flex;align-items:center;gap:9px;padding:11px 22px;
-  background:rgba(6,182,212,.04);border:1px solid rgba(6,182,212,.1);border-radius:100px;
-  font-family:var(--font-m);font-size:13.5px;color:var(--cyan2);margin-bottom:10px;
-  transition:border-color .4s var(--ease-expo),transform .4s var(--ease-back),box-shadow .4s ease,background .4s ease;will-change:transform;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+
+  width:100%;
+  max-width:520px;
+  margin:0 auto 10px;
+  box-sizing:border-box;
+
+  padding:12px 18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+
+  font-family:var(--font-m);
+  font-size:12px;
+  color:var(--t2);
+
+  transition:all .4s ease;
 }
 .contact-email:hover{border-color:rgba(6,182,212,.25);background:rgba(6,182,212,.06);transform:translateY(-3px);box-shadow:0 12px 38px var(--glow-cyan)}
 .contact-socials{display:flex;justify-content:center;gap:9px;margin-top:22px}
 .contact-socials a{
   width:40px;height:40px;display:flex;align-items:center;justify-content:center;
-  border:1px solid var(--border);border-radius:10px;color:var(--t4);font-size:15px;
+  border:1px solid var(--border);border-radius:10px;color:var(--t2);font-size:15px;
   background:var(--surface);
   transition:color .35s ease,border-color .35s ease,transform .4s var(--ease-back),box-shadow .35s ease,background .35s ease;will-change:transform;
 }
 .contact-socials a:hover{color:var(--t1);border-color:var(--border2);background:var(--surface2);transform:translateY(-5px) scale(1.1);box-shadow:0 10px 28px rgba(255,255,255,.03)}
 .contact-cta{margin-top:26px}
-.contact-note{font-family:var(--font-m);font-size:11px;color:var(--t4);margin-top:14px}
-
+.contact-note{font-family:var(--font-m);font-size:11px;color:var(--t2);margin-top:14px}
+  
 /* ===========================
    FOOTER
 =========================== */
@@ -718,13 +745,13 @@ section{position:relative;z-index:1}
 .footer-inner{display:flex;flex-direction:column;align-items:center;gap:15px}
 .footer-quotes{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:10px}
 .footer-quote{
-  font-family:var(--font-m);font-size:10px;color:var(--t4);padding:5px 11px;
+  font-family:var(--font-m);font-size:10px;color:var(--t2);padding:5px 11px;
   background:var(--surface);border:1px solid var(--border);border-radius:6px;
   transition:border-color .4s var(--ease-expo),color .4s ease,transform .4s var(--ease-back);
   transform:rotate(var(--fr,0deg));will-change:transform;
 }
 .footer-quote:hover{border-color:rgba(124,58,237,.15);color:var(--t2);transform:rotate(0deg) scale(1.05) translateY(-2px)}
-.footer-copy{font-size:12px;color:var(--t4)}
+.footer-copy{font-size:12px;color:var(--t2)}
 .footer-copy span{color:var(--pink)}
 
 /* ===========================
@@ -906,7 +933,13 @@ Always learning, experimenting, and pushing ideas beyond their limits.
       <div class="about-highlights reveal reveal-delay-2">
         <div class="highlight-card"><div class="hc-icon"><i class="fa-solid fa-brain"></i></div><h4>AI Systems Builder</h4><p>Designing and deploying ML models, NLP systems, computer vision pipelines, and intelligent automations.</p></div>
         <div class="highlight-card"><div class="hc-icon"><i class="fa-solid fa-shield-halved"></i></div><h4>Cybersecurity Explorer</h4><p>Penetration testing, network forensics, threat detection, OSINT, and incident response systems.</p></div>
-        <div class="highlight-card"><div class="hc-icon"><i class="fa-solid fa-robot"></i></div><h4>Automation Architect</h4><p>Building intelligent workflows, CI/CD pipelines, and automation systems that eliminate repetitive chaos.</p></div>
+        <div class="highlight-card">
+  <div class="hc-icon">
+    <i class="fa-solid fa-robot"></i>
+  </div>
+  <h4>Automation Engineer</h4>
+  <p>Designing intelligent workflows, process automation solutions, and scalable systems to improve efficiency and productivity.</p>
+</div>
         <div class="highlight-card"><div class="hc-icon"><i class="fa-solid fa-flask"></i></div><h4>Experimental Creator</h4><p>Internet-native products, hardware+software integrations, and Frontend Experiments innovations that shouldn't work but do.</p></div>
         <div class="highlight-card"><div class="hc-icon"><i class="fa-solid fa-cloud"></i></div><h4>Cloud & Systems</h4><p>AWS, GCP, Docker, serverless architectures, and scalable cloud infrastructure design.</p></div>
         <div class="highlight-card"><div class="hc-icon"><i class="fa-solid fa-microchip"></i></div><h4>Hardware Tinkerer</h4><p>CNC systems, IoT integrations, and embedded projects bridging the physical and digital worlds.</p></div>
@@ -964,8 +997,8 @@ Always learning, experimenting, and pushing ideas beyond their limits.
 <section class="skills" id="skills">
   <div class="container">
     <div class="reveal">
-      <div class="section-label">Technical Arsenal</div>
-      <h2 class="section-title">Tools of <span class="gradient">chaos.</span></h2>
+      <div class="section-label">Technical Skills</div>
+<h2 class="section-title">Technologies & <span class="gradient">Expertise.</span></h2>
     </div>
     <div id="skillsContainer"></div>
     <div class="reveal" style="margin-top:40px">
@@ -991,8 +1024,8 @@ Always learning, experimenting, and pushing ideas beyond their limits.
 <section class="experience" id="experience">
   <div class="container">
     <div class="reveal">
-      <div class="section-label">Experience</div>
-      <h2 class="section-title">Professional <span class="gradient">chaos log.</span></h2>
+     <div class="section-label">Experience</div>
+<h2 class="section-title">Professional <span class="gradient">Journey.</span></h2>
     </div>
     <div class="timeline">
       <div class="timeline-item reveal">
@@ -1053,7 +1086,9 @@ Always learning, experimenting, and pushing ideas beyond their limits.
         <div class="ct-body">
           <div class="section-label">Get In Touch</div>
           <h2 class="section-title">Let's build something <span class="gradient">emotionally unstable</span> together.</h2>
-          <p class="contact-text">Tell me about your startup idea, AI dream, cybersecurity chaos, or emotionally unstable side project. I'm always down to collaborate, consult, or just vibe about technology at 2AM.</p>
+          <p class="contact-text">
+Whether you're looking to discuss a project, explore collaboration opportunities, seek technical consultation, or simply connect about technology, I'd be happy to hear from you.
+</p>
           <a href="mailto:arideepkanshabanik@gmail.com" class="contact-email"><i class="fa-solid fa-envelope"></i> arideepkanshabanik@gmail.com</a><br>
           <a href="mailto:contact@arideep.xyz" class="contact-email"><i class="fa-solid fa-envelope"></i> contact@arideep.xyz</a>
           <div class="contact-socials">
@@ -1116,23 +1151,38 @@ Always learning, experimenting, and pushing ideas beyond their limits.
   }
   binContainer.appendChild(frag);
 
-  const lines = [
-    {html: '<span class="tc-p">arideep@chaos-kernel</span><span class="tc-dim">:</span><span class="tc-info">~</span><span class="tc-dim">$ </span><span class="tc-c">sudo ./boot_identity.sh</span>', delay: 300},
-    {html: '<span class="tc-dim">[  0.001]</span> <span class="tc-c">Loading personality matrix...</span>', delay: 590},
-    {html: '<span class="tc-dim">[  0.084]</span> <span class="tc-c">emotional_stability.dll</span> <span class="tc-fail">NOT FOUND</span>', delay: 860},
-    {html: '<span class="tc-dim">[  0.085]</span> <span class="tc-warn">WARN: Proceeding without emotional stability</span>', delay: 1060},
-    {html: '<span class="tc-dim">[  0.200]</span> <span class="tc-c">caffeine_driver.ko</span> <span class="tc-ok">loaded ✓</span>', delay: 1250},
-    {html: '<span class="tc-dim">[  0.312]</span> <span class="tc-c">ai_systems_daemon</span> <span class="tc-ok">started ✓</span>', delay: 1440},
-    {html: '<span class="tc-dim">[  0.490]</span> <span class="tc-c">chaos_engine v3.7</span> <span class="tc-ok">running ✓</span>', delay: 1610},
-    {html: '<span class="tc-dim">[  0.711]</span> <span class="tc-pk">pookie_core_init: 91% chaos detected — nominal</span>', delay: 1780},
-    {html: '<span class="tc-dim">[  1.000]</span> <span class="tc-ok">✓ Identity kernel ready — Welcome, Arideep.</span>', delay: 1960},
-  ];
+const lines = [
+  {html: '<span class="tc-p">arideep@portfolio</span><span class="tc-dim">:</span><span class="tc-info">~</span><span class="tc-dim">$ </span><span class="tc-c">sudo ./initialize_profile.sh</span>', delay: 300},
+
+  {html: '<span class="tc-dim">[  0.001]</span> <span class="tc-c">Loading professional profile...</span>', delay: 590},
+
+  {html: '<span class="tc-dim">[  0.084]</span> <span class="tc-c">Initializing AI systems module</span> <span class="tc-ok">✓</span>', delay: 860},
+
+  {html: '<span class="tc-dim">[  0.165]</span> <span class="tc-c">Loading software engineering toolkit</span> <span class="tc-ok">✓</span>', delay: 1060},
+
+  {html: '<span class="tc-dim">[  0.290]</span> <span class="tc-c">Cybersecurity framework</span> <span class="tc-ok">active ✓</span>', delay: 1250},
+
+  {html: '<span class="tc-dim">[  0.470]</span> <span class="tc-c">Automation services</span> <span class="tc-ok">running ✓</span>', delay: 1440},
+
+  {html: '<span class="tc-dim">[  0.650]</span> <span class="tc-c">Project portfolio</span> <span class="tc-ok">verified ✓</span>', delay: 1610},
+
+  {html: '<span class="tc-dim">[  0.840]</span> <span class="tc-c">Technical skills database</span> <span class="tc-ok">loaded ✓</span>', delay: 1780},
+
+  {html: '<span class="tc-dim">[  1.000]</span> <span class="tc-ok">✓ Profile initialization complete — Welcome, Arideep.</span>', delay: 1960},
+];
 
   const terminal = document.getElementById('plTerminal');
   const fill = document.getElementById('plFill');
   const pct = document.getElementById('plPct');
   const status = document.getElementById('plStatus');
-  const statusLabels = ['Initializing','Loading modules','Mounting drives','Starting daemons','Finalizing chaos','Ready'];
+  const statusLabels = [
+  'Initializing',
+  'Loading Profile',
+  'Loading Skills',
+  'Building Portfolio',
+  'Finalizing Setup',
+  'Ready'
+];
 
   lines.forEach((line, i) => {
     setTimeout(() => {
