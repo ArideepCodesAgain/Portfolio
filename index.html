@@ -400,6 +400,20 @@ section{position:relative;z-index:1}
   animation:gradShift 7s ease infinite;
   filter:drop-shadow(0 0 30px var(--glow-pink));will-change:background-position;
 }
+.verified-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:4px;
+  vertical-align:middle;
+  transform:translateY(-6px);
+}
+
+.verified-badge svg{
+  width:28px;
+  height:28px;
+  filter:drop-shadow(0 0 10px rgba(29,155,240,.4));
+}
 .hero-headline{font-size:clamp(12.5px,1.5vw,14.5px);font-weight:500;color:var(--t3);margin-bottom:8px;letter-spacing:.4px;line-height:1.5}
 .hero-sub{font-size:clamp(13px,1.3vw,14.5px);color:var(--t2);margin-bottom:18px;line-height:1.75;max-width:460px}
 .typed-wrap{font-family:var(--font-m);font-size:clamp(12px,1.4vw,14px);color:var(--cyan2);margin-bottom:28px;min-height:22px;display:flex;align-items:center}
@@ -683,7 +697,17 @@ section{position:relative;z-index:1}
 .achieve-card:hover::before{opacity:1}
 .ac-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(124,58,237,.09);color:var(--violet2);font-size:13px;flex-shrink:0;position:relative;z-index:1}
 .ac-text{font-size:12.5px;color:var(--t2);line-height:1.5;position:relative;z-index:1}
+.cert-btn-wrap{
+  text-align:center;
+  margin-top:20px;
+}
 
+.show-more-btn{
+  padding:12px 24px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+}
 /* ===========================
    CONTACT
 =========================== */
@@ -877,7 +901,18 @@ section{position:relative;z-index:1}
       <!-- Content column -->
       <div class="hero-content">
         <div class="hero-badge"><span class="dot"></span> AI • Software • Cybersecurity</div>
-        <h1 class="hero-name">Arideep<br>Kanshabanik</h1>
+        <h1 class="hero-name">
+  Arideep<br>
+  Kanshabanik
+  <span class="verified-badge">
+<svg viewBox="0 0 48 48" width="28" height="28">
+  <path fill="#1D9BF0"
+  d="M24 2l4 4 6-1 2 6 6 2-1 6 4 5-4 5 1 6-6 2-2 6-6-1-4 4-4-4-6 1-2-6-6-2 1-6-4-5 4-5-1-6 6-2 2-6 6 1z"/>
+  <path fill="#fff"
+d="M20 32l-6-6 3-3 3 3 11-11 3 3z"/>
+</svg>
+</span>
+</h1>
         <p class="hero-headline">AI Engineer • Software Developer • AI Systems Builder • Cybersecurity Enthusiast</p>
         <p class="hero-sub">Developing AI-powered applications, cybersecurity solutions, automation systems, and scalable software products.</p>
         <div class="typed-wrap"><span id="typed"></span></div>
@@ -1071,6 +1106,7 @@ Always learning, experimenting, and pushing ideas beyond their limits.
       <h2 class="section-title">Proof of <span class="gradient">obsession.</span></h2>
     </div>
     <div class="achieve-grid" id="achieveGrid"></div>
+
   </div>
 </section>
 
@@ -1085,7 +1121,7 @@ Always learning, experimenting, and pushing ideas beyond their limits.
         </div>
         <div class="ct-body">
           <div class="section-label">Get In Touch</div>
-          <h2 class="section-title">Let's build something <span class="gradient">emotionally unstable</span> together.</h2>
+          <h2 class="section-title">Let's build innovative <span class="gradient">technology solutions</span> together.</h2>
           <p class="contact-text">
 Whether you're looking to discuss a project, explore collaboration opportunities, seek technical consultation, or simply connect about technology, I'd be happy to hear from you.
 </p>
@@ -1168,7 +1204,7 @@ const lines = [
 
   {html: '<span class="tc-dim">[  0.840]</span> <span class="tc-c">Technical skills database</span> <span class="tc-ok">loaded ✓</span>', delay: 1780},
 
-  {html: '<span class="tc-dim">[  1.000]</span> <span class="tc-ok">✓ Profile initialization complete — Welcome, Arideep.</span>', delay: 1960},
+  {html: '<span class="tc-dim">[  1.000]</span> <span class="tc-ok">✓ Profile initialization complete — Welcome.</span>', delay: 1960},
 ];
 
   const terminal = document.getElementById('plTerminal');
@@ -1291,8 +1327,10 @@ const achievementsData = [
   {icon:'fa-solid fa-globe',text:'Web Development Using Python Internship Program'},
   {icon:'fa-solid fa-computer',text:'Complete IT Bootcamp 2025'},
   {icon:'fa-solid fa-wand-magic-sparkles',text:'Mastering AI Tools with ChatGPT'},
-  {icon:'fa-solid fa-certificate',text:'Multiple AI, Cloud, Security & Emerging Technology Certifications'}
+  {icon:'fa-solid fa-certificate',text:'Multiple AI, Cloud, Security & Emerging Technology Certifications'}   
 ];
+   const featuredAchievements = achievementsData.slice(0,5);
+const hiddenAchievements = achievementsData.slice(5);
 // ===========================
 // RENDER SKILLS
 // ===========================
@@ -1390,10 +1428,44 @@ renderProjects();
 
 // RENDER ACHIEVEMENTS
 const achieveGrid = document.getElementById('achieveGrid');
-achievementsData.forEach((a, i) => {
-  achieveGrid.innerHTML += `<div class="achieve-card reveal${i > 0 ? ' reveal-delay-' + Math.min(i % 5, 4) : ''}"><div class="ac-icon"><i class="${a.icon}"></i></div><div class="ac-text">${a.text}</div></div>`;
+
+featuredAchievements.forEach((a, i) => {
+  achieveGrid.innerHTML += `
+    <div class="achieve-card reveal${i > 0 ? ' reveal-delay-' + Math.min(i % 5, 4) : ''}">
+      <div class="ac-icon"><i class="${a.icon}"></i></div>
+      <div class="ac-text">${a.text}</div>
+    </div>
+  `;
 });
 
+achieveGrid.innerHTML += `
+  <div class="achieve-card" id="showMoreCerts" style="cursor:pointer;">
+    <div class="ac-icon">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+    <div class="ac-text">
+      View ${hiddenAchievements.length} More Certifications
+    </div>
+  </div>
+`;
+   document.getElementById('showMoreCerts').addEventListener('click', () => {
+
+  document.getElementById('showMoreCerts').remove();
+
+ const hiddenHTML = hiddenAchievements.map(a => `
+  <div class="achieve-card">
+    <div class="ac-icon">
+      <i class="${a.icon}"></i>
+    </div>
+    <div class="ac-text">
+      ${a.text}
+    </div>
+  </div>
+`).join('');
+
+achieveGrid.insertAdjacentHTML('beforeend', hiddenHTML);
+
+});
 
 
 // JELLY CLICK
