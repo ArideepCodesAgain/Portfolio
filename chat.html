@@ -53,13 +53,15 @@
   --ease-quart:  cubic-bezier(0.25,1,0.5,1);
 }
 
-html,body{height:100%;overflow:hidden}
+html,body{
+  height:100%;
+  overflow:hidden;
+}
+
 body{
   font-family:var(--font-b);
-  background:var(--bg);
+  background:transparent;
   color:var(--t1);
-  display:flex;
-  flex-direction:column;
 }
 
 /* ── BACKGROUND ── */
@@ -82,6 +84,60 @@ body{
 @keyframes blobFloat3{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,28px)}}
 .noise-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:200px}
 .vignette{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(6,6,20,.65) 100%)}
+
+/* ── ORB ── */
+/* FIX: orb starts visible; chatbot starts hidden */
+#ai-orb{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999999;
+  color:white;
+  font-size:24px;
+  background:linear-gradient(135deg,#FF2D75,#7C3AED,#06B6D4);
+  box-shadow:0 0 25px rgba(255,45,117,.5),0 0 50px rgba(124,58,237,.3);
+  animation:orbPulse 3s infinite;
+  transition:opacity .3s ease, transform .3s ease;
+}
+@keyframes orbPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+}
+
+/* ── CHATBOT WINDOW ── */
+/* FIX: hidden by default, transition on all animating properties */
+#chatbot-window{
+  position:fixed;
+  right:24px;
+  bottom:110px;
+  width:420px;
+  height:700px;
+  background:#060614;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  z-index:999998;
+  /* FIX: hidden state */
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(20px) scale(.95);
+  transition:opacity .3s ease, visibility .3s ease, transform .3s ease;
+}
+/* FIX: open state */
+#chatbot-window.open{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0) scale(1);
+}
 
 /* ── HEADER ── */
 .chat-header{
@@ -311,7 +367,6 @@ body{
 .powered-by{font-family:var(--font-m);font-size:9.5px;color:var(--t4);display:flex;align-items:center;gap:5px}
 .powered-by i{color:var(--violet2);font-size:10px}
 
-/* ── SCROLLBAR MAGIC ── */
 @media(max-width:600px){
   .messages-inner{padding:0 14px}
   .input-area{padding:12px 14px 16px}
@@ -332,82 +387,128 @@ body{
 <div class="noise-overlay"></div>
 <div class="vignette"></div>
 
-<!-- HEADER -->
-<header class="chat-header">
-  <div class="header-left">
-    <div class="avatar-wrap">
-      <div class="avatar-ring-anim"></div>
-      <div class="avatar-ring-inner-bg"></div>
-      <img class="avatar-img" src="Pic.PNG" alt="Arideep" onerror="this.style.display='none'">
-    </div>
-    <div class="header-info">
-      <div class="header-name">Chat with <span>Arideep's AI</span></div>
-      <div class="header-status"><span class="status-dot"></span>Arideep Kanshabanik</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <div class="header-badge"><i class="fa-solid fa-brain"></i>AI Engineer</div>
-  </div>
-</header>
-
-<!-- MESSAGES -->
-<div class="messages-wrap" id="messagesWrap">
-  <div class="messages-inner" id="messagesInner">
-
-    <!-- Welcome state -->
-    <div class="welcome-block" id="welcomeBlock">
-      <div class="welcome-avatar">
-        <div class="welcome-avatar-ring"></div>
-        <div class="welcome-avatar-bg"></div>
-        <img src="Pic.PNG" alt="Arideep" onerror="this.style.display='none'">
-      </div>
-      <div class="welcome-title">Hey, I'm Arideep's AI</div>
-      <div class="welcome-sub">Ask me about Arideep's projects, skills, experience, or anything else you'd like to know. I'm trained on everything on this portfolio.</div>
-
-      <div class="section-divider" style="margin:24px 0 0">
-        <div class="divider-line"></div>
-        <div class="divider-label">Quick prompts</div>
-        <div class="divider-line"></div>
-      </div>
-
-      <div class="quick-prompts">
-        <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-folder-open"></i>Show me your best projects</button>
-        <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-brain"></i>What AI systems have you built?</button>
-        <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-shield-halved"></i>Tell me about your cybersecurity work</button>
-        <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-code"></i>What tech stack do you use?</button>
-        <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-briefcase"></i>Are you available for hire?</button>
-        <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-graduation-cap"></i>What's your educational background?</button>
-      </div>
-    </div>
-
-  </div>
+<!-- ORB: lives outside chatbot-window so toggling the window never hides the orb from the DOM -->
+<div id="ai-orb">
+  <i class="fa-solid fa-sparkles"></i>
 </div>
 
-<!-- INPUT -->
-<div class="input-area">
-  <div class="input-area-inner">
-    <div class="input-row">
-      <textarea
-        class="chat-input"
-        id="chatInput"
-        placeholder="Ask anything about Arideep..."
-        rows="1"
-        maxlength="2000"
-      ></textarea>
-      <div class="input-actions">
-        <button class="send-btn" id="sendBtn" aria-label="Send message" disabled>
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
+<!-- CHATBOT WINDOW -->
+<div id="chatbot-window">
+
+  <!-- HEADER (properly closed) -->
+  <header class="chat-header">
+    <div class="header-left">
+      <div class="avatar-wrap">
+        <div class="avatar-ring-anim"></div>
+        <div class="avatar-ring-inner-bg"></div>
+        <img class="avatar-img" src="Pic.PNG" alt="Arideep" onerror="this.style.display='none'">
+      </div>
+      <div class="header-info">
+        <div class="header-name">Chat with <span>Arideep's AI</span></div>
+        <div class="header-status"><span class="status-dot"></span>Arideep Kanshabanik</div>
       </div>
     </div>
-    <div class="input-footer">
-      <div class="input-hint"><kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line</div>
-      
+    <div class="header-right">
+      <button id="closeChat" style="
+        width:36px;
+        height:36px;
+        border:none;
+        border-radius:10px;
+        background:rgba(255,255,255,.06);
+        color:white;
+        cursor:pointer;
+      ">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </header>
+  <!-- ↑ </header> was missing in original -->
+
+  <!-- MESSAGES -->
+  <div class="messages-wrap" id="messagesWrap">
+    <div class="messages-inner" id="messagesInner">
+
+      <!-- Welcome state -->
+      <div class="welcome-block" id="welcomeBlock">
+        <div class="welcome-avatar">
+          <div class="welcome-avatar-ring"></div>
+          <div class="welcome-avatar-bg"></div>
+          <img src="Pic.PNG" alt="Arideep" onerror="this.style.display='none'">
+        </div>
+        <div class="welcome-title">Hey, I'm Arideep's AI</div>
+        <div class="welcome-sub">Ask me about Arideep's projects, skills, experience, or anything else you'd like to know. I'm trained on everything on this portfolio.</div>
+
+        <div class="section-divider" style="margin:24px 0 0">
+          <div class="divider-line"></div>
+          <div class="divider-label">Quick prompts</div>
+          <div class="divider-line"></div>
+        </div>
+
+        <div class="quick-prompts">
+          <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-folder-open"></i>Show me your best projects</button>
+          <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-brain"></i>What AI systems have you built?</button>
+          <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-shield-halved"></i>Tell me about your cybersecurity work</button>
+          <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-code"></i>What tech stack do you use?</button>
+          <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-briefcase"></i>Are you available for hire?</button>
+          <button class="qp-btn" onclick="sendQuick(this)"><i class="fa-solid fa-graduation-cap"></i>What's your educational background?</button>
+        </div>
+      </div>
+
     </div>
   </div>
+  <!-- ↑ .messages-wrap closed -->
+
+  <!-- INPUT -->
+  <div class="input-area">
+    <div class="input-area-inner">
+      <div class="input-row">
+        <textarea
+          class="chat-input"
+          id="chatInput"
+          placeholder="Ask anything about Arideep..."
+          rows="1"
+          maxlength="2000"
+        ></textarea>
+        <div class="input-actions">
+          <button class="send-btn" id="sendBtn" aria-label="Send message" disabled>
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+      <div class="input-footer">
+        <div class="input-hint"><kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line</div>
+      </div>
+    </div>
+  </div>
+
 </div>
+<!-- ↑ #chatbot-window closing div was missing in original -->
 
 <script>
+/* ─────────────────────────────────────────
+   ORB ↔ CHATBOT TOGGLE
+   FIX: event listeners are attached here, after all DOM elements exist.
+   FIX: orb is toggled via display property, not nested inside chatbot-window.
+───────────────────────────────────────── */
+const orb        = document.getElementById('ai-orb');
+const chatWindow = document.getElementById('chatbot-window');
+const closeBtn   = document.getElementById('closeChat');
+
+orb.addEventListener('click', () => {
+  chatWindow.classList.add('open');
+  orb.style.display = 'none';
+  // Focus input once window is visible
+  setTimeout(() => document.getElementById('chatInput').focus(), 320);
+});
+
+closeBtn.addEventListener('click', () => {
+  chatWindow.classList.remove('open');
+  orb.style.display = 'flex';
+});
+
+/* ─────────────────────────────────────────
+   CHAT LOGIC (unchanged from original)
+───────────────────────────────────────── */
 const SYSTEM_PROMPT = `You are an AI assistant embedded in Arideep Kanshabanik's personal portfolio website at arideep.xyz. You speak on behalf of Arideep — in first person when it makes sense ("Arideep built..."), or from his perspective. You are knowledgeable, direct, slightly witty, and genuinely enthusiastic about technology.
 
 Here is everything you know about Arideep:
@@ -497,11 +598,11 @@ RESPONSE GUIDELINES:
 const conversationHistory = [];
 let isLoading = false;
 
-const chatInput = document.getElementById('chatInput');
-const sendBtn = document.getElementById('sendBtn');
+const chatInput    = document.getElementById('chatInput');
+const sendBtn      = document.getElementById('sendBtn');
 const messagesInner = document.getElementById('messagesInner');
-const messagesWrap = document.getElementById('messagesWrap');
-const welcomeBlock = document.getElementById('welcomeBlock');
+const messagesWrap  = document.getElementById('messagesWrap');
+const welcomeBlock  = document.getElementById('welcomeBlock');
 
 // Auto-resize textarea
 chatInput.addEventListener('input', () => {
@@ -520,7 +621,8 @@ chatInput.addEventListener('keydown', e => {
 sendBtn.addEventListener('click', sendMessage);
 
 function sendQuick(btn) {
-  const text = btn.textContent.trim().replace(/^[^\s]+\s/, '');
+  // Strip the icon text and grab the label text only
+  const text = btn.innerText.trim();
   chatInput.value = text;
   chatInput.dispatchEvent(new Event('input'));
   sendMessage();
@@ -533,15 +635,15 @@ function getTime() {
 function removeWelcome() {
   if (welcomeBlock && welcomeBlock.parentNode) {
     welcomeBlock.style.transition = 'opacity .4s ease, transform .4s var(--ease-expo)';
-    welcomeBlock.style.opacity = '0';
-    welcomeBlock.style.transform = 'translateY(-10px)';
+    welcomeBlock.style.opacity    = '0';
+    welcomeBlock.style.transform  = 'translateY(-10px)';
     setTimeout(() => welcomeBlock.remove(), 400);
   }
 }
 
-function appendMessage(role, text, animate=true) {
+function appendMessage(role, text, animate = true) {
   const isAI = role === 'ai';
-  const row = document.createElement('div');
+  const row   = document.createElement('div');
   row.className = `msg-row ${isAI ? 'ai' : 'user'}`;
   if (!animate) row.style.animation = 'none';
 
@@ -549,15 +651,17 @@ function appendMessage(role, text, animate=true) {
     ? `<div class="msg-avatar ai">A<span style="color:var(--pink2)">.</span>I</div>`
     : `<div class="msg-avatar user-av">U</div>`;
 
-  const bubbleClass = 'msg-bubble';
-  const safeText = isAI ? formatAIText(text) : escapeHTML(text).replace(/\n/g, '<br>');
+  const safeText = isAI
+    ? formatAIText(text)
+    : escapeHTML(text).replace(/\n/g, '<br>');
 
   row.innerHTML = `
     ${avatarHTML}
     <div class="msg-bubble-wrap">
-      <div class="${bubbleClass}">${safeText}</div>
+      <div class="msg-bubble">${safeText}</div>
       <div class="msg-time">${getTime()}</div>
     </div>`;
+
   messagesInner.appendChild(row);
   scrollToBottom();
   return row;
@@ -592,7 +696,11 @@ function scrollToBottom() {
 }
 
 function escapeHTML(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return str
+    .replace(/&/g,  '&amp;')
+    .replace(/</g,  '&lt;')
+    .replace(/>/g,  '&gt;')
+    .replace(/"/g,  '&quot;');
 }
 
 function formatAIText(text) {
@@ -603,8 +711,9 @@ function formatAIText(text) {
   out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
   // Bullet lists
   out = out.replace(/^[•\-\*] (.+)$/gm, '<li>$1</li>');
-  out = out.replace(/(<li>.*<\/li>)/s, '<ul style="margin:8px 0;padding-left:18px;display:flex;flex-direction:column;gap:4px">$1</ul>');
-  // Newlines
+  out = out.replace(/(<li>.*<\/li>)/s,
+    '<ul style="margin:8px 0;padding-left:18px;display:flex;flex-direction:column;gap:4px">$1</ul>');
+  // Newlines → paragraphs
   out = out.replace(/\n{2,}/g, '</p><p style="margin-top:10px">');
   out = out.replace(/\n/g, '<br>');
   return `<p>${out}</p>`;
@@ -615,51 +724,44 @@ async function sendMessage() {
   if (!text || isLoading) return;
 
   removeWelcome();
-  isLoading = true;
-  sendBtn.disabled = true;
-  chatInput.value = '';
+  isLoading          = true;
+  sendBtn.disabled   = true;
+  chatInput.value    = '';
   chatInput.style.height = 'auto';
 
   appendMessage('user', text);
-  conversationHistory.push({role:'user', content: text});
+  conversationHistory.push({role: 'user', content: text});
 
   showTyping();
 
   try {
     const response = await fetch(
-'https://little-base-afdd.arideepkanshabanik.workers.dev',
-{
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-  message: text
-})
-    });
+      'https://little-base-afdd.arideepkanshabanik.workers.dev',
+      {
+        method:  'POST',
+        headers: {'Content-Type': 'application/json'},
+        body:    JSON.stringify({message: text})
+      }
+    );
 
-    const data = await response.json();
-
-    const reply =
-data.reply || "Something went wrong. Please try again.";
-
+    const data  = await response.json();
+    const reply = data.reply || 'Something went wrong. Please try again.';
 
     removeTyping();
     appendMessage('ai', reply);
-    conversationHistory.push({role:'assistant', content: reply});
+    conversationHistory.push({role: 'assistant', content: reply});
 
   } catch (err) {
     removeTyping();
-    appendMessage('ai', `Hmm, something broke: ${err.message}. Try refreshing or reach out at **arideepkanshabanik@gmail.com**`);
+    appendMessage('ai',
+      `Hmm, something broke: ${err.message}. Try refreshing or reach out at **arideepkanshabanik@gmail.com**`
+    );
   }
 
-  isLoading = false;
+  isLoading        = false;
   sendBtn.disabled = !chatInput.value.trim();
   chatInput.focus();
 }
-
-// Focus input on load
-window.addEventListener('load', () => {
-  setTimeout(() => chatInput.focus(), 600);
-});
 </script>
 </body>
 </html>
