@@ -112,13 +112,16 @@ body{
 }
 
 /* ── CHATBOT WINDOW ── */
-/* FIX: hidden by default, transition on all animating properties */
 #chatbot-window{
   position:fixed;
+
+  /* Desktop: anchored bottom-right, safe distance from orb */
   right:24px;
-  bottom:110px;
+  bottom:108px;
   width:420px;
-  height:700px;
+  height:min(720px, calc(100vh - 140px));
+  max-height:calc(100vh - 140px);
+
   background:#060614;
   border:1px solid rgba(255,255,255,.08);
   border-radius:24px;
@@ -126,17 +129,47 @@ body{
   display:flex;
   flex-direction:column;
   z-index:999998;
-  /* FIX: hidden state */
+
+  /* Hidden by default — orb-only on load */
   opacity:0;
   visibility:hidden;
-  transform:translateY(20px) scale(.95);
-  transition:opacity .3s ease, visibility .3s ease, transform .3s ease;
+  pointer-events:none;
+  transform:translateY(16px) scale(.96);
+  transition:opacity .32s ease, visibility .32s ease, transform .32s var(--ease-expo);
 }
-/* FIX: open state */
 #chatbot-window.open{
   opacity:1;
   visibility:visible;
+  pointer-events:all;
   transform:translateY(0) scale(1);
+}
+
+/* Tablet: 768px – 1023px */
+@media(min-width:768px) and (max-width:1023px){
+  #chatbot-window{
+    right:16px;
+    bottom:16px;
+    width:min(420px, calc(100vw - 32px));
+    height:calc(100vh - 32px);
+    max-height:calc(100vh - 32px);
+  }
+}
+
+/* Mobile: < 768px — full bleed with small gap */
+@media(max-width:767px){
+  #chatbot-window{
+    right:8px;
+    bottom:8px;
+    width:calc(100vw - 16px);
+    height:calc(100vh - 16px);
+    max-height:calc(100vh - 16px);
+    border-radius:20px;
+  }
+  /* Orb moves up slightly so it clears the home bar */
+  #ai-orb{
+    right:16px;
+    bottom:20px;
+  }
 }
 
 /* ── HEADER ── */
