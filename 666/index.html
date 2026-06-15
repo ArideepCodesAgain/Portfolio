@@ -1,1 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>666 // SYSTEM ERROR</title>
+    <style>
+        /* --- RESET & BASE --- */
+        :root {
+            --bg-color: #000000;
+            --blood-red: #8a0000;
+            --bright-red: #ff0000;
+            --crimson: #4a0000;
+            --ghost-purple: #1a0024;
+            --text-main: #c0c0c0;
+            --terminal-font: 'Courier New', Courier, monospace;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: none; /* Custom cursor handling */
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--terminal-font);
+            overflow: hidden; /* Prevent scrolling */
+            user-select: none;
+        }
+
+        /* --- VISUAL OVERLAYS (VHS, NOISE, SCANLINES) --- */
+        #noise-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            z-index: 2;
+            pointer-events: none;
+            animation: scrollScanlines 10s linear infinite;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(60,0,0,0.8) 100%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--bright-red);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: width 0.1s, height 0.1s;
+        }
+        #custom-cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: var(--bright-red);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        #cursor-trail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+            pointer-events: none;
+        }
+
+        /* --- CONTAINERS --- */
+        #app-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            perspective: 1000px; /* For 3D distortion */
+        }
+
+        /* --- INTRO SEQUENCE --- */
+        #intro-screen {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 20;
+            transition: opacity 0.1s ease-out;
+        }
+
+        .warning-text {
+            font-size: 2rem;
+            color: var(--bright-red);
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 0.2rem;
+            opacity: 0;
+            text-shadow: 0 0 10px var(--blood-red);
+            animation: flickerText 3s infinite alternate;
+        }
+
+        /* --- MAIN INTERFACE --- */
+        #main-interface {
+            display: none; /* Hidden initially */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 2s ease-in;
+        }
+
+        .distorted-number {
+            font-size: 12vw;
+            font-weight: bold;
+            color: var(--bg-color);
+            -webkit-text-stroke: 2px var(--bright-red);
+            position: relative;
+            z-index: 10;
+            text-shadow: 4px 0 var(--blood-red), -4px 0 var(--ghost-purple);
+            animation: pulseDistort 4s infinite;
+            margin-bottom: 20px;
+        }
+
+        .access-granted {
+            font-size: 1.5rem;
+            color: var(--bright-red);
+            margin-bottom: 2rem;
+            letter-spacing: 0.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px var(--blood-red);
+        }
+
+        .creepy-message {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* --- TERMINAL LOGS --- */
+        .terminal-logs {
+            font-size: 0.9rem;
+            color: #666;
+            width: 80%;
+            height: 150px;
+            text-align: left;
+            overflow: hidden;
+            border-left: 1px solid #222;
+            padding-left: 15px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        .log-line {
+            margin-bottom: 5px;
+            opacity: 0.7;
+        }
+        .log-line.success { color: var(--bright-red); }
+        .log-line.processing { color: var(--text-main); }
+
+        /* --- BUTTONS --- */
+        .btn-escape {
+            background: transparent;
+            border: 1px solid var(--blood-red);
+            color: var(--blood-red);
+            padding: 15px 40px;
+            font-family: var(--terminal-font);
+            font-size: 1.2rem;
+            letter-spacing: 0.2rem;
+            cursor: none; /* Using custom cursor */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        .btn-escape:hover {
+            background: var(--blood-red);
+            color: black;
+            box-shadow: 0 0 20px var(--blood-red);
+        }
+
+        .btn-return {
+            display: none; /* For the 66s event */
+            background: black;
+            border: 2px solid var(--bright-red);
+            color: var(--bright-red);
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            z-index: 100;
+            animation: shake 0.5s infinite;
+        }
+
+        /* --- RANDOM FLASH TEXT --- */
+        #flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .flash-text {
+            font-size: 4rem;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 20px red;
+            opacity: 0;
+        }
+
+        /* --- GHOST SILHOUETTE --- */
+        .ghost {
+            position: absolute;
+            width: 150px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(50,0,50,0.4) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50% 50% 0 0;
+            filter: blur(20px);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 5;
+            mix-blend-mode: exclusion;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes scrollScanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+
+        @keyframes flickerText {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 0.9;
+                text-shadow: 0 0 10px var(--blood-red);
+            }
+            20%, 24%, 55% {
+                opacity: 0.1;
+                text-shadow: none;
+            }
+        }
+
+        @keyframes pulseDistort {
+            0% { transform: scale(1) skew(0deg); }
+            20% { transform: scale(1.02) skew(1deg); }
+            40% { transform: scale(0.98) skew(-1deg); }
+            60% { transform: scale(1.01) skew(0.5deg); }
+            80% { transform: scale(0.99) skew(-0.5deg); }
+            100% { transform: scale(1) skew(0deg); }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        @keyframes glitchEffect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); filter: hue-rotate(-90deg); }
+            100% { transform: translate(0); }
+        }
+
+        /* Utility Classes */
+        .glitch-active {
+            animation: glitchEffect 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .distorted-number { font-size: 20vw; }
+            .warning-text { font-size: 1.2rem; padding: 0 20px; }
+            .btn-escape { padding: 10px 30px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- VISUAL LAYERS -->
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <canvas id="noise-canvas"></canvas>
+    <canvas id="cursor-trail"></canvas>
+    
+    <!-- CUSTOM CURSOR -->
+    <div id="custom-cursor"></div>
+
+    <!-- RANDOM FLASH OVERLAY -->
+    <div id="flash-overlay">
+        <div class="flash-text" id="flash-msg"></div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app-container">
+        
+        <!-- GHOST ELEMENT (JS Manipulated) -->
+        <div class="ghost" id="ghost-silhouette"></div>
+
+        <!-- INTRO SCREEN -->
+        <div id="intro-screen">
+            <div class="warning-text" id="warning-text">YOU WERE NOT SUPPOSED TO BE HERE</div>
+        </div>
+
+        <!-- MAIN INTERFACE -->
+        <div id="main-interface">
+            <div class="distorted-number">666</div>
+            <div class="access-granted">Access Granted</div>
+            
+            <p class="creepy-message">
+                The portfolio remembers every visitor. 
+                <br>Your digital footprint has been archived.
+            </p>
+
+            <div class="terminal-logs" id="terminal-logs">
+                <!-- Logs generated by JS -->
+            </div>
+
+            <button class="btn-escape" id="btn-escape">[ ESCAPE ]</button>
+            <button class="btn-escape btn-return" id="btn-return">[ RETURN TO REALITY ]</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- ELEMENTS ---
+            const introScreen = document.getElementById('intro-screen');
+            const warningText = document.getElementById('warning-text');
+            const mainInterface = document.getElementById('main-interface');
+            const terminalLogs = document.getElementById('terminal-logs');
+            const btnEscape = document.getElementById('btn-escape');
+            const btnReturn = document.getElementById('btn-return');
+            const flashMsg = document.getElementById('flash-msg');
+            const appContainer = document.getElementById('app-container');
+            const ghost = document.getElementById('ghost-silhouette');
+            const cursor = document.getElementById('custom-cursor');
+            
+            // --- CONFIGURATION ---
+            const secretTime = 66; // seconds
+            let timer = 0;
+            let intervalId;
+
+            // --- SEQUENCE 1: INTRO ---
+            
+            // Fade in warning
+            setTimeout(() => {
+                warningText.style.opacity = '1';
+            }, 500);
+
+            // Glitch and Reveal
+            setTimeout(() => {
+                // Violent Glitch
+                document.body.classList.add('glitch-active');
+                
+                // Change background color briefly
+                let flashCount = 0;
+                const flashInterval = setInterval(() => {
+                    document.body.style.backgroundColor = flashCount % 2 === 0 ? '#1a0000' : '#000000';
+                    flashCount++;
+                    if(flashCount > 8) {
+                        clearInterval(flashInterval);
+                        document.body.style.backgroundColor = 'black';
+                        finishIntro();
+                    }
+                }, 50);
+
+            }, 3500);
+
+            function finishIntro() {
+                document.body.classList.remove('glitch-active');
+                introScreen.style.opacity = '0';
+                setTimeout(() => {
+                    introScreen.classList.add('hidden');
+                    mainInterface.style.display = 'flex';
+                    // Trigger reflow
+                    void mainInterface.offsetWidth;
+                    mainInterface.style.opacity = '1';
+                    startTerminalLogs();
+                    startAmbience();
+                    startTimer();
+                }, 200);
+            }
+
+            // --- SEQUENCE 2: TERMINAL LOGS ---
+            const logs = [
+                { text: "> Scanning visitor...", delay: 500 },
+                { text: "> Identity detected...", delay: 1500 },
+                { text: "> Tracking activity...", delay: 2800 },
+                { text: "> Memory archive opened...", delay: 4000 },
+                { text: "> Subject located...", delay: 5500 },
+                { text: "> Welcome back.", delay: 7000, class: 'success' }
+            ];
+
+            function startTerminalLogs() {
+                logs.forEach(log => {
+                    setTimeout(() => {
+                        const line = document.createElement('div');
+                        line.className = `log-line ${log.class || ''}`;
+                        terminalLogs.appendChild(line);
+                        typeWriter(line, log.text, 30);
+                    }, log.delay);
+                });
+            }
+
+            function typeWriter(element, text, speed) {
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    }
+                }
+                type();
+            }
+
+            // --- SEQUENCE 3: AMBIENT EFFECTS ---
+            function startAmbience() {
+                // Random Flickers
+                setInterval(() => {
+                    if (Math.random() > 0.9) {
+                        mainInterface.style.opacity = Math.random() * 0.5 + 0.5;
+                        setTimeout(() => {
+                            mainInterface.style.opacity = '1';
+                        }, 50);
+                    }
+                }, 2000);
+
+                // Random Ghost
+                setInterval(() => {
+                    if (Math.random() > 0.8) {
+                        summonGhost();
+                    }
+                }, 5000);
+
+                // Random Corrupted Text Flashes
+                const messages = ["RUN", "TOO LATE", "I SEE YOU", "DON'T REFRESH", "YOU HAVE BEEN HERE BEFORE"];
+                setInterval(() => {
+                    if (Math.random() > 0.85) {
+                        const msg = messages[Math.floor(Math.random() * messages.length)];
+                        flashText(msg);
+                    }
+                }, 4000);
+            }
+
+            function flashText(text) {
+                flashMsg.innerText = text;
+                flashMsg.style.opacity = '0.8';
+                const duration = Math.random() * 100 + 50; // ms
+                setTimeout(() => {
+                    flashMsg.style.opacity = '0';
+                }, duration);
+            }
+
+            function summonGhost() {
+                // Random position near center
+                const x = (window.innerWidth / 2) + (Math.random() * 400 - 200);
+                const y = (window.innerHeight / 2) + (Math.random() * 400 - 200);
+                
+                ghost.style.left = `${x}px`;
+                ghost.style.top = `${y}px`;
+                ghost.style.opacity = '0.6';
+                
+                // Fade out
+                setTimeout(() => {
+                    ghost.style.opacity = '0';
+                }, 1500);
+            }
+
+            // --- SEQUENCE 4: MOUSE INTERACTION ---
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX;
+                const y = e.clientY;
+
+                // Move Custom Cursor
+                cursor.style.left = `${x}px`;
+                cursor.style.top = `${y}px`;
+
+                // Screen Distortion based on mouse position
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+
+                // Subtle tilt
+                appContainer.style.transform = `
+                    perspective(1000px) 
+                    rotateY(${deltaX * 2}deg) 
+                    rotateX(${-deltaY * 2}deg)
+                `;
+
+                // Draw Trail
+                drawTrail(x, y);
+            });
+
+            const trailCanvas = document.getElementById('cursor-trail');
+            const tCtx = trailCanvas.getContext('2d');
+            trailCanvas.width = window.innerWidth;
+            trailCanvas.height = window.innerHeight;
+            let trailPoints = [];
+
+            function drawTrail(x, y) {
+                trailPoints.push({ x, y, age: 0 });
+            }
+
+            function animateTrail() {
+                tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+                
+                for (let i = 0; i < trailPoints.length; i++) {
+                    const p = trailPoints[i];
+                    p.age++;
+
+                    tCtx.beginPath();
+                    tCtx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                    // Red glowing trail
+                    tCtx.fillStyle = `rgba(255, 0, 0, ${1 - p.age / 20})`;
+                    tCtx.fill();
+
+                    if (p.age > 20) {
+                        trailPoints.splice(i, 1);
+                        i--;
+                    }
+                }
+                requestAnimationFrame(animateTrail);
+            }
+            animateTrail();
+
+            // --- SEQUENCE 5: THE TIMER (66 SECONDS) ---
+            function startTimer() {
+                intervalId = setInterval(() => {
+                    timer++;
+                    if (timer >= secretTime) {
+                        triggerAwakening();
+                        clearInterval(intervalId);
+                    }
+                }, 1000);
+            }
+
+            function triggerAwakening() {
+                // Blood red background pulse
+                document.body.style.transition = "background-color 2s";
+                document.body.style.backgroundColor = "var(--blood-red)";
+                
+                // Corrupt all text
+                document.querySelectorAll('.distorted-number, .access-granted, p').forEach(el => {
+                    el.innerText = generateCorruptedString(el.innerText.length);
+                    el.style.color = "black";
+                });
+
+                // Show Warning
+                flashText("THE ARCHIVE HAS AWAKENED");
+                
+                // Show Return Button
+                btnEscape.style.display = 'none';
+                btnReturn.style.display = 'inline-block';
+                
+                // Heavy glitch
+                document.body.classList.add('glitch-active');
+            }
+
+            function generateCorruptedString(length) {
+                const chars = "010101XYZ#@%&";
+                let str = "";
+                for(let i=0; i<length; i++) {
+                    str += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return str;
+            }
+
+            // --- BUTTON ACTIONS ---
+            function doEscape() {
+                // Glitch out before leaving
+                document.body.classList.add('glitch-active');
+                setTimeout(() => {
+                    window.location.href = "https://arideep.xyz";
+                }, 800);
+            }
+
+            btnEscape.addEventListener('click', doEscape);
+            btnReturn.addEventListener('click', doEscape);
+
+            // --- NOISE GENERATOR (Canvas) ---
+            const nCanvas = document.getElementById('noise-canvas');
+            const nCtx = nCanvas.getContext('2d');
+            
+            function resizeNoise() {
+                nCanvas.width = window.innerWidth;
+                nCanvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', () => {
+                resizeNoise();
+                trailCanvas.width = window.innerWidth;
+                trailCanvas.height = window.innerHeight;
+            });
+            resizeNoise();
+
+            function generateNoise() {
+                const w = nCanvas.width;
+                const h = nCanvas.height;
+                const idata = nCtx.createImageData(w, h);
+                const buffer32 = new Uint32Array(idata.data.buffer);
+                const len = buffer32.length;
+
+                for (let i = 0; i < len; i++) {
+                    if (Math.random() < 0.1) {
+                        // White/Grey noise with low opacity
+                        buffer32[i] = 0x10ffffff; 
+                    }
+                }
+                nCtx.putImageData(idata, 0, 0);
+                requestAnimationFrame(generateNoise);
+            }
+            generateNoise();
+        });
+    </script>
+</body>
+</html>
