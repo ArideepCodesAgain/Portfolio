@@ -43,7 +43,7 @@
       --primary-dim: rgba(0, 255, 179, 0.08);
       --primary-border: rgba(0, 255, 179, 0.25);
       
-      --blue:        #0ea5e9; /* Sky Blue for verified badge */
+      --blue:        #0ea5e9;
       --blue-dim:    rgba(14, 165, 233, 0.1);
 
       --text-main:   #f0fdf4;
@@ -61,8 +61,9 @@
       --font-body:    'Inter', sans-serif;
       --font-mono:    'JetBrains Mono', monospace;
 
-      /* Linear-style easing */
+      /* Animation Variables */
       --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+      --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
     }
 
     html { scroll-behavior: smooth; }
@@ -80,29 +81,56 @@
       position: relative;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      perspective: 1000px; /* For 3D Tilt */
     }
 
-    /* ── Background Pattern ── */
+    /* ── Background Effects ── */
     .bg-grid {
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: -3;
       background-image: radial-gradient(var(--text-faint) 1px, transparent 1px);
       background-size: 32px 32px;
       opacity: 0.15;
       mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
       -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+      /* Subtle background movement */
+      animation: gridMove 60s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
     
     .bg-vignette {
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: -2;
       background: radial-gradient(circle at center, transparent 0%, var(--bg-body) 90%);
       pointer-events: none;
     }
 
-    /* ── Main Card Animation ── */
+    /* Ambient Glow Drifting */
+    .ambient-glow {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 50%, rgba(0, 255, 179, 0.03) 0%, transparent 40%);
+      z-index: -2;
+      animation: driftGlow 15s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes driftGlow {
+      0% { transform: translate(-10%, -10%) rotate(0deg); }
+      100% { transform: translate(10%, 10%) rotate(5deg); }
+    }
+
+    /* ── Main Container & Card ── */
     .container {
       width: 100%;
       max-width: 480px;
@@ -112,34 +140,61 @@
 
     .card {
       background: rgba(13, 24, 23, 0.6);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       padding: 40px;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.2), 0 20px 50px -10px rgba(0,0,0,0.5);
+      box-shadow: 
+        0 0 0 1px rgba(0,0,0,0.2), 
+        0 20px 50px -10px rgba(0,0,0,0.5);
       opacity: 0;
-      transform: translateY(20px);
-      animation: cardFadeIn 0.8s var(--ease-out-expo) forwards;
+      transform: translateY(20px) rotateX(0deg); /* Initial state for JS Tilt */
+      transition: transform 0.1s ease-out; /* Smooth for JS Tilt, overridden by animation on load */
+      transform-style: preserve-3d;
+      position: relative;
+      overflow: hidden; /* Contains shine effects */
     }
 
-    @keyframes cardFadeIn {
+    /* Card Entrance Animation */
+    .card.animate-in {
+      animation: cardEntrance 0.8s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes cardEntrance {
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Staggered Animations for Content ── */
-    .animate-up {
+    /* Cursor Spotlight Overlay */
+    .spotlight-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: var(--radius-xl);
+      pointer-events: none;
+      background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        rgba(255, 255, 255, 0.04), 
+        transparent 40%
+      );
       opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInUp 0.6s var(--ease-out-expo) forwards;
+      transition: opacity 0.3s;
+    }
+    .card:hover .spotlight-overlay {
+      opacity: 1;
     }
 
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
+    /* ── Staggered Reveal Content ── */
+    .reveal-content {
+      opacity: 0;
+      transform: translateY(10px);
+    }
 
-    @keyframes fadeInUp {
+    .reveal-content.active {
+      animation: revealUp 0.7s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes revealUp {
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -150,52 +205,65 @@
       align-items: center;
       text-align: center;
       margin-bottom: 32px;
+      position: relative;
+      z-index: 2;
     }
 
-.avatar-container {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  margin-bottom: 20px;
-}
+    .avatar-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+    }
 
-.avatar-hex {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  padding: 3px;
+    .avatar-hex {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 3px;
+      background: linear-gradient(135deg, rgba(0,255,179,.9), rgba(0,255,179,.25));
+      box-shadow: 0 0 0 1px rgba(0,255,179,.15), 0 10px 30px rgba(0,255,179,.15);
+      
+      /* Avatar Float Animation */
+      animation: floatAvatar 6s ease-in-out infinite;
+      transition: transform 0.4s var(--ease-out-expo);
+    }
 
-  background: linear-gradient(
-    135deg,
-    rgba(0,255,179,.9),
-    rgba(0,255,179,.25)
-  );
+    .avatar-hex:hover {
+      transform: scale(1.05);
+      animation-play-state: paused; /* Pause float on hover for stability */
+    }
 
-  box-shadow:
-    0 0 0 1px rgba(0,255,179,.15),
-    0 10px 30px rgba(0,255,179,.15);
-}
+    @keyframes floatAvatar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
 
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 50%;
-  background: #091312;
-}
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+      background: #091312;
+    }
+
+    /* Breathing Glow behind Avatar */
     .avatar-container::before {
-  content: "";
-  position: absolute;
-  inset: -10px;
-  border-radius: 50%;
-  background: radial-gradient(
-    rgba(0,255,179,.25),
-    transparent 70%
-  );
-  z-index: -1;
-}
+      content: "";
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: radial-gradient(rgba(0,255,179,.3), transparent 70%);
+      z-index: -1;
+      animation: breatheGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes breatheGlow {
+      0%, 100% { opacity: 0.4; transform: scale(0.95); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
 
     .status-badge {
       display: inline-flex;
@@ -211,6 +279,14 @@
       margin-bottom: 16px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .status-badge:hover {
+      background: rgba(0, 255, 179, 0.1);
+      border-color: rgba(0, 255, 179, 0.3);
+      transform: translateY(-1px);
     }
 
     .status-dot {
@@ -219,13 +295,13 @@
       background: var(--primary);
       border-radius: 50%;
       box-shadow: 0 0 0 2px rgba(0, 255, 179, 0.2);
-      animation: pulseDot 2s infinite;
+      animation: pulseDot 3s infinite ease-in-out;
     }
     
     @keyframes pulseDot {
-      0% { opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 255, 179, 0.4); }
-      70% { opacity: 1; box-shadow: 0 0 0 4px rgba(0, 255, 179, 0); }
-      100% { opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 255, 179, 0); }
+      0% { opacity: 0.6; box-shadow: 0 0 0 0 rgba(0, 255, 179, 0.4); }
+      50% { opacity: 1; box-shadow: 0 0 0 6px rgba(0, 255, 179, 0); }
+      100% { opacity: 0.6; box-shadow: 0 0 0 0 rgba(0, 255, 179, 0); }
     }
 
     .name {
@@ -242,19 +318,19 @@
       gap: 6px;
     }
 
-    /* Verified Badge Animation */
     .verified-badge {
       color: var(--blue);
-      font-size: 1rem; /* Slightly smaller than text */
+      font-size: 1rem;
       vertical-align: middle;
       filter: drop-shadow(0 2px 4px rgba(14, 165, 233, 0.3));
-      animation: popInBadge 0.6s var(--ease-out-expo) 0.5s backwards;
+      /* Pop-in animation handled in JS for sequencing or class */
+      animation: popInBadge 0.6s var(--ease-out-expo) backwards;
       transform-origin: center;
     }
 
     @keyframes popInBadge {
       0% { transform: scale(0); opacity: 0; }
-      80% { transform: scale(1.15); opacity: 1; }
+      80% { transform: scale(1.2); opacity: 1; }
       100% { transform: scale(1); opacity: 1; }
     }
 
@@ -264,7 +340,6 @@
       color: var(--text-muted);
       font-weight: 400;
     }
-    
     .role .highlight { color: var(--text-main); font-weight: 500; }
 
     .bio {
@@ -276,9 +351,7 @@
     }
 
     /* ── Section Dividers ── */
-    .section {
-      margin-top: 32px;
-    }
+    .section { margin-top: 32px; position: relative; z-index: 2; }
     
     .section-header {
       display: flex;
@@ -316,17 +389,34 @@
       border-radius: var(--radius-md);
       text-decoration: none;
       color: var(--text-main);
-      background: transparent;
+      background: rgba(255, 255, 255, 0.01);
       border: 1px solid var(--border);
-      transition: all 0.2s var(--ease-out-expo);
+      transition: all 0.3s var(--ease-out-expo);
       position: relative;
       overflow: hidden;
+      /* Ensure border radius clips the glow */
+      isolation: isolate; 
+    }
+
+    .social-link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .social-link:hover::before {
+      opacity: 1;
     }
 
     .social-link:hover {
       border-color: var(--primary-border);
-      background: var(--primary-dim);
-      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.03);
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
     }
 
     .social-icon {
@@ -340,25 +430,31 @@
       color: var(--text-muted);
       font-size: 1.1rem;
       margin-right: 14px;
-      transition: all 0.2s;
+      transition: all 0.3s var(--ease-out-expo);
+      position: relative;
+      z-index: 1;
     }
     
     .social-link:hover .social-icon {
       color: var(--primary);
-      background: rgba(0,0,0,0.2);
-      transform: scale(1.05);
+      background: rgba(0, 255, 179, 0.1);
+      transform: scale(1.1) rotate(-5deg);
     }
 
     .social-info {
       flex: 1;
       display: flex;
       flex-direction: column;
+      position: relative;
+      z-index: 1;
     }
 
     .social-title {
       font-size: 0.95rem;
       font-weight: 500;
       line-height: 1.2;
+      color: var(--text-main);
+      transition: color 0.2s;
     }
 
     .social-handle {
@@ -366,14 +462,17 @@
       color: var(--text-faint);
       font-family: var(--font-mono);
       margin-top: 2px;
+      transition: color 0.2s;
     }
     
+    .social-link:hover .social-handle { color: var(--text-muted); }
+
     .social-arrow {
       color: var(--text-faint);
       font-size: 0.8rem;
       opacity: 0;
-      transform: translateX(-4px);
-      transition: all 0.2s var(--ease-out-expo);
+      transform: translateX(-10px);
+      transition: all 0.3s var(--ease-out-expo);
     }
     
     .social-link:hover .social-arrow {
@@ -383,9 +482,7 @@
     }
 
     /* ── Primary CTA ── */
-    .cta-container {
-      margin-top: 32px;
-    }
+    .cta-container { margin-top: 32px; position: relative; z-index: 2; }
 
     .cta-button {
       display: flex;
@@ -404,35 +501,44 @@
       transition: all 0.3s var(--ease-out-expo);
       position: relative;
       overflow: hidden;
+      z-index: 1;
     }
     
-    .cta-button::before {
+    /* Premium Shine Sweep */
+    .cta-button::after {
       content: '';
       position: absolute;
       top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-      transition: left 0.5s;
+      width: 50%; height: 100%;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+      );
+      transform: skewX(-25deg);
+      transition: left 0s; /* Instant start on hover */
+    }
+    
+    .cta-button:hover::after {
+      left: 200%;
+      transition: left 0.6s var(--ease-out-expo);
     }
 
     .cta-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.3);
-      border-color: rgba(255,255,255,0.5);
-    }
-    
-    .cta-button:hover::before {
-      left: 100%;
+      box-shadow: 0 15px 30px -10px rgba(255, 255, 255, 0.4);
+      border-color: rgba(255,255,255,0.8);
     }
     
     .cta-button i { 
       margin-right: 8px; 
       font-size: 0.9rem; 
-      transition: transform 0.3s;
+      transition: transform 0.3s var(--ease-out-expo);
     }
     
     .cta-button:hover i {
-      transform: translateX(2px);
+      transform: translateX(3px);
     }
 
     /* ── Footer ── */
@@ -467,6 +573,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      backdrop-filter: blur(10px);
     }
     
     #toast.show {
@@ -479,49 +586,56 @@
     @media (max-width: 480px) {
       .card { padding: 32px 24px; }
       .name { font-size: 1.5rem; }
+      .avatar-hex { width: 100px; height: 100px; }
+      .avatar-container { width: 100px; height: 100px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Minimalist Background -->
+  <!-- Ambient Layers -->
   <div class="bg-grid"></div>
+  <div class="ambient-glow"></div>
   <div class="bg-vignette"></div>
 
   <div class="container">
-    <article class="card">
+    <article class="card" id="tiltCard">
       
+      <!-- Mouse Spotlight Overlay -->
+      <div class="spotlight-overlay"></div>
+
       <!-- Header -->
       <header class="profile-header">
         <!-- Avatar -->
-        <div class="avatar-container animate-up delay-1">
+        <div class="avatar-container reveal-content">
           <div class="avatar-hex">
-            <img class="avatar-img" src="../Pic.PNG" alt="Arideep Kanshabanik" />
+            <!-- Added fallback for demonstration purposes if local file missing -->
+            <img class="avatar-img" src="/Pic.PNG" alt="Arideep Kanshabanik" />
           </div>
         </div>
 
         <!-- Status -->
-        <div class="status-badge animate-up delay-1">
+        <div class="status-badge reveal-content">
           <div class="status-dot"></div>
-          Available for work
+          Building Beyond Limits
         </div>
 
         <!-- Name with Verified Badge -->
-        <h1 class="name animate-up delay-2">
+        <h1 class="name reveal-content">
           Arideep Kanshabanik 
           <i class="fa-solid fa-circle-check verified-badge" title="Verified"></i>
         </h1>
         
-        <p class="role animate-up delay-2">Software Developer &middot; Cloud Enthusiast</p>
+        <p class="role animate-up delay-2">Cloud Computing &middot; Software Development</p>
         
         <!-- Bio -->
-        <p class="bio animate-up delay-3">
+        <p class="bio reveal-content">
           Building AI-powered applications, automation systems, and cybersecurity tools with modern engineering practices.
         </p>
       </header>
 
       <!-- Connect -->
-      <section class="section animate-up delay-3">
+      <section class="section reveal-content">
         <div class="section-header">
           <span class="section-label">Connect</span>
           <div class="section-line"></div>
@@ -576,7 +690,7 @@
       </section>
 
       <!-- Portfolio CTA -->
-      <section class="cta-container animate-up delay-4">
+      <section class="cta-container reveal-content">
         <a class="cta-button" href="https://arideep.xyz" target="_blank" rel="noopener">
           <i class="fa-solid fa-rocket"></i>
           Visit Portfolio
@@ -585,7 +699,7 @@
 
     </article>
 
-    <footer class="footer animate-up delay-4">
+    <footer class="footer reveal-content">
       &copy; 2026 Arideep Kanshabanik &nbsp;·&nbsp; <a href="https://arideep.xyz">arideep.xyz</a>
     </footer>
   </div>
@@ -594,31 +708,116 @@
   <div id="toast"><i class="fa-solid fa-check-circle"></i> <span>Opening link...</span></div>
 
   <script>
-    // Minimal JS for interactions
-    
-    const toast = document.getElementById('toast');
-    let toastTimeout;
-
-    function showToast(message) {
-      const span = toast.querySelector('span');
-      if(span) span.textContent = message;
+    document.addEventListener('DOMContentLoaded', () => {
+      const card = document.getElementById('tiltCard');
+      const spotlight = card.querySelector('.spotlight-overlay');
+      const socialLinks = document.querySelectorAll('.social-link');
       
-      toast.classList.add('show');
-      
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2000);
-    }
+      let toastTimeout;
 
-    // Add subtle feedback to links
-    document.querySelectorAll('.social-link, .cta-button').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
-        if (href && !href.startsWith('#')) {
-           // Optional: Show toast for user feedback
-           // showToast('Opening link...');
-        }
+      // 1. Page Load & Staggered Animation
+      function triggerAnimations() {
+        // Start Card Entrance
+        card.classList.add('animate-in');
+        
+        // Stagger content reveal
+        const reveals = document.querySelectorAll('.reveal-content');
+        reveals.forEach((el, index) => {
+          // Reset animation to allow replay if needed (though typically once on load)
+          el.style.animation = 'none';
+          el.offsetHeight; /* trigger reflow */
+          // Stagger delay: slight offset for each element
+          el.style.animation = `revealUp 0.6s var(--ease-out-expo) ${0.2 + (index * 0.08)}s forwards`;
+        });
+      }
+
+      // Initial Trigger
+      triggerAnimations();
+
+      // 2. Intersection Observer (Scroll Reveal)
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // We trigger the animation function if it hasn't played yet nicely
+            // or ensure elements are visible
+            if(!card.classList.contains('animate-in')) {
+              triggerAnimations();
+            }
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      observer.observe(card);
+
+      // 3. Mouse Interactions (Tilt & Spotlight)
+      function handleMouseMove(e) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Calculate center
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Calculate rotation (max 2 degrees)
+        const rotateX = ((y - centerY) / centerY) * -2;
+        const rotateY = ((x - centerX) / centerX) * 2;
+
+        // Apply Tilt with smooth transition via CSS
+        // We remove the transition property temporarily for instant follow, 
+        // but for premium feel we keep it 0.1s smooth
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+        // Update Spotlight CSS Variables
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      }
+
+      function handleMouseLeave() {
+        // Reset position smoothly
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+        card.style.transition = 'transform 0.5s var(--ease-out-expo)';
+      }
+
+      function handleMouseEnter() {
+        // Faster transition on enter for responsiveness
+        card.style.transition = 'transform 0.1s ease-out';
+      }
+
+      // Only apply tilt on non-touch devices
+      if (window.matchMedia("(hover: hover)").matches) {
+        card.addEventListener('mousemove', handleMouseMove);
+        card.addEventListener('mouseleave', handleMouseLeave);
+        card.addEventListener('mouseenter', handleMouseEnter);
+      }
+
+      // 4. Social Link Local Spotlight
+      // Use the same variables set by the card parent, so the spotlight follows mouse 
+      // but is clipped to the individual button via CSS overflow/clip-path if needed.
+      // Current CSS uses the same vars, which creates a nice contiguous light effect.
+
+      // 5. Toast Logic
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        const span = toast.querySelector('span');
+        if(span) span.textContent = message;
+        
+        toast.classList.add('show');
+        
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2000);
+      }
+
+      document.querySelectorAll('.social-link, .cta-button').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && !href.startsWith('#')) {
+             // Subtle feedback
+             showToast('Opening link...');
+          }
+        });
       });
     });
   </script>
