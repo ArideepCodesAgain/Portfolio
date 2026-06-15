@@ -153,29 +153,6 @@ body{
 }
 .avatar-frame:hover .avatar-tooltip{opacity:1;transform:translateY(-50%) translateX(0)}
 
-/* ===== NAV BAR ===== */
-.nav{
-  position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;
-  padding:6px 6px 6px 22px;display:flex;align-items:center;gap:6px;
-  background:rgba(9,9,26,.6);
-  backdrop-filter:blur(32px);
-  border:1px solid var(--border);border-radius:100px;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);
-  animation:navEntrance .8s var(--ease-expo) .2s both;
-}
-@keyframes navEntrance{from{opacity:0;transform:translateX(-50%) translateY(-16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.nav-logo{font-family:var(--font-d);font-weight:800;font-size:17px;letter-spacing:-.5px;white-space:nowrap;transition:opacity .3s ease}
-.nav-logo:hover{opacity:.75}
-.nav-logo span{background:linear-gradient(135deg,var(--pink),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav-home{
-  padding:9px 20px;
-  background:linear-gradient(135deg,var(--pink),var(--violet));
-  color:#fff;font-weight:600;font-size:12px;border-radius:100px;text-decoration:none;
-  transition:transform .35s var(--ease-back),box-shadow .35s var(--ease-expo);
-  box-shadow:0 0 18px var(--glow-pink);letter-spacing:.3px;
-}
-.nav-home:hover{transform:scale(1.05) translateY(-1px);box-shadow:0 0 30px var(--glow-pink)}
-
 /* ===== MAIN LAYOUT ===== */
 main{
   position:relative;z-index:1;
@@ -184,7 +161,7 @@ main{
 }
 .error-container{max-width:680px;width:100%;margin:0 auto;text-align:center}
 
-/* ===== 404 GLITCH NUMBER ===== */
+/* ===== 404 GLITCH NUMBER (GLITCH REMOVED) ===== */
 .error-eyebrow{
   font-family:var(--font-m);font-size:10.5px;letter-spacing:4px;text-transform:uppercase;
   color:var(--violet2);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:10px;
@@ -204,40 +181,6 @@ main{
   filter:drop-shadow(0 0 50px rgba(255,45,117,.18)) drop-shadow(0 0 100px rgba(124,58,237,.14));
 }
 @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-
-/* Glitch layers */
-.error-number::before,.error-number::after{
-  content:'404';
-  position:absolute;top:0;left:0;
-  font-family:var(--font-d);font-size:inherit;font-weight:900;letter-spacing:inherit;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.error-number::before{
-  background:linear-gradient(135deg,var(--pink),var(--violet));
-  background-size:200% 200%;
-  animation:glitchTop 7s infinite 3s;
-  clip-path:polygon(0 0,100% 0,100% 35%,0 35%);
-}
-.error-number::after{
-  background:linear-gradient(135deg,var(--cyan),var(--violet2));
-  background-size:200% 200%;
-  animation:glitchBot 7s infinite 3.15s;
-  clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);
-}
-@keyframes glitchTop{
-  0%,92%,100%{transform:translate(0,0);opacity:0}
-  93%{transform:translate(-4px,-2px);opacity:.6}
-  95%{transform:translate(4px,2px);opacity:.4}
-  97%{transform:translate(-2px,1px);opacity:.5}
-  99%{transform:translate(2px,-1px);opacity:0}
-}
-@keyframes glitchBot{
-  0%,92%,100%{transform:translate(0,0);opacity:0}
-  93%{transform:translate(4px,2px);opacity:.5}
-  95%{transform:translate(-4px,-2px);opacity:.4}
-  97%{transform:translate(2px,-1px);opacity:.6}
-  99%{transform:translate(-2px,1px);opacity:0}
-}
 
 .error-title{
   font-family:var(--font-d);font-size:clamp(22px,3.5vw,34px);font-weight:800;
@@ -362,8 +305,6 @@ footer span{color:var(--pink)}
   main{padding:100px 20px 80px}
   .avatar-corner{top:16px;right:16px}
   .avatar-frame{width:56px;height:56px}
-  .nav{left:12px;right:12px;transform:none;padding:8px 12px}
-  .nav-logo{font-size:15px}
   .back-home{bottom:16px;left:16px}
 }
 </style>
@@ -383,11 +324,7 @@ footer span{color:var(--pink)}
 <div class="scanlines"></div>
 <div id="floatingDecos"></div>
 
-<!-- NAV -->
-<nav class="nav">
-  <a href="/" class="nav-logo">A<span>.</span>K</a>
-  <a href="/" class="nav-home"><i class="fa-solid fa-house"></i> Back Home</a>
-</nav>
+<!-- NAV REMOVED PER REQUEST -->
 
 <!-- CORNER AVATAR -->
 <div class="avatar-corner">
