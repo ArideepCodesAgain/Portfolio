@@ -573,6 +573,12 @@ section{position:relative;z-index:1}
 .bento-wide{grid-column:span 2}
 @media(max-width:900px){.bento-wide{grid-column:span 1}}
 
+.projects-more-wrap{
+  display:flex;
+  justify-content:center;
+  margin-top:30px;
+}
+
 .app-window{
   background:rgba(9,9,26,.55);border:1px solid var(--border);border-radius:var(--radius);
   backdrop-filter:blur(16px);overflow:hidden;
@@ -1050,6 +1056,13 @@ Always learning, experimenting, and pushing ideas beyond their limits.
     </div>
     <div class="project-filters reveal" id="filters"></div>
     <div class="projects-bento" id="projectsGrid"></div>
+
+<div class="projects-more-wrap">
+  <button id="showMoreProjects" class="btn-primary">
+    <span>View All Projects</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+</div>
   </div>
 </section>
 
@@ -1257,48 +1270,34 @@ const specializations = [
   {name:'Automation Engineering',color:'var(--pink)'},{name:'AI Systems',color:'var(--violet2)'}
 ];
 const projectsData = [
-  {name:'Situationship-OS',cat:'Frontend Experiments',status:'emotionally complex',desc:'An operating system for your situationships. Because regular OS doesn\'t understand emotional complexity.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Situationship-OS',live:'https://arideepcodes.github.io/Situationship-OS'},
-  {name:'PookieJournal',cat:'Frontend Experiments',status:'crying in production',desc:'A journal app that gets you. Frontend Experiments aesthetics meet digital diary.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/PookieJournal',live:'https://arideepcodes.github.io/PookieJournal'},
-  {name:'Midnight Workspace',cat:'Productivity',status:'built at 2AM',desc:'Productivity workspace built at midnight. For midnight people.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Midnight_Workspace',live:'https://arideepcodes.github.io/Midnight_Workspace'},
-  {name:'Delulu Bank',cat:'Frontend Experiments',status:'delusional but functional',desc:'A banking experience powered by pure delusion. Financial management but make it chaotic.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Delulu-Bank',live:'https://arideepcodes.github.io/Delulu-Bank'},
-  {name:'Emotionally Damaged Compiler',cat:'Frontend Experiments',status:'it compiles, it cries',desc:'A compiler that processes your code AND your emotional damage.',tags:['Python'],github:'https://github.com/ArideepCodes/Emotionally-Damaged-Compiler',live:'https://arideepcodes.github.io/Emotionally-Damaged-Compiler'},
   {name:'HIRINGSYNC AI',cat:'AI System',status:'hiring but make it AI',desc:'AI-powered hiring synchronization. Matching talent to opportunities with intelligence.',tags:['Python','AI/ML','Streamlit'],github:'https://github.com/ArideepCodes/HIRINGSYNC-AI',live:'https://arideepcodes.github.io/HIRINGSYNC-AI/'},
-  {name:'PookieCalc',cat:'Frontend Experiments',status:'math but emotional',desc:'A calculator but it\'s pookie. Math has never been this emotionally available.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/PookieCalc',live:'https://arideepcodes.github.io/PookieCalc/'},
-  {name:'StudyFlix',cat:'Productivity',status:'dopamine-driven learning',desc:'Dopamine-driven learning platform. Netflix for studying.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/StudyFlix',live:'https://arideepcodes.github.io/StudyFlix'},
+  {name:'AI-Powered Network Forensics',cat:'Cybersecurity',status:'hacker energy maxed',desc:'Hacker tracking with AI. Digital CSI.',tags:['Python','ML','Cybersecurity'],github:'https://github.com/ArideepCodes/AI-Powered-Network-Forensics',live:'https://ai-powered-network-forensics.streamlit.app/'},
   {name:'TruthLens',cat:'AI System',status:'AI fact-checks your life',desc:'AI-powered fact verification. Because the internet needs it.',tags:['Python','AI','NLP'],github:'https://github.com/ArideepCodes/TruthLens',live:'https://arideepcodes.github.io/TruthLens/'},
-  {name:'Finora',cat:'Productivity',status:'app is stable at least',desc:'Financial management that\'s actually stable, unlike your finances.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Finora',live:'https://arideepcodes.github.io/Finora/'},
-  {name:'MyTaskMate',cat:'Productivity',status:'tasks before tears',desc:'Task management before the tears. Organize or perish.',tags:['Python','Tkinter'],github:'https://github.com/ArideepCodes/MyTaskMate',live:null},
-  {name:'SmartCoverLetter',cat:'AI System',status:'faking enthusiasm via AI',desc:'AI writes cover letters so you don\'t have to fake enthusiasm.',tags:['Python','AI','NLP'],github:'https://github.com/ArideepCodes/SmartCoverLetter',live:null},
+  {name:'Blood Bank Management',cat:'System',status:'saving lives with code',desc:'Saving lives through better blood bank management.',tags:['Python','SQL'],github:'https://github.com/ArideepCodes/blood-bank-management-system',live:null},
+  {name:'NeuroCV Resume Analyzer',cat:'AI System',status:'neural vibes only',desc:'Neural network-powered resume analysis. Offline and intelligent.',tags:['Python','Deep Learning','OpenCV'],github:'https://github.com/ArideepCodes/neurocv-ai-offline-resume-analyzer',live:'https://arideepcodes.github.io/neurocv-ai-offline-resume-analyzer/'},
+  {name:'CyberWatch',cat:'Cybersecurity',status:'watching the cyber',desc:'Real-time cybersecurity monitoring. Watching the cyber so you don\'t have to.',tags:['Python','Flask','Cybersecurity'],github:'https://github.com/ArideepCodes/CyberWatch',live:'https://cyberwatch-vohd.onrender.com/'},
+  {name:'IncidentAutopsySystem',cat:'Cybersecurity',status:'CSI but for networks',desc:'Post-incident analysis system. What killed your server?',tags:['Python','Cybersecurity'],github:'https://github.com/ArideepCodes/IncidentAutopsySystem',live:null},
+  {name:'PDFSense',cat:'AI System',status:'AI reads so you don\'t',desc:'AI reads PDFs so you can keep scrolling TikTok.',tags:['Python','AI','NLP','Streamlit'],github:'https://github.com/ArideepCodes/PDFSense',live:'https://pdfsense-arideep.streamlit.app'},
   {name:'My-AI-Resume-Analyzer',cat:'AI System',status:'judging resumes ruthlessly',desc:'AI judges your resume so recruiters don\'t have to.',tags:['Python','NLP','AI'],github:'https://github.com/ArideepCodes/My-AI-Resume-Analyzer',live:null},
+  {name:'SmartCoverLetter',cat:'AI System',status:'faking enthusiasm via AI',desc:'AI writes cover letters so you don\'t have to fake enthusiasm.',tags:['Python','AI','NLP'],github:'https://github.com/ArideepCodes/SmartCoverLetter',live:null},
   {name:'Image Caption Generator',cat:'AI System',status:'better than "nice pic"',desc:'AI describes images. Better than your friend who says "nice pic".',tags:['Python','Deep Learning','CNN'],github:'https://github.com/ArideepCodes/image-caption-generator',live:null},
   {name:'Arideep Chatbot',cat:'AI System',status:'talking to myself basically',desc:'An AI chatbot. Basically me, but faster and less emotional.',tags:['Python','NLP','Streamlit'],github:'https://github.com/ArideepCodes/arideep-chatbot',live:'https://arideep-chatbot.streamlit.app'},
-  {name:'Arideep Weather App',cat:'Utility',status:'should I go outside?',desc:'Know if you should go outside. Spoiler: probably not.',tags:['Python','API','Streamlit'],github:'https://github.com/ArideepCodes/arideep-weather-app',live:'https://arideep-weather-app.streamlit.app'},
-  {name:'PDFSense',cat:'AI System',status:'AI reads so you don\'t',desc:'AI reads PDFs so you can keep scrolling TikTok.',tags:['Python','AI','NLP','Streamlit'],github:'https://github.com/ArideepCodes/PDFSense',live:'https://pdfsense-arideep.streamlit.app'},
-  {name:'AI-Powered Network Forensics',cat:'Cybersecurity',status:'hacker energy maxed',desc:'Hacker tracking with AI. Digital CSI.',tags:['Python','ML','Cybersecurity'],github:'https://github.com/ArideepCodes/AI-Powered-Network-Forensics',live:'https://ai-powered-network-forensics.streamlit.app/'},
-  {name:'IncidentAutopsySystem',cat:'Cybersecurity',status:'CSI but for networks',desc:'Post-incident analysis system. What killed your server?',tags:['Python','Cybersecurity'],github:'https://github.com/ArideepCodes/IncidentAutopsySystem',live:null},
-  {name:'CyberWatch',cat:'Cybersecurity',status:'watching the cyber',desc:'Real-time cybersecurity monitoring. Watching the cyber so you don\'t have to.',tags:['Python','Flask','Cybersecurity'],github:'https://github.com/ArideepCodes/CyberWatch',live:'https://cyberwatch-vohd.onrender.com/'},
-  {name:'NeuroCV Resume Analyzer',cat:'AI System',status:'neural vibes only',desc:'Neural network-powered resume analysis. Offline and intelligent.',tags:['Python','Deep Learning','OpenCV'],github:'https://github.com/ArideepCodes/neurocv-ai-offline-resume-analyzer',live:'https://arideepcodes.github.io/neurocv-ai-offline-resume-analyzer/'},
-  {name:'Blood Bank Management',cat:'System',status:'saving lives with code',desc:'Saving lives through better blood bank management.',tags:['Python','SQL'],github:'https://github.com/ArideepCodes/blood-bank-management-system',live:null},
-  {name:'FocusFlow',cat:'Productivity',status:'focus is a myth but we try',desc:'Focus enhancement app. A myth, but we\'re trying.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/FocusFlow',live:'https://arideepcodes.github.io/FocusFlow/'},
   {name:'Custom CNC Engraving System',cat:'Hardware',status:'machines that make art',desc:'Hardware meets software. CNC engraving with full control systems.',tags:['Arduino','C++','Hardware'],github:null,live:null},
-  {
-  name:'Custom 3D Printer',
-  cat:'Hardware',
-  status:'built from scratch',
-  desc:'Designed and built a fully functional 3D printer using Arduino Mega, Marlin firmware, stepper motors, custom electronics integration, and mechanical assembly. Focused on precision control, calibration, and reliable additive manufacturing.',
-  tags:['Arduino Mega','Marlin','3D Printing','Electronics','Hardware'],
-  github:null,
-  live:null
-},
-{
-  name:'Line-Following Robot',
-  cat:'Hardware',
-  status:'following the path perfectly',
-  desc:'Designed and built an autonomous line-following robot using IR sensors, Arduino, motor drivers, and DC motors. Implemented real-time path detection and control logic for accurate navigation across complex tracks.',
-  tags:['Arduino','Robotics','IR Sensors','Embedded Systems','Hardware'],
-  github:null,
-  live:null
-},
+  {name:'Custom 3D Printer',cat:'Hardware',status:'built from scratch',desc:'Designed and built a fully functional 3D printer using Arduino Mega, Marlin firmware, stepper motors, custom electronics integration, and mechanical assembly. Focused on precision control, calibration, and reliable additive manufacturing.',tags:['Arduino Mega','Marlin','3D Printing','Electronics','Hardware'],github:null,live:null},
+  {name:'Line-Following Robot',cat:'Hardware',status:'following the path perfectly',desc:'Designed and built an autonomous line-following robot using IR sensors, Arduino, motor drivers, and DC motors. Implemented real-time path detection and control logic for accurate navigation across complex tracks.',tags:['Arduino','Robotics','IR Sensors','Embedded Systems','Hardware'],github:null,live:null},
+  {name:'PulseMonitor Pro',cat:'Utility',status:'system vitals in check',desc:'A modern real-time PC health monitoring suite delivering detailed insights into performance, hardware utilization, and overall system health. Combines powerful diagnostics with a premium dashboard experience — clean, modern, and actually understandable.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/PulseMonitor_Pro',live:'https://arideepcodes.github.io/PulseMonitor_Pro'},
+  {name:'Arideep Weather App',cat:'Utility',status:'should I go outside?',desc:'Know if you should go outside. Spoiler: probably not.',tags:['Python','API','Streamlit'],github:'https://github.com/ArideepCodes/arideep-weather-app',live:'https://arideep-weather-app.streamlit.app'},
+  {name:'CareerOS',cat:'Productivity',status:'job hunt but make it organized',desc:'A modern career management platform that acts as a complete career operating system. Manage job applications, interviews, recruiters, certifications, networking, skills, goals, and analytics — all from one centralized dashboard.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/CareerOS',live:'https://arideepcodes.github.io/CareerOS'},
+  {name:'MyTaskMate',cat:'Productivity',status:'tasks before tears',desc:'Task management before the tears. Organize or perish.',tags:['Python','Tkinter'],github:'https://github.com/ArideepCodes/MyTaskMate',live:null},
+  {name:'Midnight Workspace',cat:'Productivity',status:'built at 2AM',desc:'Productivity workspace built at midnight. For midnight people.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Midnight_Workspace',live:'https://arideepcodes.github.io/Midnight_Workspace'},
+  {name:'StudyFlix',cat:'Productivity',status:'dopamine-driven learning',desc:'Dopamine-driven learning platform. Netflix for studying.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/StudyFlix',live:'https://arideepcodes.github.io/StudyFlix'},
+  {name:'Finora',cat:'Productivity',status:'app is stable at least',desc:'Financial management that\'s actually stable, unlike your finances.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Finora',live:'https://arideepcodes.github.io/Finora/'},
+  {name:'FocusFlow',cat:'Productivity',status:'focus is a myth but we try',desc:'Focus enhancement app. A myth, but we\'re trying.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/FocusFlow',live:'https://arideepcodes.github.io/FocusFlow/'},
+  {name:'Emotionally Damaged Compiler',cat:'Frontend Experiments',status:'it compiles, it cries',desc:'A compiler that processes your code AND your emotional damage.',tags:['Python'],github:'https://github.com/ArideepCodes/Emotionally-Damaged-Compiler',live:'https://arideepcodes.github.io/Emotionally-Damaged-Compiler'},
+  {name:'Situationship-OS',cat:'Frontend Experiments',status:'emotionally complex',desc:'An operating system for your situationships. Because regular OS doesn\'t understand emotional complexity.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Situationship-OS',live:'https://arideepcodes.github.io/Situationship-OS'},
+  {name:'PookieJournal',cat:'Frontend Experiments',status:'crying in production',desc:'A journal app that gets you. Frontend Experiments aesthetics meet digital diary.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/PookieJournal',live:'https://arideepcodes.github.io/PookieJournal'},
+  {name:'Delulu Bank',cat:'Frontend Experiments',status:'delusional but functional',desc:'A banking experience powered by pure delusion. Financial management but make it chaotic.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/Delulu-Bank',live:'https://arideepcodes.github.io/Delulu-Bank'},
+  {name:'PookieCalc',cat:'Frontend Experiments',status:'math but emotional',desc:'A calculator but it\'s pookie. Math has never been this emotionally available.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/PookieCalc',live:'https://arideepcodes.github.io/PookieCalc/'},
   {name:'RedFlag Detector',cat:'Frontend Experiments',status:'professionally judging men',desc:'Detecting emotionally dangerous men professionally. Because someone has to do the background check.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/RedFlag-Detector',live:'https://arideepcodes.github.io/RedFlag-Detector'},
   {name:'CryCalendar',cat:'Frontend Experiments',status:'scheduled emotional damage',desc:'A calendar that understands your emotional schedule better than you do.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/CryCalendar',live:'https://arideepcodes.github.io/CryCalendar'},
   {name:'CryFinance',cat:'Frontend Experiments',status:'financial tears included',desc:'Track your finances and your emotional breakdowns in one convenient place.',tags:['HTML','CSS','JavaScript'],github:'https://github.com/ArideepCodes/CryFinance',live:'https://arideepcodes.github.io/CryFinance'},
@@ -1352,6 +1351,7 @@ specializations.forEach(s => {
 const categories = ['All', ...new Set(projectsData.map(p => p.cat))];
 const filtersEl = document.getElementById('filters');
 const projectsGrid = document.getElementById('projectsGrid');
+let showAllProjects = false;
 let activeFilter = 'All';
 
 categories.forEach(cat => {
@@ -1370,7 +1370,11 @@ categories.forEach(cat => {
 function renderProjects() {
   const filtered = activeFilter === 'All' ? projectsData : projectsData.filter(p => p.cat === activeFilter);
   projectsGrid.innerHTML = '';
-  filtered.forEach((p, i) => {
+  const visibleProjects =
+  activeFilter === 'All' && !showAllProjects
+    ? filtered.slice(0, 6)
+    : filtered;
+  visibleProjects.forEach((p, i) => {
     const card = document.createElement('div');
     const isWide = (activeFilter === 'All' && (i === 0 || i === 5)) || (activeFilter !== 'All' && i === 0);
     card.className = 'app-window' + (isWide ? ' bento-wide' : '');
@@ -1415,14 +1419,51 @@ function renderProjects() {
       </div>`;
     projectsGrid.appendChild(card);
 
-    setTimeout(() => {
-      card.style.transition = `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${i * 38}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 38}ms`;
-      card.style.opacity = '1';
-      card.style.transform = 'translateY(0)';
-    }, 30);
-  });
+  setTimeout(() => {
+  card.style.transition = `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${i * 38}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 38}ms`;
+  card.style.opacity = '1';
+  card.style.transform = 'translateY(0)';
+}, 30);
+});
+
+const showMoreBtn = document.getElementById('showMoreProjects');
+
+if(showMoreBtn){
+
+  if(activeFilter === 'All'){
+
+    showMoreBtn.style.display = 'inline-flex';
+
+    showMoreBtn.innerHTML = showAllProjects
+      ? '<span>Show Less</span><i class="fa-solid fa-chevron-up"></i>'
+      : '<span>View All Projects</span><i class="fa-solid fa-chevron-down"></i>';
+
+  } else {
+
+    showMoreBtn.style.display = 'none';
+
+  }
+
+}
+
 }
 renderProjects();
+document.getElementById('showMoreProjects')?.addEventListener('click', () => {
+
+  showAllProjects = !showAllProjects;
+
+  renderProjects();
+
+  const projectsSection = document.getElementById('projects');
+
+  if (!showAllProjects) {
+    projectsSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+
+});
 
 // RENDER ACHIEVEMENTS
 const achieveGrid = document.getElementById('achieveGrid');
