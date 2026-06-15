@@ -153,47 +153,30 @@
     }
 
     .avatar-container {
-      position: relative;
-      width: 96px;
-      height: 96px;
-      margin-bottom: 20px;
-      /* Very subtle floating animation */
-      animation: floatAvatar 6s ease-in-out infinite;
-    }
+  width: 120px !important;
+  height: 120px !important;
+  background: red !important;
+}
 
     @keyframes floatAvatar {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
     }
     
-    .avatar-hex {
-      width: 100%;
-      height: 100%;
-      clip-path: polygon(50% 0%, 96.5% 25%, 96.5% 75%, 50% 100%, 3.5% 75%, 3.5% 25%);
-      background: linear-gradient(135deg, var(--bg-element), var(--bg-surface));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+.avatar-hex {
+  width: 100%;
+  height: 100%;
+  background: yellow !important;
+}
     
-    .avatar-hex::after {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      background: var(--bg-body);
-      clip-path: polygon(50% 0%, 96.5% 25%, 96.5% 75%, 50% 100%, 3.5% 75%, 3.5% 25%);
-      z-index: 1;
-    }
-
-    .avatar-img {
-      position: relative;
-      z-index: 2;
-      width: 88px;
-      height: 88px;
-      object-fit: cover;
-      clip-path: polygon(50% 0%, 96.5% 25%, 96.5% 75%, 50% 100%, 3.5% 75%, 3.5% 25%);
-    }
+    
+  .avatar-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border: 5px solid blue;
+}
 
     .status-badge {
       display: inline-flex;
