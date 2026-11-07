@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Very Own Rapunzel</title>
+<title>For Mouparna | My Very Own Rapunzel</title>
 <meta name="description" content="A little world made for the most important person in my life.">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#000000">
@@ -177,8 +177,13 @@ html[data-theme="light"] .btn{color:#fff}
 .close{min-height:80vh;display:flex;align-items:center;text-align:center;padding:100px 0}
 .close h2{font-size:clamp(36px,6vw,72px);max-width:880px;margin:0 auto 22px;line-height:1.08}
 .close .lead{margin:0 auto 38px}
-.heart{width:64px;height:64px;margin:0 auto 34px;position:relative;animation:beat 3s ease-in-out infinite;filter:drop-shadow(0 0 22px var(--rose2))}
+.heart{display:block;width:64px;height:64px;margin:0 auto 10px;position:relative;animation:beat 3s ease-in-out infinite;filter:drop-shadow(0 0 22px var(--rose2))}
 .heart svg{width:100%;height:100%}
+.hm{min-height:28px;margin-bottom:26px;font-family:var(--font-s);font-style:italic;font-size:20px;color:var(--rose);transition:opacity .4s}
+.reasons{padding:30px 0 90px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;max-width:900px}
+.chips span{padding:11px 20px;border:1px solid var(--border);border-radius:100px;background:var(--surface);font-family:var(--font-s);font-size:20px;color:var(--t2);backdrop-filter:blur(10px);transition:transform .4s var(--back),border-color .4s,color .4s,background .4s}
+.chips span:hover{transform:translateY(-3px) rotate(-1deg);border-color:var(--rose);color:var(--t1);background:var(--glow2)}
 .footer{padding:34px 0;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--t3);position:relative;z-index:1}
 .footer span{color:var(--rose)}
 
@@ -209,7 +214,7 @@ html[data-theme="light"] .btn{color:#fff}
 <canvas id="stars" aria-hidden="true"></canvas>
 
 <nav class="nav" id="nav">
-  <a href="#top" class="logo">her<i class="fa-solid fa-heart"></i></a>
+  <a href="#top" class="logo">Mouparna<i class="fa-solid fa-heart"></i></a>
   <div class="links">
     <a href="#meet">Meet Her</a><a href="#rapunzel">Rapunzel</a><a href="#why">Why</a><a href="#gallery">Gallery</a><a href="#note">A Note</a>
   </div>
@@ -226,13 +231,13 @@ html[data-theme="light"] .btn{color:#fff}
 <section class="hero">
   <div class="container hero-grid">
     <div>
-      <span class="fav"><i class="fa-solid fa-heart"></i> My favourite person</span>
+      <span class="fav"><i class="fa-solid fa-heart"></i> Mouparna, my favourite person</span>
       <h1 id="heroTitle">Every fairytale has a Rapunzel. <em>Somehow, I found mine.</em></h1>
-      <p>This is a small world I built just for you. It isn’t a project or a product. It’s a thank you, and a promise that I notice everything you do for me.</p>
+      <p>Mouparna, this is a little world I built just for you. Not a project, not a product. Just my way of saying thank you, and that I love you more than I know how to put into words.</p>
       <a href="#meet" class="btn"><span>Come in</span><i class="fa-solid fa-arrow-down"></i></a>
     </div>
     <div class="hero-ph">
-      <div class="ph"><img src="mp1.jpg" alt="Portrait of my girlfriend, the person this page is made for" width="900" height="1200" fetchpriority="high"></div>
+      <div class="ph"><img src="/mp1.jpg" alt="Portrait of my girlfriend, the person this page is made for" width="900" height="1200" fetchpriority="high"></div>
       <div class="tag">my Rapunzel</div>
     </div>
   </div>
@@ -240,14 +245,13 @@ html[data-theme="light"] .btn{color:#fff}
 
 <section class="pad" id="meet">
   <div class="container meet-grid">
-    <div class="ph rv"><img src="mp2.jpg" alt="Another portrait of her" width="900" height="1200" loading="lazy"></div>
+    <div class="ph rv"><img src="/mp2.jpg" alt="Another portrait of her" width="900" height="1200" loading="lazy"></div>
     <div class="meet-text rv">
       <div class="label">Meet her</div>
-      <h2>The person behind <em>all of this.</em></h2>
-      <p>She’s the one who asks if I’ve eaten, who notices when I’m tired before I say a word, and who somehow makes ordinary days feel lighter just by being in them.</p>
-      <p>She’s my girlfriend, my biggest motivation, and the most important part of my life. Everything on this page is for her.</p>
-      <p class="q">She brings happiness, motivation and meaning, without even trying.</p>
-      <span class="ph-note">Her name goes here: [Her Name]</span>
+      <h2>Meet <em>Mouparna.</em></h2>
+      <p>Mouparna is my girlfriend, my biggest motivation, and honestly the most important part of my life. I love her more than words can properly say.</p>
+      <p>She looks after me in a hundred small ways, and she makes every ordinary day feel softer and brighter just by being in it. Everything on this page is for her.</p>
+      <p class="q">You didn’t just come into my life, Mouparna. You made it feel like home.</p>
     </div>
   </div>
 </section>
@@ -256,17 +260,17 @@ html[data-theme="light"] .btn{color:#fff}
   <div class="container rap-grid">
     <div class="rap-wrap rv">
       <div class="lantern"><i class="fa-solid fa-sun"></i></div>
-      <div class="ph"><img src="mp3.jpg" alt="Portrait of her with her long hair" width="900" height="1200" loading="lazy"></div>
+      <div class="ph"><img src="/mp3.jpg" alt="Portrait of her with her long hair" width="900" height="1200" loading="lazy"></div>
       <div class="braid"></div>
     </div>
     <div class="msg rv">
       <div class="label">A little fairytale</div>
       <h2>My very own <em>Rapunzel.</em></h2>
       <blockquote>She has hair like Rapunzel, a heart full of kindness, and a place in my life that nobody else could ever take.</blockquote>
-      <p>The hair is just the cute part, the reason the nickname stuck. What I really love is how she cares for me, how she cheers for me, and how she makes me feel I’m never doing any of this alone.</p>
+      <p>Mouparna, the hair is only the cute part, the reason the nickname stuck. What I truly love is your heart: how you care for me, how you cheer for me, and how you make me feel I’m never doing any of this alone.</p>
       <p>Maybe I don’t say it every day, but you are the most important part of my life. Your care, your love, and the way you motivate me mean more than you know. You make me want to become better, dream bigger, and keep going even when things aren’t easy.</p>
       <p>I don’t just want you in my happy moments. I want you beside me through every chapter of life.</p>
-      <div class="sign">I love you, my Rapunzel.</div>
+      <div class="sign">I love you, my Rapunzel.<br><span style="font-size:18px;color:var(--t3)">Always yours, Arideep</span></div>
     </div>
   </div>
 </section>
@@ -287,6 +291,18 @@ html[data-theme="light"] .btn{color:#fff}
   </div>
 </section>
 
+<section class="reasons">
+  <div class="container">
+    <div class="why-head rv">
+      <div class="label">Little reasons I love you</div>
+      <h2>The list <em>never ends.</em></h2>
+    </div>
+    <div class="chips rv">
+      <span>The way you care for me</span><span>How you believe in me</span><span>Your kind heart</span><span>Your Rapunzel hair, obviously</span><span>How you make ordinary days better</span><span>That you motivate me to keep going</span><span>That you stay beside me when it’s hard</span><span>The way you love me</span>
+    </div>
+  </div>
+</section>
+
 <section class="pad" id="gallery">
   <div class="container">
     <div class="gal-head rv">
@@ -295,11 +311,11 @@ html[data-theme="light"] .btn{color:#fff}
       <p class="lead">Tap any photo to see it larger.</p>
     </div>
     <div class="gal">
-      <button class="g1 rv" data-i="0" aria-label="Open photo 1"><div class="ph"><img src="mp1.jpg" alt="Photo 1 of her" width="900" height="1200" loading="lazy"><span class="cap">smile</span></div></button>
-      <button class="g2 rv" data-i="1" aria-label="Open photo 2"><div class="ph"><img src="mp2.jpg" alt="Photo 2 of her" width="900" height="1200" loading="lazy"><span class="cap">kind</span></div></button>
-      <button class="g3 rv" data-i="2" aria-label="Open photo 3"><div class="ph"><img src="mp3.jpg" alt="Photo 3 of her" width="900" height="1200" loading="lazy"><span class="cap">Rapunzel</span></div></button>
-      <button class="g4 rv" data-i="3" aria-label="Open photo 4"><div class="ph"><img src="mp4.jpg" alt="Photo 4 of her" width="900" height="1200" loading="lazy"><span class="cap">mine</span></div></button>
-      <button class="g5 rv" data-i="4" aria-label="Open photo 5"><div class="ph"><img src="mp5.jpg" alt="Photo 5 of her" width="900" height="1200" loading="lazy"><span class="cap">always</span></div></button>
+      <button class="g1 rv" data-i="0" aria-label="Open photo 1"><div class="ph"><img src="/mp1.jpg" alt="Photo 1 of her" width="900" height="1200" loading="lazy"><span class="cap">smile</span></div></button>
+      <button class="g2 rv" data-i="1" aria-label="Open photo 2"><div class="ph"><img src="/mp2.jpg" alt="Photo 2 of her" width="900" height="1200" loading="lazy"><span class="cap">kind</span></div></button>
+      <button class="g3 rv" data-i="2" aria-label="Open photo 3"><div class="ph"><img src="/mp3.jpg" alt="Photo 3 of her" width="900" height="1200" loading="lazy"><span class="cap">Rapunzel</span></div></button>
+      <button class="g4 rv" data-i="3" aria-label="Open photo 4"><div class="ph"><img src="/mp4.jpg" alt="Photo 4 of her" width="900" height="1200" loading="lazy"><span class="cap">mine</span></div></button>
+      <button class="g5 rv" data-i="4" aria-label="Open photo 5"><div class="ph"><img src="/mp5.jpg" alt="Photo 5 of her" width="900" height="1200" loading="lazy"><span class="cap">always</span></div></button>
     </div>
   </div>
 </section>
@@ -309,30 +325,32 @@ html[data-theme="light"] .btn{color:#fff}
     <div class="note rv">
       <div class="label">A little note</div>
       <h2>For you, <em>from me.</em></h2>
-      <p class="to">Hi love,</p>
-      <p>You’re an important part of my life, and I don’t think I say that enough. Your encouragement means more than you probably realize, and on the hard days it’s often the thing that gets me through.</p>
-      <p>You make me want to be a better version of myself. I’m grateful to have you beside me, and I hope we keep growing together, one chapter after another.</p>
-      <p class="from">Yours, always.</p>
+      <p class="to">My Mouparna,</p>
+      <p>I don’t say it every day, but you are the most important part of my life. Your encouragement means more to me than you probably realize. On the days when everything feels heavy, it’s your voice and your belief in me that keep me going.</p>
+      <p>You make me want to become better, to dream bigger, and to keep walking even when the road is tough. Thank you for the little things you do, for the way you look after me, and for loving me the way you do.</p>
+      <p>I don’t only want you in my happy moments. I want you beside me in every chapter, the easy ones and the hard ones, as we grow together. I love you so much, my Rapunzel.</p>
+      <p class="from">Forever yours, Arideep</p>
     </div>
   </div>
 </section>
 
 <section class="close">
   <div class="container rv">
-    <div class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D7B0"/><stop offset="1" stop-color="#E58FA6"/></linearGradient></defs><path fill="url(#hg)" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.6 2.7 5 6.1 5c2 0 3.4 1.1 4.2 2.4h3.4C14.5 6.1 15.9 5 17.9 5c3.4 0 5.2 3.6 3.7 6.8C19.5 16.4 12 21 12 21z"/></svg></div>
+    <button class="heart" id="heartBtn" aria-label="Tap for a message from me"><svg viewBox="0 0 24 24"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D7B0"/><stop offset="1" stop-color="#E58FA6"/></linearGradient></defs><path fill="url(#hg)" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.6 2.7 5 6.1 5c2 0 3.4 1.1 4.2 2.4h3.4C14.5 6.1 15.9 5 17.9 5c3.4 0 5.2 3.6 3.7 6.8C19.5 16.4 12 21 12 21z"/></svg></button>
+    <p class="hm" id="hm" aria-live="polite">Tap the heart</p>
     <h2>Some people become part of your story. <em>You became part of every dream I’m working towards.</em></h2>
-    <p class="lead">Thank you for being my person, my motivation, and my Rapunzel.</p>
+    <p class="lead">Thank you for being my person, my motivation, and my Rapunzel. I love you, Mouparna.</p>
     <a href="#top" class="btn"><span>Back to the beginning</span><i class="fa-solid fa-arrow-up"></i></a>
   </div>
 </section>
 </main>
 
-<footer class="footer">Made with <span>♥</span> for her. Every line of code, just for you.</footer>
+<footer class="footer">Made with <span>♥</span> for Mouparna. Every line of code, just for you.</footer>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <button class="x" id="lbx" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
   <button class="pv" id="lbp" aria-label="Previous photo"><i class="fa-solid fa-chevron-left"></i></button>
-  <img id="lbimg" src="mp1.jpg" alt="">
+  <img id="lbimg" src="/mp1.jpg" alt="">
   <button class="nx" id="lbn" aria-label="Next photo"><i class="fa-solid fa-chevron-right"></i></button>
   <div class="ct" id="lbct"></div>
 </div>
@@ -340,6 +358,10 @@ html[data-theme="light"] .btn{color:#fff}
 <script>
 (function(){
   var root=document.documentElement;
+  // image path fallback: try root path first, then same-folder path
+  document.querySelectorAll('img').forEach(function(im){
+    im.addEventListener('error',function(){var u=im.getAttribute('src');if(u&&u.charAt(0)==='/'&&!im.dataset.fb){im.dataset.fb=1;im.src=u.slice(1)}});
+  });
   // theme
   document.getElementById('toggle').addEventListener('click',function(){
     var t=root.getAttribute('data-theme')==='light'?'dark':'light';
@@ -370,7 +392,7 @@ html[data-theme="light"] .btn{color:#fff}
   drawStars();var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(drawStars,150)});
 
   // lightbox
-  var imgs=['mp1.jpg','mp2.jpg','mp3.jpg','mp4.jpg','mp5.jpg'],idx=0,lb=document.getElementById('lb'),li=document.getElementById('lbimg'),lc=document.getElementById('lbct'),last=null;
+  var imgs=['/mp1.jpg','/mp2.jpg','/mp3.jpg','/mp4.jpg','/mp5.jpg'],idx=0,lb=document.getElementById('lb'),li=document.getElementById('lbimg'),lc=document.getElementById('lbct'),last=null;
   function show(i){idx=(i+imgs.length)%imgs.length;li.src=imgs[idx];li.alt='Photo '+(idx+1)+' of her, enlarged';lc.textContent=(idx+1)+' / '+imgs.length}
   function open(i,el){last=el;show(i);lb.classList.add('on');document.body.style.overflow='hidden';document.getElementById('lbx').focus()}
   function close(){lb.classList.remove('on');document.body.style.overflow='';if(last)last.focus()}
@@ -383,6 +405,12 @@ html[data-theme="light"] .btn{color:#fff}
   var sx=0;lb.addEventListener('touchstart',function(e){sx=e.changedTouches[0].clientX},{passive:true});
   lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(idx+(d<0?1:-1))},{passive:true});
 
+  // heart messages
+  var hb=document.getElementById('heartBtn'),hm=document.getElementById('hm'),hi=0,msgs=['I love you, Mouparna.','You are my favourite person.','Thank you for believing in me.','I want you beside me in every chapter.','You make me better.','Still choosing you, always.'];
+  hb.addEventListener('click',function(){
+    hm.textContent=msgs[hi%msgs.length];hi++;
+    if(window.gsap){gsap.fromTo(hb,{scale:1.3},{scale:1,duration:.7,ease:'elastic.out(1,.4)'});gsap.fromTo(hm,{opacity:0,y:8},{opacity:1,y:0,duration:.6})}
+  });
   // motion
   var rv=document.querySelectorAll('.rv');
   if(window.gsap&&window.ScrollTrigger&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
