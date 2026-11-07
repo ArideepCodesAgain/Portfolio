@@ -10,9 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 <script>
 (function(){try{var s=localStorage.getItem('theme');var t=s||(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','dark')}})();
 </script>
@@ -47,9 +46,9 @@ img{display:block;max-width:100%}
 ::selection{background:var(--rose2);color:#fff}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 
-/* atmosphere */
+/* atmosphere (blur filter removed: the gradients already fade to transparent, and a 150px blur is very heavy on phones) */
 .atmo{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(150px);opacity:.16}
+.blob{position:absolute;border-radius:50%;opacity:.16}
 html[data-theme="light"] .blob{opacity:.1}
 .b1{width:680px;height:680px;background:radial-gradient(circle,#F2B8C6,transparent 70%);top:-15%;left:-12%}
 .b2{width:760px;height:760px;background:radial-gradient(circle,#E58FA6,transparent 70%);bottom:-20%;right:-15%}
@@ -100,7 +99,7 @@ html[data-theme="light"] .btn{color:#fff}
 .ph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.35));pointer-events:none}
 
 /* hero */
-.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px}
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:120px 0 80px}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:center}
 .hero h1{font-family:var(--font-s);font-weight:500;font-size:clamp(44px,7vw,88px);line-height:.98;letter-spacing:-1.5px;margin:6px 0 24px}
 .hero p{color:var(--t2);font-size:16px;max-width:460px;margin-bottom:34px}
@@ -174,7 +173,7 @@ html[data-theme="light"] .btn{color:#fff}
 .note .from{font-style:italic;color:var(--rose);margin:26px 0 0;font-size:22px}
 
 /* close */
-.close{min-height:80vh;display:flex;align-items:center;text-align:center;padding:100px 0}
+.close{min-height:80vh;min-height:80svh;display:flex;align-items:center;text-align:center;padding:100px 0}
 .close h2{font-size:clamp(36px,6vw,72px);max-width:880px;margin:0 auto 22px;line-height:1.08}
 .close .lead{margin:0 auto 38px}
 .heart{display:block;width:64px;height:64px;margin:0 auto 10px;position:relative;animation:beat 3s ease-in-out infinite;filter:drop-shadow(0 0 22px var(--rose2))}
@@ -198,7 +197,8 @@ html[data-theme="light"] .btn{color:#fff}
 .footer{padding:34px 0;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--t3);position:relative;z-index:1}
 .footer span{color:var(--rose)}
 
-/* opening: particle fairytale + opening gates */
+/* opening: particle fairytale + opening gates
+   (intro caption renamed .icap and progress row renamed .ipt to avoid clashing with .cap / .route .pt) */
 #intro{position:fixed;inset:0;z-index:5000;color:#F7F1EE;overflow:hidden}
 #intro.go{pointer-events:none}
 .door{position:absolute;top:0;bottom:0;width:50.4%;transition:transform 1.5s cubic-bezier(.77,0,.18,1) .25s}
@@ -209,12 +209,12 @@ html[data-theme="light"] .btn{color:#fff}
 .go #ic{opacity:0;transition:opacity 1.2s ease .45s}
 .hud{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 24px 7vh;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
 .go .hud,.go .skip{opacity:0;transition:opacity .5s}
-.cap{font-family:var(--font-s);font-style:italic;font-size:clamp(20px,3.6vw,30px);min-height:1.5em;color:rgba(247,241,238,.88);transition:opacity .5s,transform .5s,filter .5s}
-.cap.h{opacity:0;transform:translateY(10px);filter:blur(6px)}
+.icap{font-family:var(--font-s);font-style:italic;font-size:clamp(20px,3.6vw,30px);min-height:1.5em;color:rgba(247,241,238,.88);transition:opacity .5s,transform .5s,filter .5s}
+.icap.h{opacity:0;transform:translateY(10px);filter:blur(6px)}
 .slot{position:relative;width:min(280px,76vw);height:52px;display:flex;align-items:center;justify-content:center}
 .prog{position:absolute;inset:auto 0 12px;font-size:11px;color:rgba(247,241,238,.5);transition:opacity .6s}
 .prog.hide{opacity:0}
-.pt{display:flex;justify-content:space-between;margin-bottom:8px}
+.ipt{display:flex;justify-content:space-between;margin-bottom:8px}
 .pbar{height:1px;background:rgba(255,255,255,.12)}.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#F6D7B0,#F2B8C6)}
 #enter{opacity:0;pointer-events:none;transform:scale(.9);transition:opacity .8s,transform .6s var(--back),box-shadow .4s}
 #enter.show{opacity:1;pointer-events:auto;transform:none;animation:enterGlow 2.4s ease-in-out infinite}
@@ -230,6 +230,13 @@ html[data-theme="light"] .btn{color:#fff}
   .meet-grid .ph,.rap .ph{margin:0 auto}
   .why-grid{grid-template-columns:1fr 1fr}
   .braid{display:none}
+}
+@media(max-width:860px){
+  /* backdrop-filter is very expensive on phone GPUs */
+  .nav,.tag,.fav,.note,.card,.chips span,.lb,.mmenu{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .nav{background:rgba(var(--panel-rgb),.92)}
+  .note{background:rgba(var(--panel-rgb),.9)}
+  .tag{background:rgba(var(--panel-rgb),.95)}
 }
 @media(max-width:620px){
   .container{padding:0 20px}.pad{padding:80px 0}
@@ -249,9 +256,9 @@ html[data-theme="light"] .btn{color:#fff}
   <canvas id="ic" aria-hidden="true"></canvas>
   <button class="skip" id="skip">Skip</button>
   <div class="hud">
-    <p class="cap h" id="cap" aria-live="polite"></p>
+    <p class="icap h" id="cap" aria-live="polite"></p>
     <div class="slot">
-      <div class="prog" id="prog"><div class="pt"><span>Wrapping something up for you</span><span><b id="ipct">0</b>%</span></div><div class="pbar"><i id="ibar"></i></div></div>
+      <div class="prog" id="prog"><div class="ipt"><span>Wrapping something up for you</span><span><b id="ipct">0</b>%</span></div><div class="pbar"><i id="ibar"></i></div></div>
       <button class="btn" id="enter"><span>Open</span><i class="fa-solid fa-heart"></i></button>
     </div>
   </div>
@@ -438,9 +445,13 @@ html[data-theme="light"] .btn{color:#fff}
   <div class="ct" id="lbct"></div>
 </div>
 
+<!-- GSAP moved to the end of body so it no longer blocks first paint -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 (function(){
   var root=document.documentElement;
+  var MOBILE=innerWidth<768;
   // image path fallback: try root path first, then same-folder path
   document.querySelectorAll('img').forEach(function(im){
     im.addEventListener('error',function(){var u=im.getAttribute('src');if(u&&u.charAt(0)==='/'&&!im.dataset.fb){im.dataset.fb=1;im.src=u.slice(1)}});
@@ -464,15 +475,19 @@ html[data-theme="light"] .btn{color:#fff}
     ls.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
   },{passive:true});
 
-  // quiet starfield
-  var cv=document.getElementById('stars'),cx=cv.getContext('2d'),pts=[];
+  // quiet starfield (context renamed to sctx so it no longer collides with the intro's cx)
+  var cv=document.getElementById('stars'),sctx=cv.getContext('2d'),pts=[],lastW=0,lastH=0;
   function drawStars(){
-    cv.width=innerWidth;cv.height=innerHeight;cx.clearRect(0,0,cv.width,cv.height);
+    cv.width=innerWidth;cv.height=innerHeight;lastW=innerWidth;lastH=innerHeight;sctx.clearRect(0,0,cv.width,cv.height);
     var light=root.getAttribute('data-theme')==='light',n=innerWidth<768?30:70;
     if(!pts.length)for(var i=0;i<n;i++)pts.push([Math.random(),Math.random(),Math.random()*1.2+.3,Math.random()*.4+.1]);
-    pts.forEach(function(p){cx.beginPath();cx.arc(p[0]*cv.width,p[1]*cv.height,p[2],0,6.283);cx.fillStyle=light?'rgba(194,88,122,'+p[3]*.5+')':'rgba(246,215,176,'+p[3]+')';cx.fill()});
+    pts.forEach(function(p){sctx.beginPath();sctx.arc(p[0]*cv.width,p[1]*cv.height,p[2],0,6.283);sctx.fillStyle=light?'rgba(194,88,122,'+p[3]*.5+')':'rgba(246,215,176,'+p[3]+')';sctx.fill()});
   }
-  drawStars();var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(drawStars,150)});
+  drawStars();var rt;addEventListener('resize',function(){
+    // phones fire resize when the address bar shows/hides; only redraw on a real width change or a big height change
+    if(innerWidth===lastW&&Math.abs(innerHeight-lastH)<120)return;
+    clearTimeout(rt);rt=setTimeout(drawStars,150)
+  });
 
   // lightbox
   var imgs=['/mp1.jpg','/mp2.jpg','/mp3.jpg','/mp4.jpg','/mp5.jpg'],idx=0,lb=document.getElementById('lb'),li=document.getElementById('lbimg'),lc=document.getElementById('lbct'),last=null;
@@ -509,8 +524,9 @@ html[data-theme="light"] .btn{color:#fff}
   else{
     document.body.style.overflow='hidden';
     try{document.fonts.load('italic 500 100px "Cormorant Garamond"','Mouparna')}catch(e){}
-    var ic=document.getElementById('ic'),ctx=ic.getContext('2d'),DPR=Math.min(devicePixelRatio||1,2),W=0,H=0,cx=0,cy=0,
-        N=innerWidth<768?950:1800,ps=[],lan=[],tp=[],mx=-999,my=-999,T0=performance.now(),phase=0,opened=false,raf,
+    // lighter on phones: DPR capped at 1, fewer particles, fewer lantern glows
+    var ic=document.getElementById('ic'),ctx=ic.getContext('2d'),DPR=Math.min(devicePixelRatio||1,MOBILE?1:2),W=0,H=0,cx=0,cy=0,
+        N=MOBILE?450:1800,ps=[],lan=[],tp=[],mx=-999,my=-999,T0=performance.now(),phase=0,opened=false,raf,
         cap=document.getElementById('cap'),pg=document.getElementById('ipct'),pb=document.getElementById('ibar'),
         en=document.getElementById('enter'),prog=document.getElementById('prog'),sh={};
     function size(){W=innerWidth;H=innerHeight;cx=W/2;cy=H*.42;ic.width=W*DPR;ic.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
@@ -520,7 +536,7 @@ html[data-theme="light"] .btn{color:#fff}
       p.hy=cy-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)+2.5)*r*sc;
     }
     function textT(){
-      var c=document.createElement('canvas');c.width=W;c.height=H;var g=c.getContext('2d'),f='italic 500 100px "Cormorant Garamond",Georgia,serif';
+      var c=document.createElement('canvas');c.width=W;c.height=H;var g=c.getContext('2d',{willReadFrequently:true}),f='italic 500 100px "Cormorant Garamond",Georgia,serif';
       g.font=f;var fs=Math.min(100*Math.min(W*.86,1100)/g.measureText('Mouparna').width,H*.26);
       g.font=f.replace('100px',fs+'px');g.textAlign='center';g.textBaseline='middle';g.fillStyle='#fff';g.fillText('Mouparna',cx,cy);
       var d=g.getImageData(0,0,W,H).data,st=Math.max(2,Math.round(fs/34)),pts=[],x,y,i,j,t;
@@ -531,7 +547,7 @@ html[data-theme="light"] .btn{color:#fff}
     function aim(){textT();ps.forEach(function(p,i){var q=tp[i%tp.length]||[cx,cy];p.tx=q[0];p.ty=q[1]})}
     size();
     for(var k=0;k<N;k++){var p={x:Math.random()*W,y:H*(1.02+Math.random()*.4),d:Math.random()*1300,k:.02+Math.random()*.035,ph:Math.random()*6.28,s:Math.random()*1.4+.7,c:Math.random()<.6?0:1,vx:0,vy:0};heartT(p);ps.push(p)}
-    for(k=0;k<14;k++)lan.push({x:Math.random()*W,y:Math.random()*H,r:30+Math.random()*55,v:.2+Math.random()*.4,a:.06+Math.random()*.08});
+    for(k=0;k<(MOBILE?5:14);k++)lan.push({x:Math.random()*W,y:Math.random()*H,r:30+Math.random()*55,v:.2+Math.random()*.4,a:.06+Math.random()*.08});
     function setCap(t){cap.classList.add('h');setTimeout(function(){cap.textContent=t;cap.classList.remove('h')},500)}
     function frame(now){
       var t=now-T0,i,p,c,f=1+(t>2600?.03*Math.sin(t*.006):0);
@@ -566,7 +582,12 @@ html[data-theme="light"] .btn{color:#fff}
     raf=requestAnimationFrame(frame);
     intro.addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY});
     intro.addEventListener('pointerleave',function(){mx=my=-999});
-    var rz;addEventListener('resize',function(){if(opened)return;clearTimeout(rz);rz=setTimeout(function(){size();ps.forEach(heartT);if(phase===1)aim()},200)});
+    var rz,rw=innerWidth;addEventListener('resize',function(){
+      if(opened)return;
+      // ignore address-bar-only resizes on phones so the intro doesn't reset mid-animation
+      if(innerWidth===rw)return;rw=innerWidth;
+      clearTimeout(rz);rz=setTimeout(function(){size();ps.forEach(heartT);if(phase===1)aim()},200)
+    });
     function openIt(){
       if(opened)return;opened=true;phase=2;
       ps.forEach(function(p){var a=Math.atan2(p.y-cy,p.x-cx)+(Math.random()-.5)*.8,sp=2+Math.random()*9;p.vx=Math.cos(a)*sp;p.vy=Math.sin(a)*sp-1.5;p.d=0});
