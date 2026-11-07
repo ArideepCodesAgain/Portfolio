@@ -63,7 +63,7 @@ section{position:relative;z-index:1}
 .logo{font-family:var(--font-s);font-style:italic;font-weight:600;font-size:21px;margin-right:8px;white-space:nowrap}
 .logo i{color:var(--rose);font-size:12px;margin-left:2px}
 .links{display:flex;gap:2px}
-.links a{font-size:12px;font-weight:500;color:var(--t3);padding:8px 13px;border-radius:100px;transition:color .3s,background .3s}
+.links a{font-size:12px;font-weight:500;color:var(--t3);padding:8px 11px;border-radius:100px;transition:color .3s,background .3s}
 .links a:hover,.links a.on{color:var(--t1);background:var(--surface2)}
 .toggle{position:relative;width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--t2);flex-shrink:0;transition:transform .4s var(--back)}
 .toggle:hover{transform:scale(1.08);color:var(--t1)}
@@ -180,6 +180,17 @@ html[data-theme="light"] .btn{color:#fff}
 .heart{display:block;width:64px;height:64px;margin:0 auto 10px;position:relative;animation:beat 3s ease-in-out infinite;filter:drop-shadow(0 0 22px var(--rose2))}
 .heart svg{width:100%;height:100%}
 .hm{min-height:28px;margin-bottom:26px;font-family:var(--font-s);font-style:italic;font-size:20px;color:var(--rose);transition:opacity .4s}
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.mem-end{background:linear-gradient(135deg,var(--glow2),var(--surface))}
+.dist{padding:110px 0;background:linear-gradient(180deg,transparent,rgba(var(--panel-rgb),.5),transparent)}
+.dist-box{max-width:720px;margin:0 auto}
+.dist-box p{color:var(--t2);font-size:15.5px;margin-bottom:16px;max-width:560px}
+.dist-box .wish{font-family:var(--font-s);font-style:italic;font-size:26px;color:var(--rose);line-height:1.35;margin-top:24px}
+.route{display:flex;align-items:center;gap:14px;max-width:520px;margin:6px 0 28px}
+.route .pt{font-family:var(--font-s);font-style:italic;font-size:22px}
+.route .line{flex:1;position:relative;height:1px;background:repeating-linear-gradient(90deg,var(--rose) 0 6px,transparent 6px 13px);opacity:.9}
+.route .line i{position:absolute;top:-8px;left:0;color:var(--rose);font-size:15px;filter:drop-shadow(0 0 8px var(--rose2));animation:travel 7s ease-in-out infinite alternate}
+@keyframes travel{to{left:calc(100% - 15px)}}
 .reasons{padding:30px 0 90px}
 .chips{display:flex;flex-wrap:wrap;gap:10px;max-width:900px}
 .chips span{padding:11px 20px;border:1px solid var(--border);border-radius:100px;background:var(--surface);font-family:var(--font-s);font-size:20px;color:var(--t2);backdrop-filter:blur(10px);transition:transform .4s var(--back),border-color .4s,color .4s,background .4s}
@@ -216,7 +227,7 @@ html[data-theme="light"] .btn{color:#fff}
 <nav class="nav" id="nav">
   <a href="#top" class="logo">Mouparna<i class="fa-solid fa-heart"></i></a>
   <div class="links">
-    <a href="#meet">Meet Her</a><a href="#rapunzel">Rapunzel</a><a href="#why">Why</a><a href="#gallery">Gallery</a><a href="#note">A Note</a>
+    <a href="#meet">Meet Her</a><a href="#rapunzel">Rapunzel</a><a href="#memories">Memories</a><a href="#why">Why</a><a href="#gallery">Gallery</a><a href="#note">A Note</a>
   </div>
   <div class="right">
     <button class="toggle" id="toggle" aria-label="Toggle light and dark theme"><i class="fa-solid fa-moon ti-d"></i><i class="fa-solid fa-sun ti-l"></i></button>
@@ -224,7 +235,7 @@ html[data-theme="light"] .btn{color:#fff}
   </div>
 </nav>
 <div class="mmenu" id="mmenu">
-  <a href="#meet">Meet Her</a><a href="#rapunzel">Rapunzel</a><a href="#why">Why</a><a href="#gallery">Gallery</a><a href="#note">A Note</a>
+  <a href="#meet">Meet Her</a><a href="#rapunzel">Rapunzel</a><a href="#memories">Memories</a><a href="#why">Why</a><a href="#gallery">Gallery</a><a href="#note">A Note</a>
 </div>
 
 <main id="top">
@@ -238,7 +249,7 @@ html[data-theme="light"] .btn{color:#fff}
     </div>
     <div class="hero-ph">
       <div class="ph"><img src="/mp1.jpg" alt="Portrait of my girlfriend, the person this page is made for" width="900" height="1200" fetchpriority="high"></div>
-      <div class="tag">my Rapunzel</div>
+      <div class="tag">Mouparna</div>
     </div>
   </div>
 </section>
@@ -249,8 +260,8 @@ html[data-theme="light"] .btn{color:#fff}
     <div class="meet-text rv">
       <div class="label">Meet her</div>
       <h2>Meet <em>Mouparna.</em></h2>
-      <p>Mouparna is my girlfriend, my biggest motivation, and honestly the most important part of my life. I love her more than words can properly say.</p>
-      <p>She looks after me in a hundred small ways, and she makes every ordinary day feel softer and brighter just by being in it. Everything on this page is for her.</p>
+      <p>Mouparna is my girlfriend, my best friend, my biggest motivation, and honestly the most important part of my life. I love her more than words can properly say.</p>
+      <p>She looks after me in a hundred small ways, and she makes every ordinary day feel softer and brighter just by being in it.</p>
       <p class="q">You didn’t just come into my life, Mouparna. You made it feel like home.</p>
     </div>
   </div>
@@ -270,7 +281,7 @@ html[data-theme="light"] .btn{color:#fff}
       <p>Mouparna, the hair is only the cute part, the reason the nickname stuck. What I truly love is your heart: how you care for me, how you cheer for me, and how you make me feel I’m never doing any of this alone.</p>
       <p>Maybe I don’t say it every day, but you are the most important part of my life. Your care, your love, and the way you motivate me mean more than you know. You make me want to become better, dream bigger, and keep going even when things aren’t easy.</p>
       <p>I don’t just want you in my happy moments. I want you beside me through every chapter of life.</p>
-      <div class="sign">I love you, my Rapunzel.<br><span style="font-size:18px;color:var(--t3)">Always yours, Arideep</span></div>
+      <div class="sign">I love you, Mouparna.<br><span style="font-size:18px;color:var(--t3)">Always yours, Arideep</span></div>
     </div>
   </div>
 </section>
@@ -303,6 +314,37 @@ html[data-theme="light"] .btn{color:#fff}
   </div>
 </section>
 
+<section class="pad" id="memories">
+  <div class="container">
+    <div class="why-head rv">
+      <div class="label">Memories I’ll never forget</div>
+      <h2>The little moments that <em>became everything.</em></h2>
+      <p class="lead">Nothing grand. Just us, and somehow that was always enough.</p>
+    </div>
+    <div class="mem-grid">
+      <div class="card rv"><div class="ic"><i class="fa-solid fa-film"></i></div><h3>Our movie dates</h3><p>Sitting side by side, sharing the same screen and the same little world. The movie was never the best part. You were.</p></div>
+      <div class="card rv"><div class="ic"><i class="fa-solid fa-mug-hot"></i></div><h3>Our café dates</h3><p>Cozy tables, and me just happy to be across from you. Hours that felt like minutes.</p></div>
+      <div class="card rv"><div class="ic"><i class="fa-solid fa-store-slash"></i></div><h3>Below the closed stores</h3><p>Sitting beneath the shuttered shops, with everything quiet around us. It wasn’t a fancy place, but it felt like ours.</p></div>
+      <div class="card rv"><div class="ic"><i class="fa-solid fa-ice-cream"></i></div><h3>Falooda, together</h3><p>Sharing falooda with you is such a small thing. It’s also one of my sweetest memories.</p></div>
+      <div class="card rv"><div class="ic"><i class="fa-solid fa-house-chimney-heart"></i></div><h3>Meeting you after your internship</h3><p>Coming to see you once you got home. Whatever kind of day I’d had, seeing you made it a good one.</p></div>
+      <div class="card rv mem-end"><div class="ic"><i class="fa-solid fa-infinity"></i></div><h3>I will never forget</h3><p>Not any of it. Every one of these moments lives in me, and I carry them wherever I go.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dist" id="distance">
+  <div class="container">
+    <div class="dist-box rv">
+      <div class="label">Across the distance</div>
+      <h2>Wherever I am, <em>it’s still you.</em></h2>
+      <div class="route" aria-hidden="true"><span class="pt">Gujarat</span><span class="line"><i class="fa-solid fa-heart"></i></span><span class="pt">Kolkata</span></div>
+      <p>No matter whether I’m in Gujarat or in any corner of the world, I will love you exactly the same. Distance changes the address, never the feeling.</p>
+      <p>Whenever I come back to Kolkata, the first thing I want to see is you. Before anything else, before anyone else.</p>
+      <p class="wish">And every day, I’m wishing that our long distance ends soon.</p>
+    </div>
+  </div>
+</section>
+
 <section class="pad" id="gallery">
   <div class="container">
     <div class="gal-head rv">
@@ -328,7 +370,7 @@ html[data-theme="light"] .btn{color:#fff}
       <p class="to">My Mouparna,</p>
       <p>I don’t say it every day, but you are the most important part of my life. Your encouragement means more to me than you probably realize. On the days when everything feels heavy, it’s your voice and your belief in me that keep me going.</p>
       <p>You make me want to become better, to dream bigger, and to keep walking even when the road is tough. Thank you for the little things you do, for the way you look after me, and for loving me the way you do.</p>
-      <p>I don’t only want you in my happy moments. I want you beside me in every chapter, the easy ones and the hard ones, as we grow together. I love you so much, my Rapunzel.</p>
+      <p>I don’t only want you in my happy moments. I want you beside me in every chapter, the easy ones and the hard ones, as we grow together. I love you so much, Mouparna.</p>
       <p class="from">Forever yours, Arideep</p>
     </div>
   </div>
@@ -339,7 +381,7 @@ html[data-theme="light"] .btn{color:#fff}
     <button class="heart" id="heartBtn" aria-label="Tap for a message from me"><svg viewBox="0 0 24 24"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D7B0"/><stop offset="1" stop-color="#E58FA6"/></linearGradient></defs><path fill="url(#hg)" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.6 2.7 5 6.1 5c2 0 3.4 1.1 4.2 2.4h3.4C14.5 6.1 15.9 5 17.9 5c3.4 0 5.2 3.6 3.7 6.8C19.5 16.4 12 21 12 21z"/></svg></button>
     <p class="hm" id="hm" aria-live="polite">Tap the heart</p>
     <h2>Some people become part of your story. <em>You became part of every dream I’m working towards.</em></h2>
-    <p class="lead">Thank you for being my person, my motivation, and my Rapunzel. I love you, Mouparna.</p>
+    <p class="lead">Thank you for being my person, my motivation, my best friend, and my future wife. I love you, Mouparna.</p>
     <a href="#top" class="btn"><span>Back to the beginning</span><i class="fa-solid fa-arrow-up"></i></a>
   </div>
 </section>
@@ -406,7 +448,7 @@ html[data-theme="light"] .btn{color:#fff}
   lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(idx+(d<0?1:-1))},{passive:true});
 
   // heart messages
-  var hb=document.getElementById('heartBtn'),hm=document.getElementById('hm'),hi=0,msgs=['I love you, Mouparna.','You are my favourite person.','Thank you for believing in me.','I want you beside me in every chapter.','You make me better.','Still choosing you, always.'];
+  var hb=document.getElementById('heartBtn'),hm=document.getElementById('hm'),hi=0,msgs=['I love you, Mouparna.','You are my favourite person.','Thank you for believing in me.','I want you beside me in every chapter.','You make me better.','Still choosing you, always.','Wherever I am, I love you the same.','The first thing I want to see is you.'];
   hb.addEventListener('click',function(){
     hm.textContent=msgs[hi%msgs.length];hi++;
     if(window.gsap){gsap.fromTo(hb,{scale:1.3},{scale:1,duration:.7,ease:'elastic.out(1,.4)'});gsap.fromTo(hm,{opacity:0,y:8},{opacity:1,y:0,duration:.6})}
