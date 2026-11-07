@@ -198,6 +198,29 @@ html[data-theme="light"] .btn{color:#fff}
 .footer{padding:34px 0;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--t3);position:relative;z-index:1}
 .footer span{color:var(--rose)}
 
+/* opening: particle fairytale + opening gates */
+#intro{position:fixed;inset:0;z-index:5000;color:#F7F1EE;overflow:hidden}
+#intro.go{pointer-events:none}
+.door{position:absolute;top:0;bottom:0;width:50.4%;transition:transform 1.5s cubic-bezier(.77,0,.18,1) .25s}
+.dl{left:0;background:radial-gradient(ellipse 120% 80% at 100% 42%,#22121a,#07060a 70%)}
+.dr{right:0;background:radial-gradient(ellipse 120% 80% at 0% 42%,#22121a,#07060a 70%)}
+.go .dl{transform:translateX(-101%)}.go .dr{transform:translateX(101%)}
+#ic{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.go #ic{opacity:0;transition:opacity 1.2s ease .45s}
+.hud{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 24px 7vh;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.go .hud,.go .skip{opacity:0;transition:opacity .5s}
+.cap{font-family:var(--font-s);font-style:italic;font-size:clamp(20px,3.6vw,30px);min-height:1.5em;color:rgba(247,241,238,.88);transition:opacity .5s,transform .5s,filter .5s}
+.cap.h{opacity:0;transform:translateY(10px);filter:blur(6px)}
+.slot{position:relative;width:min(280px,76vw);height:52px;display:flex;align-items:center;justify-content:center}
+.prog{position:absolute;inset:auto 0 12px;font-size:11px;color:rgba(247,241,238,.5);transition:opacity .6s}
+.prog.hide{opacity:0}
+.pt{display:flex;justify-content:space-between;margin-bottom:8px}
+.pbar{height:1px;background:rgba(255,255,255,.12)}.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#F6D7B0,#F2B8C6)}
+#enter{opacity:0;pointer-events:none;transform:scale(.9);transition:opacity .8s,transform .6s var(--back),box-shadow .4s}
+#enter.show{opacity:1;pointer-events:auto;transform:none;animation:enterGlow 2.4s ease-in-out infinite}
+@keyframes enterGlow{0%,100%{box-shadow:0 4px 24px rgba(242,184,198,.2)}50%{box-shadow:0 4px 44px rgba(242,184,198,.5)}}
+.skip{position:absolute;top:18px;right:18px;z-index:4;font-size:12px;color:rgba(247,241,238,.5);padding:8px 14px;border:1px solid rgba(255,255,255,.12);border-radius:100px;transition:color .3s,border-color .3s}
+.skip:hover{color:#fff;border-color:rgba(255,255,255,.3)}
 .rv{opacity:0;transform:translateY(26px)}
 
 @media(max-width:960px){
@@ -221,6 +244,18 @@ html[data-theme="light"] .btn{color:#fff}
 </style>
 </head>
 <body>
+<div id="intro" role="dialog" aria-modal="true" aria-label="Opening">
+  <div class="door dl"></div><div class="door dr"></div>
+  <canvas id="ic" aria-hidden="true"></canvas>
+  <button class="skip" id="skip">Skip</button>
+  <div class="hud">
+    <p class="cap h" id="cap" aria-live="polite"></p>
+    <div class="slot">
+      <div class="prog" id="prog"><div class="pt"><span>Wrapping something up for you</span><span><b id="ipct">0</b>%</span></div><div class="pbar"><i id="ibar"></i></div></div>
+      <button class="btn" id="enter"><span>Open</span><i class="fa-solid fa-heart"></i></button>
+    </div>
+  </div>
+</div>
 <div class="atmo"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 <canvas id="stars" aria-hidden="true"></canvas>
 
@@ -326,7 +361,13 @@ html[data-theme="light"] .btn{color:#fff}
       <div class="card rv"><div class="ic"><i class="fa-solid fa-mug-hot"></i></div><h3>Our café dates</h3><p>Cozy tables, and me just happy to be across from you. Hours that felt like minutes.</p></div>
       <div class="card rv"><div class="ic"><i class="fa-solid fa-store-slash"></i></div><h3>Below the closed stores</h3><p>Sitting beneath the shuttered shops, with everything quiet around us. It wasn’t a fancy place, but it felt like ours.</p></div>
       <div class="card rv"><div class="ic"><i class="fa-solid fa-ice-cream"></i></div><h3>Falooda, together</h3><p>Sharing falooda with you is such a small thing. It’s also one of my sweetest memories.</p></div>
-      <div class="card rv"><div class="ic"><i class="fa-solid fa-house-chimney-heart"></i></div><h3>Meeting you after your internship</h3><p>Coming to see you once you got home. Whatever kind of day I’d had, seeing you made it a good one.</p></div>
+      <div class="card rv">
+    <div class="ic">
+        <i class="fa-solid fa-heart"></i>
+    </div>
+    <h3>Meeting you after your internship</h3>
+    <p>Coming to see you once you got home. Whatever kind of day I’d had, seeing you made it a good one.</p>
+</div>
       <div class="card rv mem-end"><div class="ic"><i class="fa-solid fa-infinity"></i></div><h3>I will never forget</h3><p>Not any of it. Every one of these moments lives in me, and I carry them wherever I go.</p></div>
     </div>
   </div>
@@ -454,13 +495,88 @@ html[data-theme="light"] .btn{color:#fff}
     if(window.gsap){gsap.fromTo(hb,{scale:1.3},{scale:1,duration:.7,ease:'elastic.out(1,.4)'});gsap.fromTo(hm,{opacity:0,y:8},{opacity:1,y:0,duration:.6})}
   });
   // motion
+  var heroIn=function(){};
   var rv=document.querySelectorAll('.rv');
   if(window.gsap&&window.ScrollTrigger&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
     gsap.registerPlugin(ScrollTrigger);
-    gsap.from('.hero-grid > div:first-child > *',{opacity:0,y:28,duration:1.1,stagger:.14,ease:'power3.out',delay:.2});
-    gsap.from('.hero-ph',{opacity:0,scale:.94,duration:1.4,ease:'power3.out',delay:.3});
+    heroIn=function(){gsap.from('.hero-grid > div:first-child > *',{opacity:0,y:28,duration:1.1,stagger:.14,ease:'power3.out',delay:.35});gsap.from('.hero-ph',{opacity:0,scale:.94,duration:1.4,ease:'power3.out',delay:.45})};
     rv.forEach(function(el){gsap.to(el,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}})});
   }else{rv.forEach(function(el){el.style.opacity=1;el.style.transform='none'})}
+
+  // opening animation: dust gathers into a heart, then her name, then the gates open
+  var intro=document.getElementById('intro');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){intro.remove()}
+  else{
+    document.body.style.overflow='hidden';
+    try{document.fonts.load('italic 500 100px "Cormorant Garamond"','Mouparna')}catch(e){}
+    var ic=document.getElementById('ic'),ctx=ic.getContext('2d'),DPR=Math.min(devicePixelRatio||1,2),W=0,H=0,cx=0,cy=0,
+        N=innerWidth<768?950:1800,ps=[],lan=[],tp=[],mx=-999,my=-999,T0=performance.now(),phase=0,opened=false,raf,
+        cap=document.getElementById('cap'),pg=document.getElementById('ipct'),pb=document.getElementById('ibar'),
+        en=document.getElementById('enter'),prog=document.getElementById('prog'),sh={};
+    function size(){W=innerWidth;H=innerHeight;cx=W/2;cy=H*.42;ic.width=W*DPR;ic.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+    function heartT(p){
+      var t=Math.random()*6.2832,r=Math.random()<.45?1:Math.sqrt(Math.random()),sc=Math.min(H*.36/30,W*.62/32);
+      p.hx=cx+16*Math.pow(Math.sin(t),3)*r*sc;
+      p.hy=cy-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)+2.5)*r*sc;
+    }
+    function textT(){
+      var c=document.createElement('canvas');c.width=W;c.height=H;var g=c.getContext('2d'),f='italic 500 100px "Cormorant Garamond",Georgia,serif';
+      g.font=f;var fs=Math.min(100*Math.min(W*.86,1100)/g.measureText('Mouparna').width,H*.26);
+      g.font=f.replace('100px',fs+'px');g.textAlign='center';g.textBaseline='middle';g.fillStyle='#fff';g.fillText('Mouparna',cx,cy);
+      var d=g.getImageData(0,0,W,H).data,st=Math.max(2,Math.round(fs/34)),pts=[],x,y,i,j,t;
+      for(y=0;y<H;y+=st)for(x=0;x<W;x+=st)if(d[(y*W+x)*4+3]>128)pts.push([x,y]);
+      for(i=pts.length-1;i>0;i--){j=Math.random()*(i+1)|0;t=pts[i];pts[i]=pts[j];pts[j]=t}
+      tp=pts;
+    }
+    function aim(){textT();ps.forEach(function(p,i){var q=tp[i%tp.length]||[cx,cy];p.tx=q[0];p.ty=q[1]})}
+    size();
+    for(var k=0;k<N;k++){var p={x:Math.random()*W,y:H*(1.02+Math.random()*.4),d:Math.random()*1300,k:.02+Math.random()*.035,ph:Math.random()*6.28,s:Math.random()*1.4+.7,c:Math.random()<.6?0:1,vx:0,vy:0};heartT(p);ps.push(p)}
+    for(k=0;k<14;k++)lan.push({x:Math.random()*W,y:Math.random()*H,r:30+Math.random()*55,v:.2+Math.random()*.4,a:.06+Math.random()*.08});
+    function setCap(t){cap.classList.add('h');setTimeout(function(){cap.textContent=t;cap.classList.remove('h')},500)}
+    function frame(now){
+      var t=now-T0,i,p,c,f=1+(t>2600?.03*Math.sin(t*.006):0);
+      ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+      lan.forEach(function(l){
+        l.y-=l.v;if(l.y<-80){l.y=H+80;l.x=Math.random()*W}
+        var g=ctx.createRadialGradient(l.x,l.y,0,l.x,l.y,l.r);g.addColorStop(0,'rgba(255,214,160,'+l.a+')');g.addColorStop(1,'rgba(255,214,160,0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(l.x,l.y,l.r,0,6.283);ctx.fill();
+      });
+      if(phase===0&&t>4400){phase=1;aim()}
+      for(i=0;i<ps.length;i++){
+        p=ps[i];if(t<p.d)continue;
+        if(phase<2){
+          var tx=phase===0?cx+(p.hx-cx)*f:p.tx,ty=phase===0?cy+(p.hy-cy)*f:p.ty;
+          p.x+=(tx-p.x)*p.k+Math.sin(t*.002+p.ph)*.25;p.y+=(ty-p.y)*p.k+Math.cos(t*.0017+p.ph)*.25;
+          var dx=p.x-mx,dy=p.y-my,d2=dx*dx+dy*dy;
+          if(d2<12100&&d2>1){var d=Math.sqrt(d2),fc=(1-d/110)*7;p.x+=dx/d*fc;p.y+=dy/d*fc}
+        }else{p.x+=p.vx;p.y+=p.vy;p.vy+=.03;p.vx*=.985}
+      }
+      for(c=0;c<2;c++){
+        ctx.fillStyle=c?'rgba(242,184,198,.9)':'rgba(246,215,176,.9)';ctx.beginPath();
+        for(i=0;i<ps.length;i++){p=ps[i];if(p.c!==c||t<p.d)continue;ctx.moveTo(p.x+p.s,p.y);ctx.arc(p.x,p.y,p.s,0,6.283)}
+        ctx.fill();
+      }
+      var pc=Math.min(100,Math.round(t/4300*100));pg.textContent=pc;pb.style.width=pc+'%';
+      if(!sh.a&&t>300){sh.a=1;setCap('Every fairytale has a Rapunzel…')}
+      if(!sh.b&&t>2900){sh.b=1;setCap('…and somehow, I found mine.')}
+      if(!sh.c&&t>4700){sh.c=1;setCap('for my best friend, my favourite person');prog.classList.add('hide')}
+      if(!sh.d&&t>6200){sh.d=1;en.classList.add('show');en.focus({preventScroll:true})}
+      raf=requestAnimationFrame(frame);
+    }
+    raf=requestAnimationFrame(frame);
+    intro.addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY});
+    intro.addEventListener('pointerleave',function(){mx=my=-999});
+    var rz;addEventListener('resize',function(){if(opened)return;clearTimeout(rz);rz=setTimeout(function(){size();ps.forEach(heartT);if(phase===1)aim()},200)});
+    function openIt(){
+      if(opened)return;opened=true;phase=2;
+      ps.forEach(function(p){var a=Math.atan2(p.y-cy,p.x-cx)+(Math.random()-.5)*.8,sp=2+Math.random()*9;p.vx=Math.cos(a)*sp;p.vy=Math.sin(a)*sp-1.5;p.d=0});
+      intro.classList.add('go');document.body.style.overflow='';scrollTo(0,0);
+      setTimeout(heroIn,800);
+      setTimeout(function(){cancelAnimationFrame(raf);intro.remove()},2100);
+    }
+    en.addEventListener('click',openIt);
+    document.getElementById('skip').addEventListener('click',openIt);
+  }
 })();
 </script>
 </body>
